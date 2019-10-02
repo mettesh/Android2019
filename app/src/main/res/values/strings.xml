@@ -2,4 +2,9 @@
     <string name="app_name">Utdanningsoversikten</string>
     <string name="utannings">Utdannings -</string>
     <string name="oversikten">oversikten</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Education_image">education image</string>
+    <string name="education_description">education description</string>
 </resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchListFragment">
+
+    <fragment
+        android:id="@+id/searchListFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.SearchListFragment"
+        android:label="fragment_search_list"
+        tools:layout="@layout/fragment_search_list" >
+        <action
+            android:id="@+id/action_searchListFragment_to_educationDetailFragment"
+            app:destination="@id/educationDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/educationDetailFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment"
+        android:label="fragment_education_detail"
+        tools:layout="@layout/fragment_education_detail" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+</navigation>
