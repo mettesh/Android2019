@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.education_list_item.view.*
-import kotlinx.android.synthetic.main.fragment_education_detail.*
+import kotlinx.android.synthetic.main.fragment_education_detail.view.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class EducationDetailFragment : Fragment() {
@@ -29,25 +27,24 @@ class EducationDetailFragment : Fragment() {
         val education = Education.getEducation()[arguments!!.id]
 
 
-        /*
-        val detailSchoolIconImageView : ImageView = view.detailSchoolIcon
+
+        //val detailSchoolIconImageView : ImageView = view.detailSchoolIcon
         val detailEducationTitleTextView : TextView = view.detailEducationTitle
         val detailSchoolNameTextView : TextView = view.detailSchoolName
-        val detailEducationImageView : ImageView = view.detailEducationImage
         val detailEducationDescriptionTextView : TextView = view.detailEducationDescription
-        val detailSchoolWebLink : TextView = view.detailSchoolWeblink // Endre link!
+        val poenggrenseTextView : TextView = view.detailPoenggrense
+        var kravkodeTextView : TextView = view.detailKravkode
 
         // Setter til infoen om valgt utdanning til de ulike elementene
 
 
-        detailSchoolIconImageView.setImageResource(education.skole.ikon)
         detailEducationTitleTextView.text = education.title
-        detailSchoolNameTextView.text = item.skole.title
-        detailEducationImageView.setImageResource((item.image))
-        detailEducationDescriptionTextView.text = item.shortDescription
-        detailSchoolWebLink.text = item.link
+        detailSchoolNameTextView.text = education.school.schoolTitle
+        kravkodeTextView.text = education.kravkode
+        poenggrenseTextView.text = education.poenggrense.toString()
+        detailEducationDescriptionTextView.text = education.descriptionLong
 
-        */
+
 
     }
 }

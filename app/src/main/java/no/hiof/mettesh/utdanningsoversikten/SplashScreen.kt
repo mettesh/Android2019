@@ -20,7 +20,7 @@ class SplashScreen : AppCompatActivity() {
         Handler().postDelayed({
             startActivity(Intent(this@SplashScreen, MainActivity::class.java))
             finish()
-        }, 4000)
+        }, 2000)
 
 
         //Laste inn data fra API?

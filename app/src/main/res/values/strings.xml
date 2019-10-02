@@ -14,4 +14,8 @@
     <string name="her_kommer_beskrivelse_av_utdanningen">Her kommer beskrivelse av utdanningen</string>
     <string name="les_mer">Les mer</string>
     <string name="skolens_nettside">Skolens nettside</string>
+    <string name="kravkode">Kravkode:</string>
+    <string name="kravkode_input">Kravkode Input</string>
+    <string name="poenggrense">Poenggrense:</string>
+    <string name="poenggrenseinput">PoenggrenseInput</string>
 </resources>

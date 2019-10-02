@@ -96,7 +96,8 @@
             tool:layout_constraintEnd_toEndOf="parent"
             tool:layout_constraintHorizontal_bias="0.0"
             tool:layout_constraintStart_toEndOf="@+id/readModeTextLink"
-            tool:layout_constraintTop_toBottomOf="@+id/educationDescription" />
+            tool:layout_constraintTop_toBottomOf="@+id/educationShortDescription"
+            android:linksClickable="true"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

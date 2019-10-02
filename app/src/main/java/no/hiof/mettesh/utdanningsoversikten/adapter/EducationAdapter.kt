@@ -43,7 +43,7 @@ class EducationAdapter(private val items: ArrayList<Education>, var clickListene
         // Henter inn en referanse til alle view-ene vi skal fylle med data:
         private val schoolIconImageView : ImageView = view.schoolIcon
         private val educationTitleTextView : TextView = view.educationTitle
-        private val SchoolNameTextView : TextView = view.schoolName
+        private val schoolNameTextView : TextView = view.schoolName
         private val educationImageView : ImageView = view.educationImage
         private val educationShortDescriptionTextView : TextView = view.educationShortDescription
 
@@ -53,9 +53,10 @@ class EducationAdapter(private val items: ArrayList<Education>, var clickListene
         fun bind(item: Education, clickListener: View.OnClickListener) {
 
             // Fyller view-ene med data
+
             schoolIconImageView.setImageResource(item.school.schoolIcon)
             educationTitleTextView.text = item.title
-            SchoolNameTextView.text = item.school.schoolTitle
+            schoolNameTextView.text = item.school.schoolTitle
             educationImageView.setImageResource((item.image))
             educationShortDescriptionTextView.text = item.descriptionShort
 
