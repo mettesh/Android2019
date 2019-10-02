@@ -20,7 +20,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="searchListFragment">
+                  <entry key="educationListFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -28,6 +28,15 @@
                             <option name="x" value="-109" />
                             <option name="y" value="-4" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_educationListFragment_to_educationDetailFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

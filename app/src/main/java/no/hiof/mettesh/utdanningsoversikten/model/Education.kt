@@ -2,28 +2,34 @@ package no.hiof.mettesh.utdanningsoversikten.model
 
 import no.hiof.mettesh.utdanningsoversikten.R
 
-data class Education(val id : Int, var title : String, var description : String, /*var school : School,*/ var image : Int) {
+data class Education(val id : Int, var title : String, var descriptionShort : String, var descriptionLong : String, var school : School, var image : Int) {
 
 
     companion object {
         fun getEducation() : ArrayList<Education> {
             val data = ArrayList<Education>()
 
+            /*
             val image = intArrayOf(
-                R.drawable.ic_launcher_background,
+                R.drawable.sykepleie_background,
                 R.drawable.ic_launcher_background
 
             )
+             */
 
-            val titles = arrayOf(
-                "Captain America Civil War",
-                "Donnie Darko"
-            )
+            for (i in 1..7){
 
-            titles.forEachIndexed { index, title ->
-                val aEducation = Education(index, title, title + " er en utdanning", image.get(index))
+                 val aEducation = Education(
+                     i,
+                     "Bachelor i sykepleie",
+                     "En kort beskrivelse på utdanning",
+                     "En laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaang beskrivelse på utdanning",
+                     School.getSchools().get(1),
+                     R.drawable.sykepleie_background
+                 )
 
                 data.add(aEducation)
+
             }
 
             return data

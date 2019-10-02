@@ -5,40 +5,49 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.education_list_item.educationPosterImageView
-import kotlinx.android.synthetic.main.education_list_item.educationTitleTextView
+import android.widget.ImageView
+import android.widget.TextView
+import kotlinx.android.synthetic.main.education_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_education_detail.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
-/**
- * A simple [Fragment] subclass.
- */
 class EducationDetailFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        // Henter inn layout for dette Fragmentet
         return inflater.inflate(R.layout.fragment_education_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retreives the arguments from the bundle (does some null-check)
-
+        // Henter ut argumenter som er sendt med fra liste-fragmentet
         val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
 
-        // Gets the movie with the id (just a number in the list in this case)
+        // Henter utdanningen som har den id-en som ble sendt med fra Liste-Fragmentet.
         val education = Education.getEducation()[arguments!!.id]
 
-        // Filles up the views with the movie-information
-        educationTitleTextView.text = education.title
-        educationPosterImageView.setImageResource(education.image)
-        educationDescriptionTextView.text = education.description
+
+        /*
+        val detailSchoolIconImageView : ImageView = view.detailSchoolIcon
+        val detailEducationTitleTextView : TextView = view.detailEducationTitle
+        val detailSchoolNameTextView : TextView = view.detailSchoolName
+        val detailEducationImageView : ImageView = view.detailEducationImage
+        val detailEducationDescriptionTextView : TextView = view.detailEducationDescription
+        val detailSchoolWebLink : TextView = view.detailSchoolWeblink // Endre link!
+
+        // Setter til infoen om valgt utdanning til de ulike elementene
 
 
+        detailSchoolIconImageView.setImageResource(education.skole.ikon)
+        detailEducationTitleTextView.text = education.title
+        detailSchoolNameTextView.text = item.skole.title
+        detailEducationImageView.setImageResource((item.image))
+        detailEducationDescriptionTextView.text = item.shortDescription
+        detailSchoolWebLink.text = item.link
+
+        */
 
     }
 }

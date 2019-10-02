@@ -7,4 +7,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Education_image">education image</string>
     <string name="education_description">education description</string>
+    <string name="skoleikon">Skoleikon</string>
+    <string name="bacheleor_i_sykepleie_heltid">Bacheleor i Sykepleie, heltid</string>
+    <string name="h_yskolen_i_stfold">Høyskolen i Østfold</string>
+    <string name="bilde_utdanning">Bilde utdanning</string>
+    <string name="her_kommer_beskrivelse_av_utdanningen">Her kommer beskrivelse av utdanningen</string>
+    <string name="les_mer">Les mer</string>
+    <string name="skolens_nettside">Skolens nettside</string>
 </resources>

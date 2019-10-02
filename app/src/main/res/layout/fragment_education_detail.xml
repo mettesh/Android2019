@@ -9,20 +9,20 @@
     tools:context=".EducationDetailFragment">
 
     <TextView
-        android:id="@+id/educationTitleTextView"
+        android:id="@+id/educationTitleDetailTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text=""
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/educationPosterImageView"
+        app:layout_constraintBottom_toTopOf="@+id/educationDetailImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="test" />
 
     <ImageView
-        android:id="@+id/educationPosterImageView"
+        android:id="@+id/educationDetailImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/abc_vector_test"
@@ -33,13 +33,13 @@
         android:contentDescription="@string/Education_image" />
 
     <TextView
-        android:id="@+id/educationDescriptionTextView"
+        android:id="@+id/educationDescriptionDetailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/education_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/educationPosterImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/educationDetailImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
