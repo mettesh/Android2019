@@ -8,7 +8,7 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="accountFragment">
+                  <entry key="account_dest">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -53,7 +53,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="favouriteFragment">
+                  <entry key="favourite_dest">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -65,7 +65,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="homeFragment">
+                  <entry key="home_dest">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
@@ -77,7 +77,7 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="mapFragment">
+                  <entry key="map_dest">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
