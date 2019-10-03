@@ -3,22 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home_menu"
+        android:id="@+id/home_dest"
         android:enabled="true"
         android:icon="@drawable/ic_home_plight_24dp"
         android:title="@string/hjem" />
     <item
-        android:id="@+id/map_menu"
+        android:id="@+id/map_dest"
         android:enabled="true"
         android:icon="@drawable/ic_map_plight_24dp"
         android:title="@string/kart" />
     <item
-        android:id="@+id/favourite_menu"
+        android:id="@+id/favourite_dest"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_plight_24dp"
         android:title="@string/favoritter" />
     <item
-        android:id="@+id/account_menu"
+        android:id="@+id/account_dest"
         android:enabled="true"
         android:icon="@drawable/ic_account_box_plight_24dp"
         android:title="@string/konto" />
