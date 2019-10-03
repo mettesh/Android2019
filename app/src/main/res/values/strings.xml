@@ -22,4 +22,7 @@
     <string name="kart">Kart</string>
     <string name="favoritter">Favoritter</string>
     <string name="konto">Konto</string>
+    <string name="her_kommer_kart">Her kommer kart!</string>
+    <string name="denne_skal_poppe_opp_kontoen_din">Denne skal poppe opp kontoen din!</string>
+    <string name="her_kommer_favorittene_dine">Her kommer favorittene dine!</string>
 </resources>

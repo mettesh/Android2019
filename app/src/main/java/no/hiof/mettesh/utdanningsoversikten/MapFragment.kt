@@ -13,14 +13,24 @@ import com.google.android.gms.maps.SupportMapFragment
 /**
  * A simple [Fragment] subclass.
  */
-class MapFragment : Fragment() {
+class MapFragment : Fragment(), OnMapReadyCallback {
+
+    private lateinit var gmap:  GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        val view = inflater.inflate(R.layout.fragment_map, container, false)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        
+        return view
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.gmap = googleMap
+    }
 }
