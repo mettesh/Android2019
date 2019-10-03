@@ -18,4 +18,8 @@
     <string name="kravkode_input">Kravkode Input</string>
     <string name="poenggrense">Poenggrense:</string>
     <string name="poenggrenseinput">PoenggrenseInput</string>
+    <string name="hjem">Hjem</string>
+    <string name="kart">Kart</string>
+    <string name="favoritter">Favoritter</string>
+    <string name="konto">Konto</string>
 </resources>
