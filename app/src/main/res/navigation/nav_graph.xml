@@ -23,4 +23,24 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/account_dest"
+        android:name="no.hiof.mettesh.utdanningsoversikten.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/favourite_dest"
+        android:name="no.hiof.mettesh.utdanningsoversikten.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" />
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="no.hiof.mettesh.utdanningsoversikten.EducationListFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_education_list" />
+    <fragment
+        android:id="@+id/map_dest"
+        android:name="no.hiof.mettesh.utdanningsoversikten.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>
