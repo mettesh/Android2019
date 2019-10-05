@@ -7,15 +7,7 @@ data class Education(val id : Int, val kravkode : String, var title : String, va
 
     companion object {
         fun getEducation() : ArrayList<Education> {
-            val data = ArrayList<Education>()
-
-            /*
-            val image = intArrayOf(
-                R.drawable.sykepleie_background,
-                R.drawable.ic_launcher_background
-
-            )
-             */
+            val educationlist = ArrayList<Education>()
 
             for (i in 1..10){
 
@@ -34,11 +26,22 @@ data class Education(val id : Int, val kravkode : String, var title : String, va
                      34.5
                  )
 
-                data.add(aEducation)
+                educationlist.add(aEducation)
 
             }
 
-            return data
+            return educationlist
+        }
+
+
+        fun getFavouriteEducations() : ArrayList<Education> {
+            val educationlist = ArrayList<Education>()
+
+            educationlist.add(getEducation().get(0))
+            educationlist.add(getEducation().get(1))
+            educationlist.add(getEducation().get(2))
+
+            return educationlist
         }
     }
 
