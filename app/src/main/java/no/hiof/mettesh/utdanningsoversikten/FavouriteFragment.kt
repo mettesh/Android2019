@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_education_list.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
@@ -70,7 +71,7 @@ class FavouriteFragment : Fragment() {
             val clickedEducation = favouriteEducationList[position]
 
             // Oppretter navigasjonen (utifra nav_graph.xml) og sender med id til utdanningen.
-            val action = EducationListFragmentDirections.actionEducationListFragmentToEducationDetailFragment(clickedEducation.id)
+            var action = FavouriteFragmentDirections.actionFavouriteDestToEducationDetailFragment(clickedEducation.id)
 
             // Navigerer til EducationDetailFragment
             findNavController().navigate(action)
