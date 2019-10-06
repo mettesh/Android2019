@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.*
 
 
 
+
+
 class FavouriteFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
@@ -36,7 +38,6 @@ class FavouriteFragment : Fragment() {
 
         // Sjekker først om man er logget inn:
         val firebaseCurrentUser = firebaseAuth.currentUser
-
         if(firebaseCurrentUser == null || favouriteEducationList.isEmpty()){
 
             return inflater.inflate(R.layout.fragment_favourite_login_or_empty, container, false)
@@ -146,8 +147,8 @@ class FavouriteFragment : Fragment() {
                 Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
                 //firebaseAuth.removeAuthStateListener(authStateListener)
 
-                val tempBundle = Bundle()
-                onCreate(tempBundle)
+                val ft = fragmentManager!!.beginTransaction()
+                ft.detach(this).attach(this).commit()
 
             }
             else if (resultCode == RESULT_CANCELED) {
