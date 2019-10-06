@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.education_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
 import no.hiof.mettesh.utdanningsoversikten.R
@@ -48,17 +49,39 @@ class EducationAdapter(private val items: ArrayList<Education>, var clickListene
         private val educationShortDescriptionTextView : TextView = view.educationShortDescription
 
         // private val readMoreLink : TextView = view.readModeTextLink // Endre link??
-        private val SchoolWebLink : TextView = view.schoolWeblink // Endre link??
+        private val schoolWebLink : TextView = view.schoolWeblink // Endre link??
 
         fun bind(item: Education, clickListener: View.OnClickListener) {
 
             // Fyller view-ene med data
 
-            schoolIconImageView.setImageResource(item.school.schoolIcon)
+            //schoolIconImageView.setImageResource(item.school.schoolIcon)
+            Glide.with(itemView)
+                .load(item.school.schoolIcon)
+                .centerCrop()
+                .placeholder(R.drawable.hiof_icon_background)
+                .error(R.drawable.hiof_icon_background)
+                .fallback(R.drawable.hiof_icon_background)
+                .into(schoolIconImageView)
+
             educationTitleTextView.text = item.title
+
             schoolNameTextView.text = item.school.schoolTitle
-            educationImageView.setImageResource((item.image))
+
+            //educationImageView.setImageResource((item.image))
+            Glide.with(itemView)
+                .load(item.image)
+                .centerCrop()
+                .placeholder(R.drawable.hiof_icon_background)
+                .error(R.drawable.hiof_icon_background)
+                .fallback(R.drawable.hiof_icon_background)
+                .into(educationImageView)
+
             educationShortDescriptionTextView.text = item.descriptionShort
+
+            schoolWebLink.setOnClickListener {
+                
+            }
 
             // Sets the onClickListener
             this.itemView.setOnClickListener(clickListener)

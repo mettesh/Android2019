@@ -1,8 +1,9 @@
 package no.hiof.mettesh.utdanningsoversikten.model
 
 import no.hiof.mettesh.utdanningsoversikten.R
+import java.net.URL
 
-data class Education(val id : Int, val kravkode : String, var title : String, var descriptionShort : String, var descriptionLong : String, var school : School, var image : Int, var poenggrense : Double) {
+data class Education(val id : Int, val kravkode : String, var title : String, var descriptionShort : String, var descriptionLong : String, var school : School, var image : String, var poenggrense : Double) {
 
 
     companion object {
@@ -22,7 +23,7 @@ data class Education(val id : Int, val kravkode : String, var title : String, va
                              "Viktige temaer i utdanningen er helse, sykdom, ivaretakelse av grunnleggende behov, mestring, " +
                              "kommunikasjon, samarbeid, og omsorg.",
                      School.getSchools().get(1),
-                     R.drawable.sykepleie_background,
+                     "https://www.hiof.no/om/aktuelt/aktuelle-saker/arkiv/filer/sykepleierfotvaskBH_654.jpg",
                      34.5
                  )
 

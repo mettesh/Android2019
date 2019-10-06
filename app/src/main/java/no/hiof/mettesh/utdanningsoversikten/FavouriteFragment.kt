@@ -20,11 +20,6 @@ import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.*
 
-
-
-
-
-
 class FavouriteFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
@@ -44,8 +39,6 @@ class FavouriteFragment : Fragment() {
         }
 
         return inflater.inflate(R.layout.fragment_education_list, container, false)
-
-        //createAuthenticationListener()
 
     }
 
