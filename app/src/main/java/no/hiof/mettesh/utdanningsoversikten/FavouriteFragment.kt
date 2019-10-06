@@ -8,15 +8,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_education_list.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
+import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.*
+
+
 
 
 class FavouriteFragment : Fragment() {
@@ -24,39 +28,72 @@ class FavouriteFragment : Fragment() {
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
 
-
-    // Henter inn liste med utdanninger fra Education-klassen
     private var favouriteEducationList : ArrayList<Education> = Education.getFavouriteEducations()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-
         // Sjekker først om man er logget inn:
-        createAuthenticationListener()
+        val firebaseCurrentUser = firebaseAuth.currentUser
 
-        // Henter inn layout for dette Fragmentet
+        if(firebaseCurrentUser == null || favouriteEducationList.isEmpty()){
+
+            return inflater.inflate(R.layout.fragment_favourite_login_or_empty, container, false)
+        }
+
         return inflater.inflate(R.layout.fragment_education_list, container, false)
+
+        //createAuthenticationListener()
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
 
-        setUpRecycleView()
+        val firebaseCurrentUser = firebaseAuth.currentUser
+
+        val loginOrEmptylistTextview : TextView
+        val loginButton : Button
+
+        if(firebaseCurrentUser == null){
+
+            loginOrEmptylistTextview = view.textView_login_or_empty
+            loginButton = view.login_button
+
+            loginOrEmptylistTextview.text = "Du må logge inn for å se dine lagrede favoritter"
+
+            loginButton.setOnClickListener {
+
+                createAuthenticationListener()
+            }
+        }
+
+        else if (favouriteEducationList.isEmpty()){
+
+            loginOrEmptylistTextview = view.textView_login_or_empty
+            loginButton = view.login_button
+
+            loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
+
+            loginButton.visibility = View.GONE
+
+        }
+        else{
+            setUpRecycleView()
+        }
 
     }
 
     override fun onResume() {
         super.onResume()
 
-        firebaseAuth.addAuthStateListener(authStateListener)
+        //firebaseAuth.addAuthStateListener(authStateListener)
     }
 
     override fun onPause() {
         super.onPause()
 
-        firebaseAuth.removeAuthStateListener(authStateListener)
+        //firebaseAuth.removeAuthStateListener(authStateListener)
     }
 
     private fun setUpRecycleView() {
@@ -87,11 +124,8 @@ class FavouriteFragment : Fragment() {
 
     private fun createAuthenticationListener() {
 
-        authStateListener = FirebaseAuth.AuthStateListener {
-            val firebaseCurrentUser = firebaseAuth.currentUser
-            if(firebaseCurrentUser == null){
-
-                startActivityForResult(
+        //authStateListener = FirebaseAuth.AuthStateListener {
+                 startActivityForResult(
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders( arrayListOf(
@@ -100,11 +134,7 @@ class FavouriteFragment : Fragment() {
                         .setIsSmartLockEnabled(false)
                         .build(), RC_SIGN_IN
                 )
-            }
-            else{
-                Toast.makeText(context, firebaseCurrentUser.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
-            }
-        }
+        //}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,8 +144,11 @@ class FavouriteFragment : Fragment() {
             if (resultCode == RESULT_OK) {
                val user = firebaseAuth.currentUser
                 Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
-                firebaseAuth.removeAuthStateListener(authStateListener)
-                setUpRecycleView()
+                //firebaseAuth.removeAuthStateListener(authStateListener)
+
+                val tempBundle = Bundle()
+                onCreate(tempBundle)
+
             }
             else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(context, "Innlogging avbrutt", Toast.LENGTH_SHORT).show()
