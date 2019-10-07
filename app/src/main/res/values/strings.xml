@@ -27,4 +27,9 @@
     <string name="her_kommer_favorittene_dine">Her kommer favorittene dine!</string>
     <string name="logg_inn_eller_fyll_liste">Logg inn eller fyll liste</string>
     <string name="logg_inn">Logg inn</string>
+    <string name="logget_inn_som">Logget inn som</string>
+    <string name="username">Username</string>
+    <string name="logg_ut">Logg ut</string>
+    <string name="x_lagrede_favoritter">x lagrede favoritter</string>
+    <string name="heart">Heart</string>
 </resources>
