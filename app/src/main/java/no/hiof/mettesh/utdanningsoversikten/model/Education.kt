@@ -1,14 +1,14 @@
 package no.hiof.mettesh.utdanningsoversikten.model
 
-import no.hiof.mettesh.utdanningsoversikten.R
-import java.net.URL
-
 data class Education(val id : Int, val kravkode : String, var title : String, var descriptionShort : String, var descriptionLong : String, var school : School, var image : String, var poenggrense : Double) {
 
 
     companion object {
-        fun getEducation() : ArrayList<Education> {
-            val educationlist = ArrayList<Education>()
+
+        val educationlist = ArrayList<Education>()
+        val favouriteEducationlist = ArrayList<Education>()
+
+        fun fillEducationList() {
 
             for (i in 1..10){
 
@@ -30,19 +30,6 @@ data class Education(val id : Int, val kravkode : String, var title : String, va
                 educationlist.add(aEducation)
 
             }
-
-            return educationlist
-        }
-
-
-        fun getFavouriteEducations() : ArrayList<Education> {
-            val educationlist = ArrayList<Education>()
-
-            educationlist.add(getEducation().get(0))
-            educationlist.add(getEducation().get(1))
-            educationlist.add(getEducation().get(2))
-
-            return educationlist
         }
     }
 

@@ -68,21 +68,21 @@ class AccountFragment : Fragment() {
             logoutButton = view.button_accountLogOut
             usernameTextView.text = firebaseCurrentUser.displayName
 
-            var numOfFav = Education.getFavouriteEducations().size
+            var numOfFav = Education.favouriteEducationlist.size
 
             if (numOfFav == 0) {
                 numOfFavtextView.text = "Du har ingen lagrede favoritter"
             } else if (numOfFav > 1) {
                 numOfFavtextView.text =
-                    Education.getFavouriteEducations().size.toString() + " favoritter lagret"
+                    numOfFav.toString() + " favoritter lagret"
             } else {
                 numOfFavtextView.text =
-                    Education.getFavouriteEducations().size.toString() + " favoritt lagret"
+                    numOfFav.toString() + " favoritt lagret"
             }
 
             logoutButton.setOnClickListener {
                 firebaseAuth.signOut()
-                Toast.makeText(context, firebaseCurrentUser.displayName + " logget ut", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, firebaseCurrentUser.displayName + " er logget ut", Toast.LENGTH_SHORT).show()
                 val ft = fragmentManager!!.beginTransaction()
                 ft.detach(this).attach(this).commit()
 

@@ -25,7 +25,7 @@ class FavouriteFragment : Fragment() {
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
 
-    private var favouriteEducationList : ArrayList<Education> = Education.getFavouriteEducations()
+    private var favouriteEducationList : ArrayList<Education> = Education.favouriteEducationlist
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
