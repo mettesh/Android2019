@@ -13,10 +13,10 @@
 
         <ImageView
             android:id="@+id/schoolIcon"
-            android:layout_width="76dp"
-            android:layout_height="63dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="24dp"
             android:contentDescription="@string/skoleikon"
             tool:layout_constraintStart_toStartOf="parent"
             tool:layout_constraintTop_toTopOf="parent"
@@ -26,14 +26,15 @@
             android:id="@+id/educationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:text="@string/bacheleor_i_sykepleie_heltid"
             android:textSize="18sp"
             android:textStyle="bold"
             tool:layout_constraintBottom_toTopOf="@+id/schoolName"
             tool:layout_constraintEnd_toEndOf="parent"
-            tool:layout_constraintHorizontal_bias="0.13"
+            tool:layout_constraintHorizontal_bias="0.0"
             tool:layout_constraintStart_toEndOf="@+id/schoolIcon"
             tool:layout_constraintTop_toTopOf="parent" />
 
@@ -41,11 +42,12 @@
             android:id="@+id/schoolName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
             android:text="@string/h_yskolen_i_stfold"
             android:textSize="18sp"
             tool:layout_constraintEnd_toEndOf="parent"
-            tool:layout_constraintHorizontal_bias="0.067"
+            tool:layout_constraintHorizontal_bias="0.0"
             tool:layout_constraintStart_toEndOf="@+id/schoolIcon"
             tool:layout_constraintTop_toBottomOf="@+id/educationTitle" />
 
@@ -53,7 +55,7 @@
             android:id="@+id/educationImage"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:contentDescription="@string/bilde_utdanning"
             tool:layout_constraintEnd_toEndOf="parent"
             tool:layout_constraintStart_toStartOf="parent"
@@ -78,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="11dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/les_mer"
             tool:layout_constraintBottom_toBottomOf="parent"
             tool:layout_constraintStart_toStartOf="parent"
@@ -90,14 +92,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="24dp"
+            android:linksClickable="true"
             android:text="@string/skolens_nettside"
             tool:layout_constraintBottom_toBottomOf="parent"
             tool:layout_constraintEnd_toEndOf="parent"
             tool:layout_constraintHorizontal_bias="0.0"
             tool:layout_constraintStart_toEndOf="@+id/readModeTextLink"
-            tool:layout_constraintTop_toBottomOf="@+id/educationShortDescription"
-            android:linksClickable="true"/>
+            tool:layout_constraintTop_toBottomOf="@+id/educationShortDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,10 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class EducationDetailFragment : Fragment() {
+
+    private lateinit var firebaseAuth : FirebaseAuth
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -24,8 +29,11 @@ class EducationDetailFragment : Fragment() {
         val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
 
         // Henter utdanningen som har den id-en som ble sendt med fra Liste-Fragmentet.
-        val education = Education.getEducation()[arguments!!.id]
+        val education = Education.educationlist[arguments!!.id]
 
+        // Henter info om eventuell innlogged bruker
+        firebaseAuth = FirebaseAuth.getInstance()
+        val firebaseCurrentUser = firebaseAuth.currentUser
 
 
         //val detailSchoolIconImageView : ImageView = view.detailSchoolIcon
@@ -33,7 +41,8 @@ class EducationDetailFragment : Fragment() {
         val detailSchoolNameTextView : TextView = view.detailSchoolName
         val detailEducationDescriptionTextView : TextView = view.detailEducationDescription
         val poenggrenseTextView : TextView = view.detailPoenggrense
-        var kravkodeTextView : TextView = view.detailKravkode
+        val kravkodeTextView : TextView = view.detailKravkode
+        val favFloatingButton : FloatingActionButton = view.floatingButton_fav
 
         // Setter til infoen om valgt utdanning til de ulike elementene
 
@@ -45,6 +54,30 @@ class EducationDetailFragment : Fragment() {
         detailEducationDescriptionTextView.text = education.descriptionLong
 
 
+        // If utdanning ligger i lista =
+                // Fylt hjerte
+                // OnClick vil fjerne utdanning fra liste
+        // Om ikke
+                // ikke fylt hjerte
+                // onClick vil legge til utdanning til liste
 
+        favFloatingButton.setOnClickListener {
+
+            if (firebaseCurrentUser == null) {
+                Toast.makeText(
+                    context,
+                    "Du må være innlogget for å kunne legge til utdanninger i favoritter",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                // Legger til denne Education i favorittliste
+                Education.favouriteEducationlist.add(education)
+                Toast.makeText(
+                    context,
+                    education.title + " er lagt til i favoritter",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ import no.hiof.mettesh.utdanningsoversikten.model.Education
 class EducationListFragment : Fragment() {
 
     // Henter inn liste med utdanninger fra Education-klassen
-    private var educationList : ArrayList<Education> = Education.getEducation()
+    private var educationList : ArrayList<Education> = Education.educationlist
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 

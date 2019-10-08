@@ -2,7 +2,7 @@ package no.hiof.mettesh.utdanningsoversikten.model
 
 import no.hiof.mettesh.utdanningsoversikten.R
 
-data class School(val schoolId : Int, var schoolTitle : String, var schoolIcon : Int, var schoolAdress : String,
+data class School(val schoolId : Int, var schoolTitle : String, var schoolIcon : String, var schoolAdress : String,
                   var longLat : String, var web : String ) {
 
 
@@ -15,7 +15,7 @@ data class School(val schoolId : Int, var schoolTitle : String, var schoolIcon :
                val aSchool = School(
                    i,
                    "Høyskolen i Østfold",
-                   R.drawable.hiof_icon_background,
+                   "https://upload.wikimedia.org/wikipedia/en/d/da/Hi%C3%98_emblem.png",
                    "B R A Veien 4, 1783 Halden",
                    "59.1288539,11.3532008,15",
                    "www.hiof.no")
