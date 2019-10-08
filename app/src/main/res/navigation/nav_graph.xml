@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/educationListFragment">
+    app:startDestination="@id/home_dest">
 
     <fragment
-        android:id="@+id/educationListFragment"
+        android:id="@+id/home_dest"
         android:name="no.hiof.mettesh.utdanningsoversikten.EducationListFragment"
         android:label="fragment_education_list"
         tools:layout="@layout/fragment_education_list">
@@ -40,11 +40,6 @@
             android:id="@+id/action_favourite_dest_to_educationDetailFragment2"
             app:destination="@id/educationDetailFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/home_dest"
-        android:name="no.hiof.mettesh.utdanningsoversikten.EducationListFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_education_list" />
     <fragment
         android:id="@+id/map_dest"
         android:name="no.hiof.mettesh.utdanningsoversikten.MapFragment"
