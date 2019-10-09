@@ -51,6 +51,7 @@ class EducationAdapter(private val items: ArrayList<Education>, var clickListene
         private val schoolNameTextView : TextView = view.schoolName
         private val educationImageView : ImageView = view.educationImage
         private val educationShortDescriptionTextView : TextView = view.educationShortDescription
+        private val favouriteHeart : ImageView = view.favHeart
 
         // private val readMoreLink : TextView = view.readModeTextLink // Endre link??
         private val schoolWebLink : TextView = view.schoolWeblink // Endre link??
@@ -85,6 +86,10 @@ class EducationAdapter(private val items: ArrayList<Education>, var clickListene
 
             schoolWebLink.setOnClickListener {
 
+            }
+
+            if(!Education.favouriteEducationlist.contains(item)) {
+                favouriteHeart.visibility = View.GONE
             }
 
             // Sets the onClickListener

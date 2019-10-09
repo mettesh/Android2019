@@ -45,7 +45,6 @@ class EducationDetailFragment : Fragment() {
         poenggrenseTextView.text = education.poenggrense.toString()
         detailEducationDescriptionTextView.text = education.descriptionLong
 
-
         // Setter bilde på floatingButton etter om den finnes i favoritter
         if(Education.favouriteEducationlist.contains(education)) {
             favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
