@@ -15,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import pub.devrel.easypermissions.EasyPermissions
 import com.google.android.gms.maps.UiSettings
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
 import no.hiof.mettesh.utdanningsoversikten.MapFragment.Companion.LOCATION_PERMISSION_ID
@@ -46,6 +47,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         gmap = googleMap
 
         setupUISettings()
+
+        gmap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.style_json))
 
     }
 
