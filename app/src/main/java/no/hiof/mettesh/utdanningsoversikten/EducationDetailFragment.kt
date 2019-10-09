@@ -25,27 +25,19 @@ class EducationDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Henter ut argumenter som er sendt med fra liste-fragmentet
         val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
 
-        // Henter utdanningen som har den id-en som ble sendt med fra Liste-Fragmentet.
         val education = Education.educationlist[arguments!!.id]
 
-        // Henter info om eventuell innlogged bruker
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseCurrentUser = firebaseAuth.currentUser
 
-
-        //val detailSchoolIconImageView : ImageView = view.detailSchoolIcon
         val detailEducationTitleTextView : TextView = view.detailEducationTitle
         val detailSchoolNameTextView : TextView = view.detailSchoolName
         val detailEducationDescriptionTextView : TextView = view.detailEducationDescription
         val poenggrenseTextView : TextView = view.detailPoenggrense
         val kravkodeTextView : TextView = view.detailKravkode
         val favFloatingButton : FloatingActionButton = view.floatingButton_fav
-
-        // Setter til infoen om valgt utdanning til de ulike elementene
-
 
         detailEducationTitleTextView.text = education.title
         detailSchoolNameTextView.text = education.school.schoolTitle
@@ -54,29 +46,47 @@ class EducationDetailFragment : Fragment() {
         detailEducationDescriptionTextView.text = education.descriptionLong
 
 
-        // If utdanning ligger i lista =
-                // Fylt hjerte
-                // OnClick vil fjerne utdanning fra liste
-        // Om ikke
-                // ikke fylt hjerte
-                // onClick vil legge til utdanning til liste
+        // Setter bilde på floatingButton etter om den finnes i favoritter
+        if(Education.favouriteEducationlist.contains(education)) {
+            favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
+        } else {
+            favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
+        }
 
+
+        // Logikk for hva som skal skje når floatingButton trykkes på
         favFloatingButton.setOnClickListener {
-
             if (firebaseCurrentUser == null) {
                 Toast.makeText(
                     context,
                     "Du må være innlogget for å kunne legge til utdanninger i favoritter",
                     Toast.LENGTH_LONG
                 ).show()
+
             } else {
-                // Legger til denne Education i favorittliste
-                Education.favouriteEducationlist.add(education)
-                Toast.makeText(
-                    context,
-                    education.title + " er lagt til i favoritter",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+                if (Education.favouriteEducationlist.contains(education)) {
+                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
+
+                    Education.favouriteEducationlist.remove(education)
+                    Toast.makeText(
+                        context,
+                        education.title + " er fjernet fra favoritter",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                } else {
+
+                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
+
+                    Education.favouriteEducationlist.add(education)
+                    Toast.makeText(
+                        context,
+                        education.title + " er lagt til i favoritter",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
             }
         }
     }

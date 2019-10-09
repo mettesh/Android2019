@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="70dp"
-        android:src="@drawable/ic_favorite_plight_24dp"
+        android:src="@drawable/ic_floating_button_stroke"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
