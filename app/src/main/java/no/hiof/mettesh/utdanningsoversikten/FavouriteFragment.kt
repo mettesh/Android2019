@@ -20,16 +20,11 @@ import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
-import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.*
-import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.login_button
-import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.textView_login_or_empty
 
 class FavouriteFragment : Fragment() {
 
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
-
-
 
 
     private var favouriteEducationList : ArrayList<Education> = Education.favouriteEducationlist
