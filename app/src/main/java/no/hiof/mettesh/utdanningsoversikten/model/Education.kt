@@ -10,7 +10,7 @@ data class Education(val id : Int, val kravkode : String, var title : String, va
 
         fun fillEducationList() {
 
-            for (i in 1..10){
+            for (i in 0..9){
 
                  val aEducation = Education(
                      i,
