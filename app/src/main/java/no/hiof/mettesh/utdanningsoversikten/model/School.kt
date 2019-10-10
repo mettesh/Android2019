@@ -11,7 +11,7 @@ data class School(val schoolId : Int, var schoolTitle : String, var schoolIcon :
             val data = ArrayList<School>()
 
 
-            for (i in 1..10) {
+            for (i in 0..9) {
                val aSchool = School(
                    i,
                    "Høyskolen i Østfold",

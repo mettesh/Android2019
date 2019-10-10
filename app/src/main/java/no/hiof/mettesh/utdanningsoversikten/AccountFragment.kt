@@ -9,14 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_account.view.*
-import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.*
-import no.hiof.mettesh.utdanningsoversikten.FavouriteFragment.Companion.RC_SIGN_IN
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class AccountFragment : Fragment() {
@@ -27,13 +25,6 @@ class AccountFragment : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        // Sjekker først om man er logget inn:
-        val firebaseCurrentUser = firebaseAuth.currentUser
-        if(firebaseCurrentUser == null){
-
-            return inflater.inflate(R.layout.fragment_favourite_login_or_empty, container, false)
-        }
-
         return inflater.inflate(R.layout.fragment_account, container, false)
 
     }
@@ -41,34 +32,49 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
 
+        viewCorrectElementsInLayout(view)
+
+    }
+
+
+    fun viewCorrectElementsInLayout(view : View){
+
         val firebaseCurrentUser = firebaseAuth.currentUser
 
-        val loginOrEmptylistTextview : TextView
-        val loginButton : Button
-        val usernameTextView : TextView
-        val numOfFavtextView : TextView
-        val logoutButton : Button
+        val loginTextview : TextView = view.accountlogInText
+        val usernameTextView : TextView = view.textView_userName
+        val numOfFavtextView : TextView = view.textView_numOfFav
+        val loginButton : Button = view.button_accountlogIn
+        val logoutButton : Button = view.button_accountlogOut
+
+        usernameTextView.visibility = View.GONE
+        numOfFavtextView.visibility = View.GONE
+        loginButton.visibility = View.GONE
+        logoutButton.visibility = View.GONE
+
 
         if(firebaseCurrentUser == null){
 
-            loginOrEmptylistTextview = view.textView_login_or_empty
-            loginButton = view.login_button
+            loginButton.visibility = View.VISIBLE
 
-            loginOrEmptylistTextview.text = "Logg inn eller registrer deg. Med konto kan du lagre utdanninger, søk og skoler"
+            loginTextview.text = "Logg inn eller registrer deg. \nMed konto kan du lagre utdanninger, søk og skoler"
 
             loginButton.setOnClickListener {
 
                 createAuthenticationListener()
             }
-        }
-        else {
 
-            usernameTextView = view.textView_userName
-            numOfFavtextView = view.textView_numOfFav
-            logoutButton = view.button_accountLogOut
+        } else {
+
+            usernameTextView.visibility = View.VISIBLE
+            numOfFavtextView.visibility = View.VISIBLE
+            logoutButton.visibility = View.VISIBLE
+
+            loginTextview.text = "Logget inn som:"
+
             usernameTextView.text = firebaseCurrentUser.displayName
 
-            var numOfFav = Education.favouriteEducationlist.size
+            val numOfFav = Education.favouriteEducationlist.size
 
             if (numOfFav == 0) {
                 numOfFavtextView.text = "Du har ingen lagrede favoritter"
@@ -83,8 +89,7 @@ class AccountFragment : Fragment() {
             logoutButton.setOnClickListener {
                 firebaseAuth.signOut()
                 Toast.makeText(context, firebaseCurrentUser.displayName + " er logget ut", Toast.LENGTH_SHORT).show()
-                val ft = fragmentManager!!.beginTransaction()
-                ft.detach(this).attach(this).commit()
+                viewCorrectElementsInLayout(view)
 
             }
         }
@@ -116,8 +121,7 @@ class AccountFragment : Fragment() {
                 Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
                 //firebaseAuth.removeAuthStateListener(authStateListener)
 
-                val ft = fragmentManager!!.beginTransaction()
-                ft.detach(this).attach(this).commit()
+                viewCorrectElementsInLayout(view!!)
 
             }
             else if (resultCode == Activity.RESULT_CANCELED) {

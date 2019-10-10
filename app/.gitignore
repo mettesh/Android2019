@@ -53,41 +53,19 @@ captures/
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
-# OS generated files #
-######################
-**/.DS_Store
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
+# Freeline
+freeline.py
+freeline/
+freeline_project_description.json
 
-# User-specific stuff:
-**/.idea/workspace.xml
-**/.idea/tasks.xml
-**/.idea/dictionaries
-**/.idea/vcs.xml
-**/.idea/jsLibraryMappings.xml
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
 
-# Sensitive or high-churn files:
-**/.idea/dataSources.ids
-**/.idea/dataSources.xml
-**/.idea/dataSources.local.xml
-**/.idea/sqlDataSources.xml
-**/.idea/dynamic.xml
-**/.idea/uiDesigner.xml
-
-# Android Studio
-.idea
-.gradle
-/*/local.properties
-/*/out
-/*/*/build
-build
-/*/*/production
-*.iml
-*.iws
-*.ipr
-*~
-*.swp
+# other
+**/app/build
+**/projectFilesBackup
+.DS_STORE

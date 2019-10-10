@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_education_list.*
+import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
@@ -24,6 +27,13 @@ class EducationListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
+
+        val loginOrEmptylistTextview : TextView = view.textView_login_or_empty
+        val loginButton : Button = view.login_button
+
+        // Skjuler disse da de kun brukes for favouriteFragment (Og samme layout benyttes)
+        loginOrEmptylistTextview.visibility = View.GONE
+        loginButton.visibility = View.GONE
 
         setUpRecycleView()
     }

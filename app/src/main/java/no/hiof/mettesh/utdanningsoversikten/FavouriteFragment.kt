@@ -13,30 +13,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_education_list.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
-import kotlinx.android.synthetic.main.fragment_favourite_login_or_empty.view.*
+import kotlinx.android.synthetic.main.fragment_education_list.view.*
 
 class FavouriteFragment : Fragment() {
 
-    private lateinit var firebaseAuth : FirebaseAuth
+    private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
+
 
     private var favouriteEducationList : ArrayList<Education> = Education.favouriteEducationlist
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        firebaseAuth = FirebaseAuth.getInstance()
-
-        // Sjekker først om man er logget inn:
-        val firebaseCurrentUser = firebaseAuth.currentUser
-        if(firebaseCurrentUser == null || favouriteEducationList.isEmpty()){
-
-            return inflater.inflate(R.layout.fragment_favourite_login_or_empty, container, false)
-        }
 
         return inflater.inflate(R.layout.fragment_education_list, container, false)
 
@@ -44,15 +37,26 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
 
+        viewCorrectElementsInLayout(view)
+
+    }
+
+    fun viewCorrectElementsInLayout(view : View){
+
         val firebaseCurrentUser = firebaseAuth.currentUser
 
-        val loginOrEmptylistTextview : TextView
-        val loginButton : Button
+        val recyclerView : RecyclerView = view.educationRecyclerView
+        val loginOrEmptylistTextview : TextView = view.textView_login_or_empty
+        val loginButton : Button = view.login_button
+
+        recyclerView.visibility = View.GONE
+        loginOrEmptylistTextview.visibility = View.GONE
+        loginButton.visibility = View.GONE
 
         if(firebaseCurrentUser == null){
 
-            loginOrEmptylistTextview = view.textView_login_or_empty
-            loginButton = view.login_button
+            loginOrEmptylistTextview.visibility = View.VISIBLE
+            loginButton.visibility = View.VISIBLE
 
             loginOrEmptylistTextview.text = "Du må logge inn for å se dine lagrede favoritter"
 
@@ -60,20 +64,15 @@ class FavouriteFragment : Fragment() {
 
                 createAuthenticationListener()
             }
-        }
 
-        else if (favouriteEducationList.isEmpty()){
+        } else if (favouriteEducationList.isEmpty()){
 
-            loginOrEmptylistTextview = view.textView_login_or_empty
-            loginButton = view.login_button
-
+            loginOrEmptylistTextview.visibility = View.VISIBLE
             loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
 
-            loginButton.visibility = View.GONE
-
-        }
-        else{
+        } else {
             setUpRecycleView()
+            recyclerView.visibility = View.VISIBLE
         }
 
     }
@@ -92,27 +91,19 @@ class FavouriteFragment : Fragment() {
 
     private fun setUpRecycleView() {
 
-        // Bruker adapteren for å binde layout og RecyclerView
+
         educationRecyclerView.adapter = EducationAdapter(favouriteEducationList, View.OnClickListener { view ->
 
-            // Får posisjonen til elementet i lista som er trykket på
             val position = educationRecyclerView.getChildAdapterPosition(view)
-
-            // Får deretter riktig utdannning paserte på denne posisjonen
             val clickedEducation = favouriteEducationList[position]
-
-            // Oppretter navigasjonen (utifra nav_graph.xml) og sender med id til utdanningen.
             var action = FavouriteFragmentDirections.actionFavouriteDestToEducationDetailFragment(clickedEducation.id)
 
-            // Navigerer til EducationDetailFragment
             findNavController().navigate(action)
 
 
         })
 
-        // Etter at alt er satt setter vi dette RecyclerView med det layouten vi ønsker.
         educationRecyclerView.layoutManager = GridLayoutManager(context, 1)
-
     }
 
 
@@ -138,10 +129,9 @@ class FavouriteFragment : Fragment() {
             if (resultCode == RESULT_OK) {
                val user = firebaseAuth.currentUser
                 Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
-                //firebaseAuth.removeAuthStateListener(authStateListener)
 
-                val ft = fragmentManager!!.beginTransaction()
-                ft.detach(this).attach(this).commit()
+                // !! = Non-null assertion. Gir beskjed om at denne ikke er null (Vet dette da denne metoden kun bli kalt etter at onCreat er kalt)
+                viewCorrectElementsInLayout(view!!)
 
             }
             else if (resultCode == RESULT_CANCELED) {
