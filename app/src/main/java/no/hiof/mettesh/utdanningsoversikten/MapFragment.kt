@@ -10,13 +10,15 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import pub.devrel.easypermissions.EasyPermissions
-import com.google.android.gms.maps.UiSettings
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.android.synthetic.main.fragment_map.*
 import no.hiof.mettesh.utdanningsoversikten.MapFragment.Companion.LOCATION_PERMISSION_ID
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -48,7 +50,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         setupUISettings()
 
+        // Setter stil på kartet
         gmap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.style_json))
+
 
     }
 
@@ -64,6 +68,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             EasyPermissions.requestPermissions(this, "Vi trenger godkjenning for å vise din lokasjon på kartet",
                 LOCATION_PERMISSION_ID, android.Manifest.permission.ACCESS_FINE_LOCATION)
         }
+        
+        // Hvor kartet skal starte
+        val latLng =LatLng(60.18523283, 10.16784668)
+        val zoomLevel = 7.0f
+
+        // Flytter kameraet til denne posisjonen
+        gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
+
         // Kompass og zoom-knapper på kartet
         gmap.uiSettings.isCompassEnabled = true
         gmap.uiSettings.isZoomControlsEnabled = true
@@ -71,6 +83,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     companion object{
         private const val LOCATION_PERMISSION_ID = 1
+        private val HIOFH = LatLng(59.12915265, 11.354157)
+        private val HIOFF = LatLng(59.2127991, 10.93019032)
+
+
     }
 
 }
