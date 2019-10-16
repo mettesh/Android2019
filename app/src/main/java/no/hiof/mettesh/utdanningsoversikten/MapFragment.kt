@@ -2,6 +2,7 @@ package no.hiof.mettesh.utdanningsoversikten
 
 
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +12,8 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import pub.devrel.easypermissions.EasyPermissions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -49,13 +47,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         gmap = googleMap
 
         setupUISettings()
+        placeMarkersOnMap()
 
         // Setter stil på kartet
         gmap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.style_json))
-
-
     }
 
+    private fun placeMarkersOnMap() {
+        // Markerer alle skolene
+        // TODO: Legge til flere skoler
+        gmap.addMarker(MarkerOptions().position(HIOFH))
+        gmap.addMarker(MarkerOptions().position(HIOFF))
+    }
 
     //Setter opp UI etter at bruker har godkjent bruk av lokasjon
     @AfterPermissionGranted(LOCATION_PERMISSION_ID)
@@ -68,7 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             EasyPermissions.requestPermissions(this, "Vi trenger godkjenning for å vise din lokasjon på kartet",
                 LOCATION_PERMISSION_ID, android.Manifest.permission.ACCESS_FINE_LOCATION)
         }
-        
+
         // Hvor kartet skal starte
         val latLng =LatLng(60.18523283, 10.16784668)
         val zoomLevel = 7.0f
