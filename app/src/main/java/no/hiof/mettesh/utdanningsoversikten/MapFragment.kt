@@ -56,8 +56,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun placeMarkersOnMap() {
         // Markerer alle skolene
         // TODO: Legge til flere skoler
-        gmap.addMarker(MarkerOptions().position(HIOFH))
-        gmap.addMarker(MarkerOptions().position(HIOFF))
+        gmap.addMarker(MarkerOptions().position(HIOFH).title("Høgskolen i Østfold"))
+        gmap.addMarker(MarkerOptions().position(HIOFF).title("Høgskolen i Østfold - avd. Fredrikstad"))
     }
 
     //Setter opp UI etter at bruker har godkjent bruk av lokasjon
@@ -88,6 +88,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         private const val LOCATION_PERMISSION_ID = 1
         private val HIOFH = LatLng(59.12915265, 11.354157)
         private val HIOFF = LatLng(59.2127991, 10.93019032)
+        private val HIOFHID = "ChIJbyRE0_ASREYRsVOymZzxR04"
 
 
     }
