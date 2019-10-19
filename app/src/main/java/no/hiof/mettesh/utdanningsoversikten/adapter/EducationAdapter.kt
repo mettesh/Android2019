@@ -1,26 +1,58 @@
 package no.hiof.mettesh.utdanningsoversikten.adapter
 
-import android.content.Intent
-import android.net.Uri
-import android.os.Bundle
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.education_list_item.view.*
-import kotlinx.android.synthetic.main.fragment_education_detail.view.*
-import no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment
 import no.hiof.mettesh.utdanningsoversikten.R
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
-class EducationAdapter(private val items: ArrayList<Education>, var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>() {
+class EducationAdapter(internal var educationList: List<Education>,
+                       var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>(), Filterable {
+
+    internal var filteredEducationListResult : List<Education> = educationList
+
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(charString: CharSequence?): FilterResults {
+                val charSearch : String = charString.toString()
+                if(charSearch.isEmpty()){
+                    filteredEducationListResult = educationList
+                } else {
+                    val resultList = ArrayList<Education>()
+                    for(row in educationList){
+                        if(row.title.toLowerCase().contains(charSearch.toLowerCase()) || row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase())){
+                            resultList.add(row)
+
+                        }
+                    }
+                    filteredEducationListResult = resultList
+                }
+                val filterResults : FilterResults = Filter.FilterResults()
+                filterResults.values = filteredEducationListResult
+
+                return filterResults
+
+            }
+
+            override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults?) {
+                filteredEducationListResult = filterResults!!.values as List<Education>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+
     override fun getItemCount(): Int {
-        return items.size
+        return filteredEducationListResult.size
     }
 
     // onCreatedViewHolder kalles når det trengs et nytt element i listen
@@ -37,7 +69,7 @@ class EducationAdapter(private val items: ArrayList<Education>, var clickListene
     override fun onBindViewHolder(holder: EducationViewHolder, position: Int) {
 
         // Henter utdanning basert på id sendt med.
-        val currentEducation = items[position]
+        val currentEducation = filteredEducationListResult[position]
 
         // Fyller opp current element med data.
         holder.bind(currentEducation, clickListener)

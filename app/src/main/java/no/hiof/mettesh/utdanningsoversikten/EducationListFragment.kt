@@ -6,18 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
 import kotlinx.android.synthetic.main.fragment_education_list.*
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
+import android.text.TextWatcher as TextWatcher1
 
 
 class EducationListFragment : Fragment() {
+
+    lateinit var adapter: EducationAdapter
 
     // Henter inn liste med utdanninger fra Education-klassen
     private var educationList : ArrayList<Education> = Education.educationlist
@@ -25,6 +31,7 @@ class EducationListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
+        //adapter = EducationAdapter(context!!, educationList
         // Henter inn layout for dette Fragmentet
         return inflater.inflate(R.layout.fragment_education_list, container, false)
     }
@@ -41,7 +48,7 @@ class EducationListFragment : Fragment() {
         loginButton.visibility = View.GONE
 
         openFilterFloatingButton.setOnClickListener {
-            viewBottomSheet()
+            viewBottomSheet(view)
         }
         setUpRecycleView()
     }
@@ -69,12 +76,14 @@ class EducationListFragment : Fragment() {
 
             })
 
+        adapter = educationRecyclerView.adapter as EducationAdapter
+
         // Etter at alt er satt setter vi dette RecyclerView med det layouten vi ønsker.
         educationRecyclerView.layoutManager = GridLayoutManager(context, 1)
 
     }
 
-    private fun viewBottomSheet() {
+    private fun viewBottomSheet(view : View) {
 
         //Sender med contexten, som jeg evt er opprettet. Derav !!
         val dialog = BottomSheetDialog(context!!)
@@ -82,15 +91,37 @@ class EducationListFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
 
-        fillSpinners(view)
-
-    }
-
-    private fun fillSpinners(view : View) {
+        val searchInput : SearchView = view.searchInput
         val spinnerLevel : Spinner = view.spinnerLevel
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
         val spinnerPlace : Spinner = view.spinnerPlace
+        val searchButton : Button = view.filtrerButton
 
+        fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
+
+        searchButton.setOnClickListener {
+
+            System.out.println(spinnerLevel.selectedItem.toString())
+        }
+
+
+        searchInput.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                adapter.filter.filter(newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                adapter.filter.filter(query)
+                return false
+            }
+
+        })
+    }
+
+    private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {
 
         val levelList = arrayOf("Nivå", "Årsstudium", "Bachelor", "Master")
         val studyField = arrayOf("Fagområde", "Helse", "Historie", "Håndverk", "Idrett", "Kjemi", "Kultur")
