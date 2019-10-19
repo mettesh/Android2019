@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -45,7 +42,6 @@ class EducationListFragment : Fragment() {
 
         openFilterFloatingButton.setOnClickListener {
             viewBottomSheet()
-            fillSpinners(view)
         }
         setUpRecycleView()
     }
@@ -86,12 +82,41 @@ class EducationListFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
 
+        fillSpinners(view)
+
     }
 
     private fun fillSpinners(view : View) {
         val spinnerLevel : Spinner = view.spinnerLevel
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
         val spinnerPlace : Spinner = view.spinnerPlace
+
+
+        val levelList = arrayOf("Nivå", "Årsstudium", "Bachelor", "Master")
+        val studyField = arrayOf("Fagområde", "Helse", "Historie", "Håndverk", "Idrett", "Kjemi", "Kultur")
+        val levelPlace = arrayOf("Sted", "Oslo", "Halden", "Fredrikstad")
+
+
+        val levelAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelList)
+        spinnerLevel.adapter = levelAdapter
+
+        val fieldAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, studyField)
+        spinnerStudyField.adapter = fieldAdapter
+
+        val placeAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelPlace)
+        spinnerPlace.adapter = placeAdapter
+
+/*        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        }*/
+
 
 
         // Fylle lister!
