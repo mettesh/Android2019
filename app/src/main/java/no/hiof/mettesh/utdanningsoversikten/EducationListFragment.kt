@@ -96,12 +96,30 @@ class EducationListFragment : Fragment() {
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
         val spinnerPlace : Spinner = view.spinnerPlace
         val searchButton : Button = view.filtrerButton
+        val resetText : TextView = view.resetTextView
 
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
 
         searchButton.setOnClickListener {
 
-            System.out.println(spinnerLevel.selectedItem.toString())
+            if(spinnerLevel.selectedItem.toString() != "Nivå"){
+                adapter.filter.filter(spinnerLevel.selectedItem.toString())
+            }
+            if(spinnerStudyField.selectedItem.toString() != "Fagområde"){
+                adapter.filter.filter(spinnerStudyField.selectedItem.toString())
+            }
+            if(spinnerPlace.selectedItem.toString() != "Sted"){
+                adapter.filter.filter(spinnerPlace.selectedItem.toString())
+            }
+
+            dialog.hide()
+        }
+
+        resetText.setOnClickListener {
+            // Skal nullstille alle feltene!
+
+            setUpRecycleView()
+            dialog.hide()
         }
 
 
@@ -119,6 +137,7 @@ class EducationListFragment : Fragment() {
             }
 
         })
+
     }
 
     private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {

@@ -27,11 +27,12 @@ class EducationAdapter(internal var educationList: List<Education>,
                 if(charSearch.isEmpty()){
                     filteredEducationListResult = educationList
                 } else {
-                    val resultList = ArrayList<Education>()
-                    for(row in educationList){
-                        if(row.title.toLowerCase().contains(charSearch.toLowerCase()) || row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase())){
-                            resultList.add(row)
 
+                    val resultList = ArrayList<Education>()
+
+                    for(row : Education in educationList){
+                        if(educationContainsString(row, charSearch)) {
+                            resultList.add(row)
                         }
                     }
                     filteredEducationListResult = resultList
@@ -47,7 +48,6 @@ class EducationAdapter(internal var educationList: List<Education>,
                 filteredEducationListResult = filterResults!!.values as List<Education>
                 notifyDataSetChanged()
             }
-
         }
     }
 
@@ -117,5 +117,13 @@ class EducationAdapter(internal var educationList: List<Education>,
 
             this.itemView.setOnClickListener(clickListener)
         }
+    }
+
+
+    fun educationContainsString(row : Education, charSearch : String): Boolean {
+        return row.title.toLowerCase().contains(charSearch.toLowerCase()) ||
+                row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
+                row.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
+                row.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())
     }
 }
