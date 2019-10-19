@@ -33,10 +33,11 @@
         android:layout_width="69dp"
         android:layout_height="39dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/s_k"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.921"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/resetTextView"
         app:layout_constraintTop_toBottomOf="@+id/spinnerPlace"
         tools:layout_conversion_absoluteHeight="48dp"
@@ -44,9 +45,11 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/searchInput"
-        android:layout_width="371dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:background="#C7C7C7"
         android:focusableInTouchMode="true"
         android:hint="@string/s_k_etter_ord_i_utdanningen"
@@ -74,9 +77,11 @@
 
     <Spinner
         android:id="@+id/spinnerLevel"
-        android:layout_width="371dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="#854FB3BF"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,9 +90,11 @@
 
     <Spinner
         android:id="@+id/spinnerFieldStudy"
-        android:layout_width="371dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:background="#854FB3BF"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,9 +103,11 @@
 
     <Spinner
         android:id="@+id/spinnerPlace"
-        android:layout_width="371dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
         android:background="#854FB3BF"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,9 +118,9 @@
         android:id="@+id/resetTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Nullstill"
+        android:text="@string/nullstill"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerPlace" />
