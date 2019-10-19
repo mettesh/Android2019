@@ -1,5 +1,6 @@
 package no.hiof.mettesh.utdanningsoversikten
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_education_list.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 
 class FavouriteFragment : Fragment() {
@@ -41,6 +43,7 @@ class FavouriteFragment : Fragment() {
 
     }
 
+    @SuppressLint("RestrictedApi")
     fun viewCorrectElementsInLayout(view : View){
 
         val firebaseCurrentUser = firebaseAuth.currentUser
@@ -48,10 +51,12 @@ class FavouriteFragment : Fragment() {
         val recyclerView : RecyclerView = view.educationRecyclerView
         val loginOrEmptylistTextview : TextView = view.textView_login_or_empty
         val loginButton : Button = view.login_button
+        val filterFloatingButton : FloatingActionButton = view.openFilterFloatingButton
 
         recyclerView.visibility = View.GONE
         loginOrEmptylistTextview.visibility = View.GONE
         loginButton.visibility = View.GONE
+        filterFloatingButton.visibility = View.GONE
 
         if(firebaseCurrentUser == null){
 
