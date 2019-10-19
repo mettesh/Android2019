@@ -82,24 +82,14 @@
             android:layout_marginTop="11dp"
             android:layout_marginBottom="24dp"
             android:text="@string/les_mer"
+            android:textSize="14sp"
+            android:textStyle="bold"
             tool:layout_constraintBottom_toBottomOf="parent"
-            tool:layout_constraintStart_toStartOf="parent"
-            tool:layout_constraintTop_toBottomOf="@+id/educationShortDescription" />
-
-        <TextView
-            android:id="@+id/schoolWeblink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="24dp"
-            android:linksClickable="true"
-            android:text="@string/skolens_nettside"
-            tool:layout_constraintBottom_toBottomOf="parent"
-            tool:layout_constraintEnd_toEndOf="parent"
+            tool:layout_constraintEnd_toStartOf="@+id/favHeart"
             tool:layout_constraintHorizontal_bias="0.0"
-            tool:layout_constraintStart_toEndOf="@+id/readModeTextLink"
-            tool:layout_constraintTop_toBottomOf="@+id/educationShortDescription" />
+            tool:layout_constraintStart_toStartOf="parent"
+            tool:layout_constraintTop_toBottomOf="@+id/educationShortDescription"
+            tool:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/favHeart"

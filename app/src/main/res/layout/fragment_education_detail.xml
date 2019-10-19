@@ -26,7 +26,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
+        android:autoLink="web"
+        android:clickable="true"
+        android:focusable="true"
+        android:linksClickable="true"
+        android:longClickable="false"
         android:text="@string/h_yskolen_i_stfold"
+        android:textColor="#3D57BB"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle" />
@@ -101,5 +107,19 @@
         android:src="@drawable/ic_floating_button_stroke"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/sendToWebImgView"
+        android:layout_width="17dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="3dp"
+        android:contentDescription="@string/send_webbrowser"
+        android:src="@android:drawable/ic_menu_set_as"
+        app:layout_constraintBottom_toTopOf="@+id/detailKravkode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/detailSchoolName"
+        app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle"
+        app:layout_constraintVertical_bias="0.689" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
