@@ -18,7 +18,7 @@ data class School(val schoolId : Int, var schoolTitle : String, var schoolIcon :
                    "https://upload.wikimedia.org/wikipedia/en/d/da/Hi%C3%98_emblem.png",
                    "B R A Veien 4, 1783 Halden",
                    "59.1288539,11.3532008,15",
-                   "www.hiof.no")
+                   "http://www.hiof.no")
 
                 data.add(aSchool)
             }
