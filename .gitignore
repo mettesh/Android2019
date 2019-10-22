@@ -69,3 +69,4 @@ fastlane/readme.md
 **/app/build
 **/projectFilesBackup
 .DS_STORE
+.idea/
