@@ -3,8 +3,10 @@ package no.hiof.mettesh.utdanningsoversikten
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,12 +23,19 @@ import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.CollectionReference
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
+import com.google.firebase.firestore.FirebaseFirestore
+
+
 
 class FavouriteFragment : Fragment() {
 
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
+    private lateinit var firestoreDb: FirebaseFirestore
+    private lateinit var favouritesCollectionReference: CollectionReference
 
 
     private var favouriteEducationList : ArrayList<Education> = Education.favouriteEducationlist
@@ -76,6 +85,11 @@ class FavouriteFragment : Fragment() {
             loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
 
         } else {
+
+            //Hente inn liste fra firestore:
+            //getDataFromFirestore(firebaseCurrentUser)
+
+
             setUpRecycleView()
             recyclerView.visibility = View.VISIBLE
         }
@@ -144,6 +158,19 @@ class FavouriteFragment : Fragment() {
             }
         }
     }
+
+
+    //    private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
+//
+//        firestoreDb = FirebaseFirestore.getInstance()
+//
+//
+//        val docRef = firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString())
+//        docRef.get().addOnSuccessListener { documentSnapshot ->
+//            Education.favouriteEducationlist = documentSnapshot.get("fav") as ArrayList<Education>
+//
+//        }
+//    }
 
     companion object {
         const val RC_SIGN_IN = 1

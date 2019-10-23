@@ -6,7 +6,7 @@ data class Education(val id : Int, val kravkode : String, var title : String, va
     companion object {
 
         val educationlist = ArrayList<Education>()
-        val favouriteEducationlist = ArrayList<Education>()
+        var favouriteEducationlist = ArrayList<Education>()
 
         fun fillEducationList() {
 
