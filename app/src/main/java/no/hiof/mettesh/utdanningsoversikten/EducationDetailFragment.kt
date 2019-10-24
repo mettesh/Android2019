@@ -73,9 +73,9 @@ class EducationDetailFragment : Fragment() {
 
         // Setter bilde på floatingButton etter om den finnes i favoritter
         if(Education.favouriteEducationlist.contains(education)) {
-            favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
-        } else {
             favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
+        } else {
+            favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
         }
 
 
@@ -91,11 +91,12 @@ class EducationDetailFragment : Fragment() {
             } else {
 
                 if (Education.favouriteEducationlist.contains(education)) {
-                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
+                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
 
                     Education.favouriteEducationlist.remove(education)
 
-                    updateFavToFirestore(firebaseCurrentUser)
+                    // Fjerne fra firestore!
+                    removeFavToFirestore(firebaseCurrentUser, education)
 
                     Toast.makeText(
                         context,
@@ -105,12 +106,12 @@ class EducationDetailFragment : Fragment() {
 
                 } else {
 
-                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
+                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
 
                     //Trenger ikke legge til i listen her. Listen skal fylles fra Firestore
                     Education.favouriteEducationlist.add(education)
 
-                    updateFavToFirestore(firebaseCurrentUser)
+                    addFavToFirestore(firebaseCurrentUser, education)
 
                     Toast.makeText(
                         context,
@@ -123,17 +124,21 @@ class EducationDetailFragment : Fragment() {
         }
     }
 
-    private fun updateFavToFirestore(firebaseCurrentUser : FirebaseUser?) {
+    private fun addFavToFirestore(firebaseCurrentUser : FirebaseUser?, education : Education) {
 
-
-        val fav = hashMapOf(
-            "fav" to Education.favouriteEducationlist
-        )
-
-        firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString())
-            .set(fav)
+        firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList")
+            .document(education.id.toString())
+            .set(education)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+    }
+
+    private fun removeFavToFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
+
+        firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList").document(education.id.toString())
+            .delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
     }
 

@@ -79,21 +79,22 @@ class FavouriteFragment : Fragment() {
                 createAuthenticationListener()
             }
 
-        } else if (favouriteEducationList.isEmpty()){
-
-            loginOrEmptylistTextview.visibility = View.VISIBLE
-            loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
-
         } else {
 
             //Hente inn liste fra firestore:
             //getDataFromFirestore(firebaseCurrentUser)
 
+            if (favouriteEducationList.isEmpty()){
 
-            setUpRecycleView()
-            recyclerView.visibility = View.VISIBLE
+                loginOrEmptylistTextview.visibility = View.VISIBLE
+                loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
+
+            } else {
+
+                setUpRecycleView()
+                recyclerView.visibility = View.VISIBLE
+            }
         }
-
     }
 
     override fun onResume() {
@@ -160,14 +161,14 @@ class FavouriteFragment : Fragment() {
     }
 
 
-    //    private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
+//    private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
 //
 //        firestoreDb = FirebaseFirestore.getInstance()
 //
 //
 //        val docRef = firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString())
 //        docRef.get().addOnSuccessListener { documentSnapshot ->
-//            Education.favouriteEducationlist = documentSnapshot.get("fav") as ArrayList<Education>
+//            favouriteEducationList = documentSnapshot.get("fav").
 //
 //        }
 //    }
