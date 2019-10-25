@@ -1,12 +1,19 @@
 package no.hiof.mettesh.utdanningsoversikten.model
 
-data class Education(val id : Int, val kravkode : String, var title : String, var descriptionShort : String, var descriptionLong : String, var school : School, var image : String, var poenggrense : Double) {
-
+data class Education(val id : Int = 0,
+                     val kravkode : String = "",
+                     var title : String = "",
+                     var descriptionShort : String = "",
+                     var descriptionLong : String = "",
+                     var school : School = School(),
+                     var image : String = "",
+                     var poenggrense : Double = 0.0)
+{
 
     companion object {
 
         val educationlist = ArrayList<Education>()
-        val favouriteEducationlist = ArrayList<Education>()
+        var favouriteEducationlist = ArrayList<Education>()
 
         fun fillEducationList() {
 
