@@ -24,38 +24,39 @@ class EducationDetailFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var firestoreDb: FirebaseFirestore
-    private lateinit var favouritesCollectionReference: CollectionReference
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        // Henter inn layout for dette Fragmentet
         return inflater.inflate(R.layout.fragment_education_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
-        val education = Education.educationlist[arguments!!.id]
-
         firebaseAuth = FirebaseAuth.getInstance()
         firestoreDb = FirebaseFirestore.getInstance()
 
+        val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
+        val education = Education.educationlist[arguments!!.id]
         val firebaseCurrentUser = firebaseAuth.currentUser
-        favouritesCollectionReference = firestoreDb.collection("favourites")
 
-        val detailEducationTitleTextView : TextView = view.detailEducationTitle
-        val detailSchoolNameTextView : TextView = view.detailSchoolName
-        val sendToWebImgView : ImageView = view.sendToWebImgView
-        val detailEducationDescriptionTextView : TextView = view.detailEducationDescription
-        val poenggrenseTextView : TextView = view.detailPoenggrense
-        val kravkodeTextView : TextView = view.detailKravkode
-        val favFloatingButton : FloatingActionButton = view.floatingButton_fav
-        val schoolUrl : String = education.school.web
+        setViewContentAndLogic(view, education, firebaseCurrentUser)
+    }
+
+    private fun setViewContentAndLogic(view: View, education: Education, firebaseCurrentUser: FirebaseUser?) {
+
+        val detailEducationTitleTextView: TextView = view.detailEducationTitle
+        val detailSchoolNameTextView: TextView = view.detailSchoolName
+        val sendToWebImgView: ImageView = view.sendToWebImgView
+        val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
+        val poenggrenseTextView: TextView = view.detailPoenggrense
+        val kravkodeTextView: TextView = view.detailKravkode
+        val favFloatingButton: FloatingActionButton = view.floatingButton_fav
+        val schoolUrl: String = education.school.web
 
 
         detailEducationTitleTextView.text = education.title
-        detailSchoolNameTextView.text = education.school.schoolTitle
+        detailSchoolNameTextView.text = education.school!!.schoolTitle
 
         detailSchoolNameTextView.setOnClickListener {
             openWebBroser(schoolUrl)
@@ -70,16 +71,14 @@ class EducationDetailFragment : Fragment() {
         detailEducationDescriptionTextView.text = education.descriptionLong
 
 
-
         // Setter bilde på floatingButton etter om den finnes i favoritter
-        if(Education.favouriteEducationlist.contains(education)) {
+        if (Education.favouriteEducationlist.contains(education)) {
             favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
         } else {
             favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
         }
 
 
-        // Logikk for hva som skal skje når floatingButton trykkes på
         favFloatingButton.setOnClickListener {
             if (firebaseCurrentUser == null) {
                 Toast.makeText(
@@ -93,10 +92,7 @@ class EducationDetailFragment : Fragment() {
                 if (Education.favouriteEducationlist.contains(education)) {
                     favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
 
-                    Education.favouriteEducationlist.remove(education)
-
-                    // Fjerne fra firestore!
-                    removeFavToFirestore(firebaseCurrentUser, education)
+                    removeFavFromFirestore(firebaseCurrentUser, education)
 
                     Toast.makeText(
                         context,
@@ -107,9 +103,6 @@ class EducationDetailFragment : Fragment() {
                 } else {
 
                     favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
-
-                    //Trenger ikke legge til i listen her. Listen skal fylles fra Firestore
-                    Education.favouriteEducationlist.add(education)
 
                     addFavToFirestore(firebaseCurrentUser, education)
 
@@ -133,9 +126,9 @@ class EducationDetailFragment : Fragment() {
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
-    private fun removeFavToFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
+    private fun removeFavFromFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
 
-        firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList").document(education.id.toString())
+        firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList").document(education.id.toString())
             .delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }

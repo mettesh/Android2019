@@ -2,8 +2,12 @@ package no.hiof.mettesh.utdanningsoversikten.model
 
 import no.hiof.mettesh.utdanningsoversikten.R
 
-data class School(val schoolId : Int, var schoolTitle : String, var schoolIcon : String, var schoolAdress : String,
-                  var longLat : String, var web : String ) {
+data class School(val schoolId : Int = 0,
+                  var schoolTitle : String = "",
+                  var schoolIcon : String = "",
+                  var schoolAdress : String = "",
+                  var longLat : String = "",
+                  var web : String = "" ) {
 
 
     companion object {

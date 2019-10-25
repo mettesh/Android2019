@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Movie
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,17 +18,24 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.metalab.asyncawait.async
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_education_list.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.tasks.Tasks.await
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.common.primitives.UnsignedBytes.toInt
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import com.google.firebase.firestore.FirebaseFirestore
-
+import com.google.firebase.firestore.ListenerRegistration
+import no.hiof.mettesh.utdanningsoversikten.AccountFragment.Companion.RC_SIGN_IN
+import no.hiof.mettesh.utdanningsoversikten.model.School
+import java.lang.reflect.Type
+import java.util.concurrent.TimeUnit
 
 
 class FavouriteFragment : Fragment() {
@@ -35,12 +43,11 @@ class FavouriteFragment : Fragment() {
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
     private lateinit var firestoreDb: FirebaseFirestore
-    private lateinit var favouritesCollectionReference: CollectionReference
-
 
     private var favouriteEducationList : ArrayList<Education> = Education.favouriteEducationlist
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
 
         return inflater.inflate(R.layout.fragment_education_list, container, false)
 
@@ -81,8 +88,8 @@ class FavouriteFragment : Fragment() {
 
         } else {
 
-            //Hente inn liste fra firestore:
-            //getDataFromFirestore(firebaseCurrentUser)
+            // TODO: Må vente på kallet. Rekker mest sannsynlig ikke å hente inn data før den går videre i kallet.
+            getDataFromFirestore(firebaseCurrentUser)
 
             if (favouriteEducationList.isEmpty()){
 
@@ -129,7 +136,7 @@ class FavouriteFragment : Fragment() {
 
     private fun createAuthenticationListener() {
 
-        //authStateListener = FirebaseAuth.AuthStateListener {
+        authStateListener = FirebaseAuth.AuthStateListener {
                  startActivityForResult(
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -139,7 +146,7 @@ class FavouriteFragment : Fragment() {
                         .setIsSmartLockEnabled(false)
                         .build(), RC_SIGN_IN
                 )
-        //}
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -160,18 +167,25 @@ class FavouriteFragment : Fragment() {
         }
     }
 
+    private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
 
-//    private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
-//
-//        firestoreDb = FirebaseFirestore.getInstance()
-//
-//
-//        val docRef = firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString())
-//        docRef.get().addOnSuccessListener { documentSnapshot ->
-//            favouriteEducationList = documentSnapshot.get("fav").
-//
-//        }
-//    }
+        firestoreDb = FirebaseFirestore.getInstance()
+
+        val docRef = firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList")
+
+        val eduList = ArrayList<Education>()
+
+        docRef.get().addOnSuccessListener { documentSnapshot ->
+            for (document in documentSnapshot) {
+
+                val education : Education = document.toObject(Education::class.java)
+
+                eduList.add(education)
+            }
+        }
+
+        Education.favouriteEducationlist = eduList
+    }
 
     companion object {
         const val RC_SIGN_IN = 1
