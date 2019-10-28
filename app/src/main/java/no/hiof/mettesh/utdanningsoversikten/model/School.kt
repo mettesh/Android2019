@@ -2,16 +2,27 @@ package no.hiof.mettesh.utdanningsoversikten.model
 
 import no.hiof.mettesh.utdanningsoversikten.R
 
-data class School(val schoolId : Int = 0,
+// Institusjonskode: 0256
+// schoolTitle
+
+
+data class School(val schoolCode : Int = 0,
                   var schoolTitle : String = "",
+                  var schoolShortTitle : String = "",
                   var schoolIcon : String = "",
                   var schoolAdress : String = "",
+                  var schoolZipCode : String = "",
+                  var schoolPhoneNumber : Int = 0,
                   var longLat : String = "",
-                  var web : String = "" ) {
+                  var webPage : String = "" ) {
 
 
     companion object {
-        fun getSchools() : ArrayList<School> {
+
+        val schoolList = ArrayList<School>()
+
+
+        fun fillSchoolList() {
             val data = ArrayList<School>()
 
 
@@ -24,10 +35,8 @@ data class School(val schoolId : Int = 0,
                    "59.1288539,11.3532008,15",
                    "http://www.hiof.no")
 
-                data.add(aSchool)
+                schoolList.add(aSchool)
             }
-
-            return data
         }
     }
 

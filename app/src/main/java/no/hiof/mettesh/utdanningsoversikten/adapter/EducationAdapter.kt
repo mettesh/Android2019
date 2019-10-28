@@ -1,6 +1,5 @@
 package no.hiof.mettesh.utdanningsoversikten.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +95,7 @@ class EducationAdapter(internal var educationList: List<Education>,
                 .fallback(R.drawable.hiof_icon_background)
                 .into(schoolIconImageView)
 
-            educationTitleTextView.text = item.title
+            educationTitleTextView.text = item.educationTitle
 
             schoolNameTextView.text = item.school.schoolTitle
 
@@ -121,7 +120,7 @@ class EducationAdapter(internal var educationList: List<Education>,
 
 
     fun educationContainsString(row : Education, charSearch : String): Boolean {
-        return row.title.toLowerCase().contains(charSearch.toLowerCase()) ||
+        return row.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
                 row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
                 row.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
                 row.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())

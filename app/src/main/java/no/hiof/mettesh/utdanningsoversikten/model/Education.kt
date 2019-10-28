@@ -1,13 +1,15 @@
 package no.hiof.mettesh.utdanningsoversikten.model
 
 data class Education(val id : Int = 0,
-                     val kravkode : String = "",
-                     var title : String = "",
+                     val educationCode : String = "",
+                     val QualificationCode : String = "",
+                     var educationTitle : String = "",
                      var descriptionShort : String = "",
                      var descriptionLong : String = "",
                      var school : School = School(),
                      var image : String = "",
-                     var poenggrense : Double = 0.0)
+                     var pointsRequired : Double = 0.0,
+                     var pointsAcquired : Double = 0.0)
 {
 
     companion object {
@@ -15,6 +17,7 @@ data class Education(val id : Int = 0,
         val educationlist = ArrayList<Education>()
         var favouriteEducationlist = ArrayList<Education>()
 
+        /*
         fun fillEducationList() {
 
             for (i in 0..9){
@@ -29,7 +32,7 @@ data class Education(val id : Int = 0,
                              "hjelp og støtte til å mestre helseutfordringer, sykdom og å ivareta sine grunnleggende behov. " +
                              "Viktige temaer i utdanningen er helse, sykdom, ivaretakelse av grunnleggende behov, mestring, " +
                              "kommunikasjon, samarbeid, og omsorg.",
-                     School.getSchools().get(1),
+                     School.schoolList.get(1),
                      "https://www.hiof.no/om/aktuelt/aktuelle-saker/arkiv/filer/sykepleierfotvaskBH_654.jpg",
                      34.5
                  )
@@ -38,6 +41,7 @@ data class Education(val id : Int = 0,
 
             }
         }
+         */
     }
 
 }
