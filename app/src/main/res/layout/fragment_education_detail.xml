@@ -10,8 +10,9 @@
 
     <TextView
         android:id="@+id/detailEducationTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
         android:text="@string/bacheleor_i_sykepleie_heltid"
         android:textSize="24sp"
@@ -102,8 +103,8 @@
         android:id="@+id/floatingButton_fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="72dp"
         android:src="@drawable/ic_floating_button_stroke"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
