@@ -124,7 +124,7 @@ class AccountFragment : Fragment() {
 
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(context, "Innlogging avbrutt", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Innlogging avbrutt. For å kunne logge inn må enheten må være koblet til internett", Toast.LENGTH_SHORT).show()
             }
         }
     }

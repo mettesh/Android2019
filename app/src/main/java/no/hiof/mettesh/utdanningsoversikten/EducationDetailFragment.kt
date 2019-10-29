@@ -15,7 +15,6 @@ import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
@@ -37,10 +36,10 @@ class EducationDetailFragment : Fragment() {
         firestoreDb = FirebaseFirestore.getInstance()
 
         val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
-        val education = Education.educationlist[arguments!!.id]
+        val education = Education.educationlist.find { it.id == arguments!!.id }
         val firebaseCurrentUser = firebaseAuth.currentUser
 
-        setViewContentAndLogic(view, education, firebaseCurrentUser)
+        setViewContentAndLogic(view, education!!, firebaseCurrentUser)
     }
 
     private fun setViewContentAndLogic(view: View, education: Education, firebaseCurrentUser: FirebaseUser?) {
@@ -52,10 +51,10 @@ class EducationDetailFragment : Fragment() {
         val poenggrenseTextView: TextView = view.detailPoenggrense
         val kravkodeTextView: TextView = view.detailKravkode
         val favFloatingButton: FloatingActionButton = view.floatingButton_fav
-        val schoolUrl: String = education.school.web
+        val schoolUrl: String = education.school.webPage
 
 
-        detailEducationTitleTextView.text = education.title
+        detailEducationTitleTextView.text = education.educationTitle
         detailSchoolNameTextView.text = education.school!!.schoolTitle
 
         detailSchoolNameTextView.setOnClickListener {
@@ -66,8 +65,8 @@ class EducationDetailFragment : Fragment() {
             openWebBroser(schoolUrl)
         }
 
-        kravkodeTextView.text = education.kravkode
-        poenggrenseTextView.text = education.poenggrense.toString()
+        kravkodeTextView.text = education.QualificationCode
+        poenggrenseTextView.text = education.pointsRequired.toString()
         detailEducationDescriptionTextView.text = education.descriptionLong
 
 
@@ -96,7 +95,7 @@ class EducationDetailFragment : Fragment() {
 
                     Toast.makeText(
                         context,
-                        education.title + " er fjernet fra favoritter",
+                        education.educationTitle + " er fjernet fra favoritter",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -108,7 +107,7 @@ class EducationDetailFragment : Fragment() {
 
                     Toast.makeText(
                         context,
-                        education.title + " er lagt til i favoritter",
+                        education.educationTitle + " er lagt til i favoritter",
                         Toast.LENGTH_SHORT
                     ).show()
 
