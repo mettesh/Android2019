@@ -2,6 +2,8 @@ package no.hiof.mettesh.utdanningsoversikten
 
 
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -54,10 +56,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun placeMarkersOnMap() {
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_school_yellow_24dp)
         // Markerer alle skolene
         // TODO: Legge til flere skoler
-        gmap.addMarker(MarkerOptions().position(HIOFH).title("Høgskolen i Østfold"))
-        gmap.addMarker(MarkerOptions().position(HIOFF).title("Høgskolen i Østfold - avd. Fredrikstad"))
+        gmap.addMarker(MarkerOptions()
+            .position(HIOFH)
+            .title("Høgskolen i Østfold")
+            .snippet("Høgskolen i Østfold er kjempestor og har masse elever og du kan gjøre masse ting her. Les mer her '<a href='hiof.no>Hiof.no</a>'")
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_school_black_36)))
+
+        gmap.addMarker(MarkerOptions()
+            .position(HIOFF)
+            .title("Høgskolen i Østfold - avd. Fredrikstad")
+            .snippet("Tralala")
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.baseline_school_black_36)))
     }
 
     //Setter opp UI etter at bruker har godkjent bruk av lokasjon
