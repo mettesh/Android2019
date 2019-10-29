@@ -10,8 +10,9 @@
 
     <TextView
         android:id="@+id/detailEducationTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
         android:text="@string/bacheleor_i_sykepleie_heltid"
         android:textSize="24sp"
