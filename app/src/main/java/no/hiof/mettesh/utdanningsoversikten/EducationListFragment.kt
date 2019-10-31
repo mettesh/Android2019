@@ -49,7 +49,10 @@ class EducationListFragment : Fragment() {
         setUpRecycleView()
     }
 
-
+    override fun onResume() {
+        adapter.notifyDataSetChanged()
+        super.onResume()
+    }
 
     private fun setUpRecycleView() {
 
@@ -80,6 +83,11 @@ class EducationListFragment : Fragment() {
     }
 
     private fun viewBottomSheet(view : View) {
+
+
+        // TODO: AddTextChanged. . . Legge til edu i ny liste som settes til recyclerview.
+        // TODO: Endre til vanlig inputfelt.
+        // TODO: AutoOnComplete?? 
 
         //Sender med contexten, som jeg evt er opprettet. Derav !!
         val dialog = BottomSheetDialog(context!!)

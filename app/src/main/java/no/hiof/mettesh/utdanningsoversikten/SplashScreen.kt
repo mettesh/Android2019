@@ -17,6 +17,7 @@ class SplashScreen : AppCompatActivity() {
 
         animateHeader()
 
+        // TODO: addOnSuccessListene -> Laste ned data også her
         Handler().postDelayed({
             startActivity(Intent(this@SplashScreen, MainActivity::class.java))
             finish()

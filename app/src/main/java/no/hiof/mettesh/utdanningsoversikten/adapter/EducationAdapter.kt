@@ -18,13 +18,15 @@ class EducationAdapter(internal var educationList: List<Education>,
 
     internal var filteredEducationListResult : List<Education> = educationList
 
+    internal var educationListCopy : List<Education> = educationList.toMutableList()
+
 
     override fun getFilter(): Filter {
         return object : Filter(){
             override fun performFiltering(charString: CharSequence?): FilterResults {
                 val charSearch : String = charString.toString()
                 if(charSearch.isEmpty()){
-                    filteredEducationListResult = educationList
+                    filteredEducationListResult = educationListCopy.toMutableList()
                 } else {
 
                     val resultList = ArrayList<Education>()
@@ -44,14 +46,15 @@ class EducationAdapter(internal var educationList: List<Education>,
             }
 
             override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults?) {
-                filteredEducationListResult = filterResults!!.values as List<Education>
+                educationList = educationListCopy.toMutableList()
+                educationList = filterResults!!.values as List<Education>
                 notifyDataSetChanged()
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return filteredEducationListResult.size
+        return educationList.size
     }
 
     // onCreatedViewHolder kalles når det trengs et nytt element i listen
