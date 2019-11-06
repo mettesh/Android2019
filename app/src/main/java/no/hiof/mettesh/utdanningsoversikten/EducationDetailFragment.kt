@@ -126,7 +126,7 @@ class EducationDetailFragment : Fragment() {
         firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList")
             .document(education.id.toString())
             .set(education)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+            .addOnSuccessListener { Log.d(TAG, "Education successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
 
         Education.favouriteEducationlist.add(education)
@@ -136,7 +136,7 @@ class EducationDetailFragment : Fragment() {
 
         firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList").document(education.id.toString())
             .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnSuccessListener { Log.d(TAG, "Education successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
         Education.favouriteEducationlist.remove(education)

@@ -101,7 +101,7 @@
             android:contentDescription="@string/heart"
             tool:layout_constraintBottom_toBottomOf="parent"
             tool:layout_constraintEnd_toEndOf="parent"
-            tool:srcCompat="@drawable/ic_fav_heart_fill" />
+            tool:srcCompat="@drawable/ic_favorite_plight_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

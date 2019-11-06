@@ -3,7 +3,9 @@ package no.hiof.mettesh.utdanningsoversikten
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -66,8 +68,6 @@ class FavouriteFragment : Fragment() {
 
         val firebaseCurrentUser = firebaseAuth.currentUser
 
-
-
         recyclerView.visibility = View.GONE
         loginOrEmptylistTextview.visibility = View.GONE
         loginButton.visibility = View.GONE
@@ -82,13 +82,17 @@ class FavouriteFragment : Fragment() {
 
             loginButton.setOnClickListener {
 
-                createAuthenticationListener()
+                if (context!!.isConnectedToNetwork()){
+                    createAuthenticationListener()
+                } else {
+                    Toast.makeText(context, "Du må være tilkoblet internett for å kunne logge inn", Toast.LENGTH_SHORT).show()
+
+                }
             }
 
         } else {
 
             getDataFromFirestore(firebaseCurrentUser)
-
 
         }
     }
@@ -120,17 +124,15 @@ class FavouriteFragment : Fragment() {
 
     private fun createAuthenticationListener() {
 
-        authStateListener = FirebaseAuth.AuthStateListener {
-                 startActivityForResult(
-                    AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders( arrayListOf(
-                            AuthUI.IdpConfig.GoogleBuilder().build(),
-                            AuthUI.IdpConfig.EmailBuilder().build()))
-                        .setIsSmartLockEnabled(false)
-                        .build(), RC_SIGN_IN
-                )
-        }
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders( arrayListOf(
+                    AuthUI.IdpConfig.GoogleBuilder().build(),
+                    AuthUI.IdpConfig.EmailBuilder().build()))
+                .setIsSmartLockEnabled(false)
+                .build(), RC_SIGN_IN
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -181,6 +183,11 @@ class FavouriteFragment : Fragment() {
                 recyclerView.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun Context.isConnectedToNetwork(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
 
     companion object {

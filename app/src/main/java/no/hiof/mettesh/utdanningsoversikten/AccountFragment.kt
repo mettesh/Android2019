@@ -2,7 +2,9 @@ package no.hiof.mettesh.utdanningsoversikten
 
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -60,7 +62,12 @@ class AccountFragment : Fragment() {
 
             loginButton.setOnClickListener {
 
-                createAuthenticationListener()
+                if (context!!.isConnectedToNetwork()){
+                    createAuthenticationListener()
+                } else {
+                    Toast.makeText(context, "Du må være tilkoblet internett for å kunne logge inn", Toast.LENGTH_SHORT).show()
+
+                }
             }
 
         } else {
@@ -124,9 +131,14 @@ class AccountFragment : Fragment() {
 
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(context, "Innlogging avbrutt. For å kunne logge inn må enheten må være koblet til internett", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Innlogging avbrutt", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    fun Context.isConnectedToNetwork(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
 
     companion object {
