@@ -1,11 +1,5 @@
 package no.hiof.mettesh.utdanningsoversikten.model
 
-import no.hiof.mettesh.utdanningsoversikten.R
-
-// Institusjonskode: 0256
-// schoolTitle
-
-
 data class School(val schoolCode : Int = 0,
                   var schoolTitle : String = "",
                   var schoolShortTitle : String = "",

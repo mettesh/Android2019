@@ -15,16 +15,10 @@ import kotlinx.android.synthetic.main.fragment_education_list.*
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
-import android.R.id.edit
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.bottom_sheet.*
 import no.hiof.mettesh.utdanningsoversikten.model.School
-import java.util.Collections.replaceAll
-
-
 
 
 class EducationListFragment : Fragment() {
@@ -60,7 +54,6 @@ class EducationListFragment : Fragment() {
     }
 
 
-
     override fun onResume() {
         adapter.notifyDataSetChanged()
         super.onResume()
@@ -68,28 +61,16 @@ class EducationListFragment : Fragment() {
 
     private fun setUpRecycleView(educationList: List<Education>) {
 
-            // Bruker adapteren for å binde layout og RecyclerView
         educationRecyclerView.adapter = EducationAdapter(educationList, View.OnClickListener { view ->
 
-
-                // Får posisjonen til elementet i lista som er trykket på
-                val position = educationRecyclerView.getChildAdapterPosition(view)
-
-                // Får deretter riktig utdannning paserte på denne posisjonen
-                val clickedEducation = educationList[position]
-
-                // Oppretter navigasjonen (utifra nav_graph.xml) og sender med id til utdanningen.
-                val action = EducationListFragmentDirections.actionEducationListFragmentToEducationDetailFragment(clickedEducation.id)
-
-                // Navigerer til EducationDetailFragment
-                findNavController().navigate(action)
-
-
-            })
+            val position = educationRecyclerView.getChildAdapterPosition(view)
+            val clickedEducation = educationList[position]
+            val action = EducationListFragmentDirections.actionEducationListFragmentToEducationDetailFragment(clickedEducation.id)
+            findNavController().navigate(action)
+        })
 
         adapter = educationRecyclerView.adapter as EducationAdapter
 
-        // Etter at alt er satt setter vi dette RecyclerView med det layouten vi ønsker.
         educationRecyclerView.layoutManager = GridLayoutManager(context, 1)
 
     }
@@ -181,7 +162,7 @@ class EducationListFragment : Fragment() {
         return filteredList
     }
 
-    fun educationContainsString(edu : Education, charSearch : String): Boolean {
+    private fun educationContainsString(edu : Education, charSearch : String): Boolean {
         return edu.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
                 edu.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
                 edu.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
@@ -190,7 +171,6 @@ class EducationListFragment : Fragment() {
 
     private fun educationInfoContainsChosenSpinnersInfo(education: Education, chosenPlace: String, chosenLevel: String, chosenStudyField: String): Boolean {
 
-        // TODO: Finne steder basert på zip-code!!
         return education.school.place.contains(chosenPlace)
                 && education.level.contains(chosenLevel)
                 && education.studyField.contains(chosenStudyField)
@@ -208,7 +188,7 @@ class EducationListFragment : Fragment() {
 //            "Arkitektur","Audiograf","Veterinær og dyrepleie","Reseptar","Bibliotekar","Politi","Militær","Militær","Andre"
 //        )
 
-        // Fyller listene etter dataen som er tilgjengelig:
+        // Fyller nå isteden listene etter dataen som er tilgjengelig:
 
         val levelList = ArrayList<String>()
         val studyField = ArrayList<String>()

@@ -18,11 +18,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Fyller lista med skoler og utdanninger (Midlertidig til vi få hentet data fra API)
-        //School.fillSchoolList()
-        //Education.fillEducationList()
-
-        // Leser json fil som oppretter utdannings-objekter
         readSchoolJsonFile()
         readEducationJsonFile()
 
@@ -45,7 +40,6 @@ class MainActivity : AppCompatActivity() {
 
             for(i in 0..jsonArray.length()-1){
 
-
                 val jsonSchoolObject = jsonArray.getJSONObject(i)
 
                 val schoolCode = (jsonSchoolObject.get("Institusjonskode") as String).toInt()
@@ -54,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 val schoolAdress = jsonSchoolObject.get("Adresse").toString()
                 val schoolZipCode = jsonSchoolObject.get("Postnummer").toString()
                 var schoolPhoneNumber = jsonSchoolObject.get("Telefon")
+                val webPage = jsonSchoolObject.get("Nettside").toString()
                 var place = getPlaceCSVFileBasedOnZipCode(schoolZipCode)
 
                 if( schoolPhoneNumber.equals(null) || schoolPhoneNumber.equals("")){
@@ -63,11 +58,7 @@ class MainActivity : AppCompatActivity() {
                     schoolPhoneNumber = (jsonSchoolObject.get("Telefon") as String).toInt()
                 }
 
-                val webPage = jsonSchoolObject.get("Nettside").toString()
 
-                println(jsonSchoolObject.get("Institusjonskode"))
-
-                // Skal lage nye edu-obj
                 val newSchool = School(
                     schoolCode,
                     schoolTitle,
@@ -81,12 +72,9 @@ class MainActivity : AppCompatActivity() {
                     place
                 )
 
-
-                // Deretter legge de i listen!
                 if(!School.schoolList.contains(newSchool)){
                     School.schoolList.add(newSchool)
                 }
-
             }
 
         }
@@ -117,7 +105,6 @@ class MainActivity : AppCompatActivity() {
                 var studyField = convertStudyFieldToString((jsonEducationObject.get("Studiumkode").toString()))
                 val level = convertLevelCodeToString((jsonEducationObject.get("Nivåkode").toString()))
 
-                // Skal lage nye edu-obj
                 val newEducation = Education(
                     i, // Mangler fra JSON
                     educationCode,

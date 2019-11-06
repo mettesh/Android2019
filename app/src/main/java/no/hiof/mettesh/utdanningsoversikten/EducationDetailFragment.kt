@@ -38,8 +38,6 @@ class EducationDetailFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         firestoreDb = FirebaseFirestore.getInstance()
 
-
-
         val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
         val education = Education.educationlist.find { it.id == arguments!!.id }
         val firebaseCurrentUser = firebaseAuth.currentUser
