@@ -15,6 +15,10 @@ import kotlinx.android.synthetic.main.fragment_education_list.*
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
+import android.R.id.edit
+import java.util.Collections.replaceAll
+
+
 
 
 class EducationListFragment : Fragment() {
@@ -46,15 +50,17 @@ class EducationListFragment : Fragment() {
         openFilterFloatingButton.setOnClickListener {
             viewBottomSheet(view)
         }
-        setUpRecycleView()
+        setUpRecycleView(educationList)
     }
+
+
 
     override fun onResume() {
         adapter.notifyDataSetChanged()
         super.onResume()
     }
 
-    private fun setUpRecycleView() {
+    private fun setUpRecycleView(educationList: List<Education>) {
 
             // Bruker adapteren for å binde layout og RecyclerView
         educationRecyclerView.adapter = EducationAdapter(educationList, View.OnClickListener { view ->
@@ -85,17 +91,20 @@ class EducationListFragment : Fragment() {
     private fun viewBottomSheet(view : View) {
 
 
-        // TODO: AddTextChanged. . . Legge til edu i ny liste som settes til recyclerview.
-        // TODO: Endre til vanlig inputfelt.
+
         // TODO: AutoOnComplete?? 
 
         //Sender med contexten, som jeg evt er opprettet. Derav !!
+
         val dialog = BottomSheetDialog(context!!)
+
         val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
+
         dialog.setContentView(view)
         dialog.show()
 
         val searchInput : SearchView = view.searchInput
+
         val spinnerLevel : Spinner = view.spinnerLevel
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
         val spinnerPlace : Spinner = view.spinnerPlace
@@ -107,13 +116,13 @@ class EducationListFragment : Fragment() {
         searchButton.setOnClickListener {
 
             if(spinnerLevel.selectedItem.toString() != "Nivå"){
-                adapter.filter.filter(spinnerLevel.selectedItem.toString())
+               // adapter.filter.filter(spinnerLevel.selectedItem.toString())
             }
             if(spinnerStudyField.selectedItem.toString() != "Fagområde"){
-                adapter.filter.filter(spinnerStudyField.selectedItem.toString())
+               // adapter.filter.filter(spinnerStudyField.selectedItem.toString())
             }
             if(spinnerPlace.selectedItem.toString() != "Sted"){
-                adapter.filter.filter(spinnerPlace.selectedItem.toString())
+               // adapter.filter.filter(spinnerPlace.selectedItem.toString())
             }
 
             dialog.hide()
@@ -122,26 +131,57 @@ class EducationListFragment : Fragment() {
         resetText.setOnClickListener {
             // Skal nullstille alle feltene!
 
-            setUpRecycleView()
+            setUpRecycleView(educationList)
             dialog.hide()
         }
 
 
+
+        // TODO: Endre til vanlig inputfelt.
+
+
         searchInput.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-            override fun onQueryTextChange(newText: String?): Boolean {
+            override fun onQueryTextChange(searchInput: String?): Boolean {
 
-                adapter.filter.filter(newText)
-                return false
+                val filteredModelList = filter(educationList, searchInput!!)
+                setUpRecycleView(filteredModelList)
+                return true
             }
 
-            override fun onQueryTextSubmit(query: String): Boolean {
-                adapter.filter.filter(query)
-                return false
+            override fun onQueryTextSubmit(searchInput: String): Boolean {
+                //adapter.filter.filter(query)
+
+                val filteredModelList = filter(educationList, searchInput)
+                setUpRecycleView(filteredModelList)
+                return true
             }
 
         })
 
+    }
+
+    private fun filter(educationList: List<Education>, searchInput: String): List<Education> {
+
+        val filteredList = ArrayList<Education>()
+        if(searchInput.isEmpty()){
+            return educationList
+
+        } else {
+            for(row : Education in educationList){
+                if(educationContainsString(row, searchInput.toLowerCase())) {
+                    filteredList.add(row)
+                }
+            }
+        }
+        return filteredList
+    }
+
+    fun educationContainsString(row : Education, charSearch : String): Boolean {
+        return row.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
+                row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
+                row.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
+                row.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())
     }
 
     private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {

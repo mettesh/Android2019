@@ -14,73 +14,29 @@ import no.hiof.mettesh.utdanningsoversikten.R
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class EducationAdapter(internal var educationList: List<Education>,
-                       var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>(), Filterable {
+                       var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>() {
 
     internal var filteredEducationListResult : List<Education> = educationList
-
-    internal var educationListCopy : List<Education> = educationList.toMutableList()
-
-
-    override fun getFilter(): Filter {
-        return object : Filter(){
-            override fun performFiltering(charString: CharSequence?): FilterResults {
-                val charSearch : String = charString.toString()
-                if(charSearch.isEmpty()){
-                    filteredEducationListResult = educationListCopy.toMutableList()
-                } else {
-
-                    val resultList = ArrayList<Education>()
-
-                    for(row : Education in educationList){
-                        if(educationContainsString(row, charSearch)) {
-                            resultList.add(row)
-                        }
-                    }
-                    filteredEducationListResult = resultList
-                }
-                val filterResults : FilterResults = Filter.FilterResults()
-                filterResults.values = filteredEducationListResult
-
-                return filterResults
-
-            }
-
-            override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults?) {
-                educationList = educationListCopy.toMutableList()
-                educationList = filterResults!!.values as List<Education>
-                notifyDataSetChanged()
-            }
-        }
-    }
 
     override fun getItemCount(): Int {
         return educationList.size
     }
 
-    // onCreatedViewHolder kalles når det trengs et nytt element i listen
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EducationViewHolder {
 
-        // Instansierer riktig xml-fil inn i riktig view som den tilhører
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.education_list_item, parent, false)
-
-        // Oppretter viewHolderen med riktig view.
         return EducationViewHolder(itemView)
     }
 
     // onBindViewHolder kalles når data blir satt til en spesifik viewHolder
     override fun onBindViewHolder(holder: EducationViewHolder, position: Int) {
 
-        // Henter utdanning basert på id sendt med.
         val currentEducation = filteredEducationListResult[position]
-
-        // Fyller opp current element med data.
         holder.bind(currentEducation, clickListener)
     }
 
     class EducationViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
-
-        // Henter inn en referanse til alle view-ene vi skal fylle med data:
         private val schoolIconImageView : ImageView = view.schoolIcon
         private val educationTitleTextView : TextView = view.educationTitle
         private val schoolNameTextView : TextView = view.schoolName
@@ -119,13 +75,5 @@ class EducationAdapter(internal var educationList: List<Education>,
 
             this.itemView.setOnClickListener(clickListener)
         }
-    }
-
-
-    fun educationContainsString(row : Education, charSearch : String): Boolean {
-        return row.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
-                row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
-                row.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
-                row.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())
     }
 }
