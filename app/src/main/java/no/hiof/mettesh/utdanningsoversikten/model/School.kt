@@ -14,7 +14,8 @@ data class School(val schoolCode : Int = 0,
                   var schoolZipCode : String = "",
                   var schoolPhoneNumber : Int = 0,
                   var longLat : String = "",
-                  var webPage : String = "" ) {
+                  var webPage : String = "",
+                  var place : String = "") {
 
 
     companion object {

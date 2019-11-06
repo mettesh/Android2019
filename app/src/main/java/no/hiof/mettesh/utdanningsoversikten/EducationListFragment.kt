@@ -20,6 +20,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.bottom_sheet.*
+import no.hiof.mettesh.utdanningsoversikten.model.School
 import java.util.Collections.replaceAll
 
 
@@ -94,12 +96,6 @@ class EducationListFragment : Fragment() {
 
     private fun viewBottomSheet(view : View) {
 
-
-
-        // TODO: AutoOnComplete?? 
-
-        //Sender med contexten, som jeg evt er opprettet. Derav !!
-
         val dialog = BottomSheetDialog(context!!)
 
         val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
@@ -117,80 +113,127 @@ class EducationListFragment : Fragment() {
 
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
 
-        searchButton.setOnClickListener {
-
-            if(spinnerLevel.selectedItem.toString() != "Nivå"){
-               // adapter.filter.filter(spinnerLevel.selectedItem.toString())
-            }
-            if(spinnerStudyField.selectedItem.toString() != "Fagområde"){
-               // adapter.filter.filter(spinnerStudyField.selectedItem.toString())
-            }
-            if(spinnerPlace.selectedItem.toString() != "Sted"){
-               // adapter.filter.filter(spinnerPlace.selectedItem.toString())
-            }
-
-            dialog.hide()
-        }
-
-        resetText.setOnClickListener {
-            // Skal nullstille alle feltene!
-
-            setUpRecycleView(educationList)
-            dialog.hide()
-        }
-
-
-
-        // TODO: Endre til vanlig inputfelt.
-
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
             }
 
             override fun beforeTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val filteredModelList = filter(educationList, searchInput.toString())
+                val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
             }
 
             override fun onTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val filteredModelList = filter(educationList, searchInput.toString())
+                val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
             }
 
         })
 
+        searchButton.setOnClickListener {
+
+            // Om det er noe valgt i nedtrekkslisten blir dette hetet ut, ellers hentes "" ut
+            val chosenLevel = if(spinnerLevel.selectedItem.toString().equals("Nivå")) "" else spinnerLevel.selectedItem.toString()
+            val chosenStudyField = if(spinnerStudyField.selectedItem.toString().equals("Fagområde")) "" else spinnerStudyField.selectedItem.toString()
+            val chosenPlace = if(spinnerPlace.selectedItem.toString().equals("Sted")) "" else spinnerPlace.selectedItem.toString()
+
+            val filteredList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace)
+
+            setUpRecycleView(filteredList)
+
+            dialog.hide()
+        }
+
+        resetText.setOnClickListener {
+            setUpRecycleView(educationList)
+            dialog.hide()
+        }
     }
 
-    private fun filter(educationList: List<Education>, searchInput: String): List<Education> {
+    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String): List<Education>{
+
+        val filteredList = ArrayList<Education>()
+
+        for(education : Education in educationList){
+
+            if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)){
+                filteredList.add(education)
+            }
+        }
+
+        return filteredList
+
+    }
+
+    private fun filterFromSearch(educationList: List<Education>, searchInput: String): List<Education> {
 
         val filteredList = ArrayList<Education>()
         if(searchInput.isEmpty()){
             return educationList
 
         } else {
-            for(row : Education in educationList){
-                if(educationContainsString(row, searchInput.toLowerCase())) {
-                    filteredList.add(row)
+            for(education : Education in educationList){
+                if(educationContainsString(education, searchInput.toLowerCase())) {
+                    filteredList.add(education)
                 }
             }
         }
         return filteredList
     }
 
-    fun educationContainsString(row : Education, charSearch : String): Boolean {
-        return row.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
-                row.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
-                row.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
-                row.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())
+    fun educationContainsString(edu : Education, charSearch : String): Boolean {
+        return edu.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
+                edu.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
+                edu.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
+                edu.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())
+    }
+
+    private fun educationInfoContainsChosenSpinnersInfo(education: Education, chosenPlace: String, chosenLevel: String, chosenStudyField: String): Boolean {
+
+        // TODO: Finne steder basert på zip-code!!
+        return education.school.place.contains(chosenPlace)
+                && education.level.contains(chosenLevel)
+                && education.studyField.contains(chosenStudyField)
+
     }
 
     private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {
 
-        val levelList = arrayOf("Nivå", "Årsstudium", "Bachelor", "Master")
-        val studyField = arrayOf("Fagområde", "Helse", "Historie", "Håndverk", "Idrett", "Kjemi", "Kultur")
-        val levelPlace = arrayOf("Sted", "Oslo", "Halden", "Fredrikstad")
+//        val levelList = arrayOf("Nivå", "Videregående", "Årsenhet", "Bachelorgrad", "Mastergrad", "Profesjonsstudium", "Forskerutdanning", "Andre")
 
+//        val studyField = arrayOf("Fagområde", "Lærer", "Journalistikk","Pedagogikk","Matematisk-naturvitenskapelig/informatikk",
+//            "Historisk-filosofi","Design","Videregående","Samfunnsvitenskap","Helsefag","Barnevern","Økonomi","Idrett","Juss",
+//            "Sosionom","Ernæring","Ergoterapi","Fysioterapi","Radiografi","Ingeniør","Teknologi","Døvetolk","Scene- og visuellkunst",
+//            "Musikk","Maritim","Landbruk","Psykologi","Miljø","Tannpleie","Odontologi","Medisin","Farmasi","Teologi","Fiskeri","Kunst",
+//            "Arkitektur","Audiograf","Veterinær og dyrepleie","Reseptar","Bibliotekar","Politi","Militær","Militær","Andre"
+//        )
+
+        // Fyller listene etter dataen som er tilgjengelig:
+
+        val levelList = ArrayList<String>()
+        val studyField = ArrayList<String>()
+        val place = ArrayList<String>()
+
+        levelList.add("Nivå")
+        studyField.add("Fagområde")
+        place.add("Sted")
+
+        for(education in Education.educationlist){
+
+            if(!studyField.contains(education.studyField)){
+                studyField.add(education.studyField)
+            }
+
+            if(!levelList.contains(education.level)){
+                levelList.add(education.level)
+            }
+        }
+
+        for(school in School.schoolList){
+            if(!place.contains(school.place)){
+                place.add(school.place)
+            }
+        }
 
         val levelAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelList)
         spinnerLevel.adapter = levelAdapter
@@ -198,22 +241,8 @@ class EducationListFragment : Fragment() {
         val fieldAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, studyField)
         spinnerStudyField.adapter = fieldAdapter
 
-        val placeAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelPlace)
+        val placeAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, place)
         spinnerPlace.adapter = placeAdapter
 
-/*        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        }*/
-
-
-
-        // Fylle lister!
     }
 }

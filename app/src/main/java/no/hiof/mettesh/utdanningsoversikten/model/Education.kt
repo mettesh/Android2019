@@ -9,7 +9,9 @@ data class Education(val id : Int = 0,
                      var school : School = School(),
                      var image : String = "",
                      var pointsRequired : Double = 0.0,
-                     var pointsAcquired : Double = 0.0)
+                     var pointsAcquired : Double = 0.0,
+                     var level : String = "",
+                     var studyField : String = "")
 {
 
     companion object {
