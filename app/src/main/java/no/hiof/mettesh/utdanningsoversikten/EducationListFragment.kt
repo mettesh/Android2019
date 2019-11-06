@@ -16,6 +16,10 @@ import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import android.R.id.edit
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.core.widget.addTextChangedListener
+import com.google.android.material.textfield.TextInputEditText
 import java.util.Collections.replaceAll
 
 
@@ -103,7 +107,7 @@ class EducationListFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
 
-        val searchInput : SearchView = view.searchInput
+        val searchInput : TextInputEditText = view.searchInput
 
         val spinnerLevel : Spinner = view.spinnerLevel
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
@@ -139,22 +143,19 @@ class EducationListFragment : Fragment() {
 
         // TODO: Endre til vanlig inputfelt.
 
+        searchInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
 
-        searchInput.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextChange(searchInput: String?): Boolean {
-
-                val filteredModelList = filter(educationList, searchInput!!)
-                setUpRecycleView(filteredModelList)
-                return true
             }
 
-            override fun onQueryTextSubmit(searchInput: String): Boolean {
-                //adapter.filter.filter(query)
-
-                val filteredModelList = filter(educationList, searchInput)
+            override fun beforeTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val filteredModelList = filter(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
-                return true
+            }
+
+            override fun onTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val filteredModelList = filter(educationList, searchInput.toString())
+                setUpRecycleView(filteredModelList)
             }
 
         })
