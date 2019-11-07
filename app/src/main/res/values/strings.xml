@@ -34,7 +34,7 @@
     <string name="heart">Heart</string>
     <string name="send_webbrowser">Send webBrowser</string>
     <string name="filtrer_s_ket">Filtrer søket</string>
-    <string name="s_k_etter_ord_i_utdanningen">Søk etter ord i utdanningen</string>
+    <string name="s_k_etter_ord_i_utdanningen">🔎 Søk etter ord i utdanningen</string>
     <string name="s_k">Søk</string>
     <string name="nullstill">Nullstill</string>
 </resources>

@@ -3,8 +3,11 @@ package no.hiof.mettesh.utdanningsoversikten
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +34,14 @@ class FavouriteFragment : Fragment() {
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
     private lateinit var firestoreDb: FirebaseFirestore
+    private var TAG : String = "TAG"
 
-    private var favouriteEducationList : ArrayList<Education> = Education.favouriteEducationlist
+    private var favouriteEducationList: ArrayList<Education> = Education.favouriteEducationlist
+
+    lateinit var recyclerView : RecyclerView
+    lateinit var loginOrEmptylistTextview : TextView
+    lateinit var loginButton : Button
+    lateinit var filterFloatingButton : FloatingActionButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -43,7 +52,14 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
 
+        recyclerView= view.educationRecyclerView
+        loginOrEmptylistTextview = view.textView_login_or_empty
+        loginButton = view.login_button
+        filterFloatingButton = view.openFilterFloatingButton
+
         viewCorrectElementsInLayout(view)
+
+
 
     }
 
@@ -51,11 +67,6 @@ class FavouriteFragment : Fragment() {
     fun viewCorrectElementsInLayout(view : View){
 
         val firebaseCurrentUser = firebaseAuth.currentUser
-
-        val recyclerView : RecyclerView = view.educationRecyclerView
-        val loginOrEmptylistTextview : TextView = view.textView_login_or_empty
-        val loginButton : Button = view.login_button
-        val filterFloatingButton : FloatingActionButton = view.openFilterFloatingButton
 
         recyclerView.visibility = View.GONE
         loginOrEmptylistTextview.visibility = View.GONE
@@ -71,70 +82,57 @@ class FavouriteFragment : Fragment() {
 
             loginButton.setOnClickListener {
 
-                createAuthenticationListener()
+                if (context!!.isConnectedToNetwork()){
+                    createAuthenticationListener()
+                } else {
+                    Toast.makeText(context, "Du må være tilkoblet internett for å kunne logge inn", Toast.LENGTH_SHORT).show()
+
+                }
             }
 
         } else {
 
-            // TODO: Må vente på kallet. Rekker mest sannsynlig ikke å hente inn data før den går videre i kallet.
             getDataFromFirestore(firebaseCurrentUser)
 
-            if (favouriteEducationList.isEmpty()){
-
-                loginOrEmptylistTextview.visibility = View.VISIBLE
-                loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
-
-            } else {
-
-                setUpRecycleView()
-                recyclerView.visibility = View.VISIBLE
-            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-
-        //firebaseAuth.addAuthStateListener(authStateListener)
     }
 
     override fun onPause() {
         super.onPause()
-
-        //firebaseAuth.removeAuthStateListener(authStateListener)
     }
 
     private fun setUpRecycleView() {
 
 
-        educationRecyclerView.adapter = EducationAdapter(favouriteEducationList, View.OnClickListener { view ->
+        educationRecyclerView?.adapter = EducationAdapter(Education.favouriteEducationlist, View.OnClickListener { view ->
 
-            val position = educationRecyclerView.getChildAdapterPosition(view)
-            val clickedEducation = favouriteEducationList[position]
+            val position = educationRecyclerView?.getChildAdapterPosition(view)
+            val clickedEducation = favouriteEducationList[position!!]
             var action = FavouriteFragmentDirections.actionFavouriteDestToEducationDetailFragment(clickedEducation.id)
 
             findNavController().navigate(action)
 
-
         })
 
-        educationRecyclerView.layoutManager = GridLayoutManager(context, 1)
+        educationRecyclerView?.layoutManager = GridLayoutManager(context, 1)
     }
 
 
     private fun createAuthenticationListener() {
 
-        authStateListener = FirebaseAuth.AuthStateListener {
-                 startActivityForResult(
-                    AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders( arrayListOf(
-                            AuthUI.IdpConfig.GoogleBuilder().build(),
-                            AuthUI.IdpConfig.EmailBuilder().build()))
-                        .setIsSmartLockEnabled(false)
-                        .build(), RC_SIGN_IN
-                )
-        }
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders( arrayListOf(
+                    AuthUI.IdpConfig.GoogleBuilder().build(),
+                    AuthUI.IdpConfig.EmailBuilder().build()))
+                .setIsSmartLockEnabled(false)
+                .build(), RC_SIGN_IN
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -170,9 +168,26 @@ class FavouriteFragment : Fragment() {
 
                 eduList.add(education)
             }
-        }
 
-        Education.favouriteEducationlist = eduList
+            Education.favouriteEducationlist = eduList
+
+
+            if (Education.favouriteEducationlist.isEmpty()){
+
+                loginOrEmptylistTextview.visibility = View.VISIBLE
+                loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
+
+            } else {
+
+                setUpRecycleView()
+                recyclerView.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun Context.isConnectedToNetwork(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
 
     companion object {

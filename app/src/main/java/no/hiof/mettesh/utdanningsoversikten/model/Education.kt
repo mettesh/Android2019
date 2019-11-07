@@ -2,14 +2,16 @@ package no.hiof.mettesh.utdanningsoversikten.model
 
 data class Education(val id : Int = 0,
                      val educationCode : String = "",
-                     val QualificationCode : String = "",
+                     val qualificationCode : String = "",
                      var educationTitle : String = "",
                      var descriptionShort : String = "",
                      var descriptionLong : String = "",
                      var school : School = School(),
                      var image : String = "",
                      var pointsRequired : Double = 0.0,
-                     var pointsAcquired : Double = 0.0)
+                     var pointsAcquired : Double = 0.0,
+                     var level : String = "",
+                     var studyField : String = "")
 {
 
     companion object {

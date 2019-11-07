@@ -28,6 +28,7 @@
         tools:layout_conversion_absoluteHeight="56dp"
         tools:layout_conversion_absoluteWidth="411dp" />
 
+    <!--
     <SearchView
         android:id="@+id/searchInput"
         android:layout_width="match_parent"
@@ -45,6 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
+-->
     <Button
         android:id="@+id/filtrerButton"
         android:layout_width="69dp"
@@ -60,7 +62,7 @@
         tools:layout_conversion_absoluteHeight="48dp"
         tools:layout_conversion_absoluteWidth="351dp" />
 
- <!--   <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/searchInput"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -71,14 +73,14 @@
         android:focusableInTouchMode="true"
         android:hint="@string/s_k_etter_ord_i_utdanningen"
         android:inputType="textShortMessage"
-        android:paddingStart="30dp"
+        android:paddingStart="5dp"
         android:paddingEnd="0dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
--->
+
 
     <Spinner
         android:id="@+id/spinnerLevel"

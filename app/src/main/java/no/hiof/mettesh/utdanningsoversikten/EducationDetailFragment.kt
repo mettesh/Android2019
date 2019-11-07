@@ -17,12 +17,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
+import kotlinx.android.synthetic.main.fragment_education_list.*
+import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class EducationDetailFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var firestoreDb: FirebaseFirestore
+    private lateinit var myAdapter : EducationAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -65,7 +68,7 @@ class EducationDetailFragment : Fragment() {
             openWebBroser(schoolUrl)
         }
 
-        kravkodeTextView.text = education.QualificationCode
+        kravkodeTextView.text = education.qualificationCode
         poenggrenseTextView.text = education.pointsRequired.toString()
         detailEducationDescriptionTextView.text = education.descriptionLong
 
@@ -121,16 +124,20 @@ class EducationDetailFragment : Fragment() {
         firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList")
             .document(education.id.toString())
             .set(education)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
+            .addOnSuccessListener { Log.d(TAG, "Education successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+
+        Education.favouriteEducationlist.add(education)
     }
 
     private fun removeFavFromFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
 
         firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList").document(education.id.toString())
             .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnSuccessListener { Log.d(TAG, "Education successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+        Education.favouriteEducationlist.remove(education)
 
     }
 
