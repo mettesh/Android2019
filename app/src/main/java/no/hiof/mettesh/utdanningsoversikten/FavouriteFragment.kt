@@ -91,9 +91,10 @@ class FavouriteFragment : Fragment() {
             }
 
         } else {
-
-            // TODO: Sjekk om nettilgang!  Beskjed om at man kanskje ikke ser oppdatert liste (kun cache)
-
+            
+            if (!context!!.isConnectedToNetwork()){
+                Toast.makeText(context, "OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon", Toast.LENGTH_SHORT).show()
+            }
             getDataFromFirestore(firebaseCurrentUser)
 
         }

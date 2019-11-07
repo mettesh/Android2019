@@ -222,6 +222,9 @@ class EducationListFragment : Fragment() {
             }
         }
 
+        studyField.sort()
+        place.sort()
+
         val levelAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelList)
         spinnerLevel.adapter = levelAdapter
 
