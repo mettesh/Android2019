@@ -47,11 +47,11 @@ class EducationAdapter(internal var educationList: List<Education>,
         fun bind(item: Education, clickListener: View.OnClickListener) {
 
             Glide.with(itemView)
-                .load(item.school.schoolIcon)
+                .load(R.drawable.ic_school_teal)
                 .centerCrop()
-                .placeholder(R.drawable.hiof_icon_background)
-                .error(R.drawable.hiof_icon_background)
-                .fallback(R.drawable.hiof_icon_background)
+                .placeholder(R.drawable.ic_school_teal)
+                .error(R.drawable.ic_school_teal)
+                .fallback(R.drawable.ic_school_teal)
                 .into(schoolIconImageView)
 
             educationTitleTextView.text = item.educationTitle
@@ -61,9 +61,9 @@ class EducationAdapter(internal var educationList: List<Education>,
             Glide.with(itemView)
                 .load(item.image)
                 .centerCrop()
-                .placeholder(R.drawable.hiof_icon_background) //TODO: Sette til en placeholder!
-                .error(R.drawable.hiof_icon_background)
-                .fallback(R.drawable.hiof_icon_background)
+                .placeholder(R.drawable.andre)
+                .error(R.drawable.andre)
+                .fallback(R.drawable.andre)
                 .into(educationImageView)
 
             educationShortDescriptionTextView.text = item.descriptionShort

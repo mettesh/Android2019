@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                     schoolCode,
                     schoolTitle,
                     schoolShortTitle,
-                    "https://upload.wikimedia.org/wikipedia/en/d/da/Hi%C3%98_emblem.png", // Mangler i JSON
                     schoolAdress,
                     schoolZipCode,
                     schoolPhoneNumber,
@@ -148,7 +147,7 @@ class MainActivity : AppCompatActivity() {
     private fun convertStudyFieldToString(studyField: String): String {
 
         when (studyField) {
-            "BLU", "GLU1-7", "GLU5-10", "IMALU1-7", "IMALU5-10", "FAG", "FLU", "ALU", "INTMASTER", "YRKESFAG"  -> return "Lærer"
+            "BLU", "GLU1-7", "GLU5-10", "IMALU1-7", "IMALU5-10", "FAG", "FLU", "ALU", "INTMASTER" -> return "Lærer"
             "JOU" -> return "Journalistikk"
             "UVFAG", "PRAKTPED" -> return "Pedagogikk"
             "REALFAG"-> return "Matematisk-naturvitenskapelig-informatikk"
@@ -157,7 +156,8 @@ class MainActivity : AppCompatActivity() {
             "VIDEREG" -> return "Videregående"
             "SAMVIT" -> return "Samfunnsvitenskap"
             "HELSEFAG", "SYK" -> return "Helsefag"
-            "VER", "BAR" -> return "Barnevern"
+            "BAR" -> return "Barnevern"
+            "VER" -> return "Vernepleier"
             "ØA" -> return "Økonomi"
             "IU" -> return "Idrett"
             "JUS" -> return "Juss"
@@ -169,7 +169,8 @@ class MainActivity : AppCompatActivity() {
             "ING", "BIO", "ORT" -> return "Ingeniør"
             "TEKNOLOGI" -> return "Teknologi"
             "DOV" -> return "Døvetolk"
-            "SCEKUN", "VISKUN" -> return "Kunst"
+            "BILDEKUNST", "VISKUN", "KUNST" -> return "Kunst"
+            "SCEKUN" -> return "Scenekunst"
             "MUSIKK" -> return "Musikk"
             "MAR" -> return "Maritim"
             "KU", "LU" -> return "Landbruk"
@@ -178,18 +179,16 @@ class MainActivity : AppCompatActivity() {
             "TANNPL", "TANNTEKN" -> return "Tannpleie"
             "ODO" -> return "Odontologi"
             "MEDISIN" -> return "Medisin"
-            "FARMASI" -> return "Farmasi"
+            "FARMASI", "RES" -> return "Farmasi"
             "TEOLOGI" -> return "Teologi"
-            "FISKERIFAG" -> return "Fiskeri"
-            "BILDEKUNST", "KUNST" -> return "Kunst"
+            "FISKERIFAG" -> return "Fiskerifag"
             "ARKITEKTUR" -> return "Arkitektur"
             "AUD" -> return "Audiograf"
             "VET", "DYR" -> return "Dyrepleie"
-            "RES" -> return "Reseptar"
             "BIB" -> return "Bibliotekar"
             "POLITI" -> return "Politi"
             "MILITÆR" -> return "Militær"
-            "MILITÆR" -> return "Militær"
+            "YRKESFAG" -> return "Yrkesfag"
             else -> return "Andre"
         }
     }
