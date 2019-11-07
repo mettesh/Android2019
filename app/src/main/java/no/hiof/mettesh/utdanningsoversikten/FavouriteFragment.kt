@@ -34,20 +34,14 @@ class FavouriteFragment : Fragment() {
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
     private lateinit var firestoreDb: FirebaseFirestore
-    private var TAG : String = "TAG"
-
     private var favouriteEducationList: ArrayList<Education> = Education.favouriteEducationlist
-
     lateinit var recyclerView : RecyclerView
     lateinit var loginOrEmptylistTextview : TextView
     lateinit var loginButton : Button
     lateinit var filterFloatingButton : FloatingActionButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-
         return inflater.inflate(R.layout.fragment_education_list, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
@@ -58,8 +52,6 @@ class FavouriteFragment : Fragment() {
         filterFloatingButton = view.openFilterFloatingButton
 
         viewCorrectElementsInLayout(view)
-
-
 
     }
 
@@ -91,12 +83,12 @@ class FavouriteFragment : Fragment() {
             }
 
         } else {
-            
+
             if (!context!!.isConnectedToNetwork()){
                 Toast.makeText(context, "OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon", Toast.LENGTH_SHORT).show()
             }
-            getDataFromFirestore(firebaseCurrentUser)
 
+            getDataFromFirestore(firebaseCurrentUser)
         }
     }
 
