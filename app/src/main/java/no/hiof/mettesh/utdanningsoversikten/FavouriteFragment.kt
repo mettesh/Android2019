@@ -92,6 +92,8 @@ class FavouriteFragment : Fragment() {
 
         } else {
 
+            // TODO: Sjekk om nettilgang!  Beskjed om at man kanskje ikke ser oppdatert liste (kun cache)
+
             getDataFromFirestore(firebaseCurrentUser)
 
         }

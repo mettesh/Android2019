@@ -1,5 +1,7 @@
 package no.hiof.mettesh.utdanningsoversikten
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,8 +33,6 @@ class EducationListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        //adapter = EducationAdapter(context!!, educationList
-        // Henter inn layout for dette Fragmentet
         return inflater.inflate(R.layout.fragment_education_list, container, false)
     }
 
@@ -50,7 +50,14 @@ class EducationListFragment : Fragment() {
         openFilterFloatingButton.setOnClickListener {
             viewBottomSheet(view)
         }
+
+
         setUpRecycleView(educationList)
+
+        // Sjekk om ingen netttilgang:
+        if (!context!!.isConnectedToNetwork()){
+            Toast.makeText(context, "OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon", Toast.LENGTH_LONG).show()
+        }
     }
 
 
@@ -224,5 +231,10 @@ class EducationListFragment : Fragment() {
         val placeAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, place)
         spinnerPlace.adapter = placeAdapter
 
+    }
+
+    private fun Context.isConnectedToNetwork(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
 }
