@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                 val pointsAcquired = (jsonEducationObject.get("Studiepoeng") as String).toDouble()
                 var studyField = convertStudyFieldToString((jsonEducationObject.get("Studiumkode").toString()))
                 val level = convertLevelCodeToString((jsonEducationObject.get("Nivåkode").toString()))
+                val studyImage = "https://firebasestorage.googleapis.com/v0/b/utdanningsoversikten-b0b8a.appspot.com/o/" + studyField +".jpg?alt=media"
 
                 val newEducation = Education(
                     i, // Mangler fra JSON
@@ -113,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                     "Fagområde: $studyField\nNivå: $level\nSted: " + school.place, // Mangler fra JSON
                     "Fagområde: $studyField\nNivå: $level", // Mangler fra JSON
                     school,
-                    "https://www.hiof.no/om/aktuelt/aktuelle-saker/arkiv/filer/sykepleierfotvaskBH_654.jpg", // Mangler fra JSON
+                    studyImage, // Mangler fra JSON
                     44.0,  // Mangler fra JSON
                     pointsAcquired,
                     level,
@@ -150,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             "BLU", "GLU1-7", "GLU5-10", "IMALU1-7", "IMALU5-10", "FAG", "FLU", "ALU", "INTMASTER", "YRKESFAG"  -> return "Lærer"
             "JOU" -> return "Journalistikk"
             "UVFAG", "PRAKTPED" -> return "Pedagogikk"
-            "REALFAG"-> return "Matematisk-naturvitenskapelig/informatikk"
+            "REALFAG"-> return "Matematisk-naturvitenskapelig-informatikk"
             "HUMAN", "EXPHIL" -> return "Historisk-filosofi"
             "DESIGN", "ID" -> return "Design"
             "VIDEREG" -> return "Videregående"
@@ -168,7 +169,7 @@ class MainActivity : AppCompatActivity() {
             "ING", "BIO", "ORT" -> return "Ingeniør"
             "TEKNOLOGI" -> return "Teknologi"
             "DOV" -> return "Døvetolk"
-            "SCEKUN", "VISKUN" -> return "Scene- og visuellkunst"
+            "SCEKUN", "VISKUN" -> return "Kunst"
             "MUSIKK" -> return "Musikk"
             "MAR" -> return "Maritim"
             "KU", "LU" -> return "Landbruk"
@@ -183,7 +184,7 @@ class MainActivity : AppCompatActivity() {
             "BILDEKUNST", "KUNST" -> return "Kunst"
             "ARKITEKTUR" -> return "Arkitektur"
             "AUD" -> return "Audiograf"
-            "VET", "DYR" -> return "Veterinær og dyrepleie"
+            "VET", "DYR" -> return "Dyrepleie"
             "RES" -> return "Reseptar"
             "BIB" -> return "Bibliotekar"
             "POLITI" -> return "Politi"

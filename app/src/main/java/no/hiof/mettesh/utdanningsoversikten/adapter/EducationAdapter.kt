@@ -61,7 +61,7 @@ class EducationAdapter(internal var educationList: List<Education>,
             Glide.with(itemView)
                 .load(item.image)
                 .centerCrop()
-                .placeholder(R.drawable.hiof_icon_background)
+                .placeholder(R.drawable.hiof_icon_background) //TODO: Sette til en placeholder!
                 .error(R.drawable.hiof_icon_background)
                 .fallback(R.drawable.hiof_icon_background)
                 .into(educationImageView)
