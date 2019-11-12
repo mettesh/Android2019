@@ -11,12 +11,12 @@
         android:id="@+id/accountlogInText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="32dp"
         android:text="@string/logget_inn_som"
         android:textAlignment="center"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView_userName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,56 +24,54 @@
         android:id="@+id/textView_userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="100dp"
         android:text="@string/username"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button_accountlogIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accountlogInText" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_accountlogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
         android:text="@string/logg_ut"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_userName"
-        app:layout_constraintVertical_bias="0.747" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView_numOfFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="232dp"
+        android:layout_marginStart="291dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="291dp"
         android:text="@string/x_lagrede_favoritter"
         android:textAlignment="viewStart"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_accountlogOut"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_accountlogIn" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_userName"
+        app:layout_constraintVertical_bias="0.073" />
 
     <Button
         android:id="@+id/button_accountlogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
+        android:layout_marginBottom="60dp"
         android:text="@string/logg_inn"
         android:textColor="#000000"
         android:textColorLink="#00000000"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_userName" />
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
