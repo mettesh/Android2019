@@ -11,15 +11,18 @@
         android:id="@+id/map_dest"
         android:enabled="true"
         android:icon="@drawable/ic_map_plight_24dp"
-        android:title="@string/kart" />
+        android:title="@string/kart"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/favourite_dest"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_plight_24dp"
-        android:title="@string/favoritter" />
+        android:title="@string/favoritter"
+        android:menuCategory="secondary"/>
     <item
         android:id="@+id/account_dest"
         android:enabled="true"
         android:icon="@drawable/ic_account_box_plight_24dp"
-        android:title="@string/konto" />
+        android:title="@string/konto"
+        android:menuCategory="secondary"/>
 </menu>
