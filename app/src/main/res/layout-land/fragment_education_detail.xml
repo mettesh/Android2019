@@ -125,29 +125,17 @@
         app:layout_constraintVertical_bias="0.689" />
 
     <TextView
-        android:id="@+id/titleDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="284dp"
-        android:text="@string/beskrivelse"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle" />
-
-    <TextView
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="350dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="80dp"
         android:text="@string/beskrivelsestekst"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
