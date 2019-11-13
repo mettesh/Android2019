@@ -37,4 +37,6 @@
     <string name="s_k_etter_ord_i_utdanningen">🔎 Søk etter ord i utdanningen</string>
     <string name="s_k">Søk</string>
     <string name="nullstill">Nullstill</string>
+    <string name="beskrivelse">Beskrivelse</string>
+    <string name="beskrivelsestekst">Suspendisse ac auctor risus, vel molestie justo. Pellentesque blandit orci eros, id tincidunt odio suscipit ut. Nullam dolor ligula, ultricies eget dolor ac, facilisis lacinia quam. Praesent tincidunt lectus ac posuere vulputate. Aenean finibus nulla ut dolor pellentesque, in venenatis justo interdum. Sed vulputate volutpat posuere. Vestibulum ultrices dui quam, nec tempor nulla blandit placerat.</string>
 </resources>
