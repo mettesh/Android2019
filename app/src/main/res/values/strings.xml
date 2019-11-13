@@ -8,7 +8,7 @@
     <string name="Education_image">education image</string>
     <string name="education_description">education description</string>
     <string name="skoleikon">Skoleikon</string>
-    <string name="bacheleor_i_sykepleie_heltid">Bacheleor i Sykepleie, heltid</string>
+    <string name="bacheleor_i_sykepleie_heltid">Bachelor i Sykepleie, heltid</string>
     <string name="h_yskolen_i_stfold">Høyskolen i Østfold</string>
     <string name="bilde_utdanning">Bilde utdanning</string>
     <string name="her_kommer_beskrivelse_av_utdanningen">Her kommer beskrivelse av utdanningen</string>
@@ -30,7 +30,7 @@
     <string name="logget_inn_som">Logget inn som</string>
     <string name="username">Username</string>
     <string name="logg_ut">Logg ut</string>
-    <string name="x_lagrede_favoritter">x lagrede favoritter</string>
+    <string name="x_lagrede_favoritter">Antall lagrede favoritter</string>
     <string name="heart">Heart</string>
     <string name="send_webbrowser">Send webBrowser</string>
     <string name="filtrer_s_ket">Filtrer søket</string>
