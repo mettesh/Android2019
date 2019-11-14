@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        return "Norge"
+        return "Ukjent"
     }
 
     private fun setupBottomNavMenu(navController: NavController) {

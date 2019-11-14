@@ -194,6 +194,7 @@ class EducationListFragment : Fragment() {
         val place = ArrayList<String>()
 
 
+        // Fyller nedtrekkslistene etter de objektene vi har
         for(education in Education.educationlist){
 
             if(!studyField.contains(education.studyField)){
@@ -203,11 +204,9 @@ class EducationListFragment : Fragment() {
             if(!levelList.contains(education.level)){
                 levelList.add(education.level)
             }
-        }
 
-        for(school in School.schoolList){
-            if(!place.contains(school.place)){
-                place.add(school.place)
+            if(!place.contains(education.school.place) && !education.school.place.equals("Ukjent")){
+                place.add(education.school.place)
             }
         }
 
