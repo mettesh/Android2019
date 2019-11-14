@@ -31,6 +31,9 @@ class EducationListFragment : Fragment() {
     private var educationList : ArrayList<Education> = Education.educationlist
 
     private var rememberedSearch = ""
+    private var rememberedLevelSelection = 0
+    private var rememberedStudyFieldSelection = 0
+    private var rememberedplaceSelection = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -106,6 +109,11 @@ class EducationListFragment : Fragment() {
 
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
 
+        // TODO: Setter valgte items for å huske eventuelle valg gjort tidligere OK?
+        spinnerLevel.setSelection(rememberedLevelSelection)
+        spinnerStudyField.setSelection(rememberedStudyFieldSelection)
+        spinnerPlace.setSelection(rememberedplaceSelection)
+
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
@@ -138,12 +146,22 @@ class EducationListFragment : Fragment() {
 
             setUpRecycleView(filteredList)
 
-            rememberedSearch = searchInput.toString()
+            rememberedSearch = searchInput.text.toString()
+            rememberedLevelSelection = spinnerLevel.selectedItemPosition
+            rememberedStudyFieldSelection = spinnerStudyField.selectedItemPosition
+            rememberedplaceSelection = spinnerPlace.selectedItemPosition
 
             dialog.hide()
         }
 
         resetText.setOnClickListener {
+
+            // Tilbakestiller alle felter
+            rememberedSearch = ""
+            rememberedLevelSelection = 0
+            rememberedStudyFieldSelection = 0
+            rememberedplaceSelection = 0
+
             setUpRecycleView(educationList)
             dialog.hide()
         }
