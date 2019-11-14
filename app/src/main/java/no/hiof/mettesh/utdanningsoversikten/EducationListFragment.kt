@@ -125,7 +125,7 @@ class EducationListFragment : Fragment() {
             val chosenStudyField = if(spinnerStudyField.selectedItem.toString().equals("Fagområde")) "" else spinnerStudyField.selectedItem.toString()
             val chosenPlace = if(spinnerPlace.selectedItem.toString().equals("Sted")) "" else spinnerPlace.selectedItem.toString()
 
-            val filteredList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace)
+            val filteredList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace, searchInput.text.toString())
 
             setUpRecycleView(filteredList)
 
@@ -138,13 +138,14 @@ class EducationListFragment : Fragment() {
         }
     }
 
-    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String): List<Education>{
+    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): List<Education>{
 
         val filteredList = ArrayList<Education>()
 
         for(education : Education in educationList){
 
-            if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)){
+            if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)
+                && educationContainsString(education, searchInput)){
                 filteredList.add(education)
             }
         }
@@ -186,24 +187,12 @@ class EducationListFragment : Fragment() {
 
     private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {
 
-//        val levelList = arrayOf("Nivå", "Videregående", "Årsenhet", "Bachelorgrad", "Mastergrad", "Profesjonsstudium", "Forskerutdanning", "Andre")
-
-//        val studyField = arrayOf("Fagområde", "Lærer", "Journalistikk","Pedagogikk","Matematisk-naturvitenskapelig/informatikk",
-//            "Historisk-filosofi","Design","Videregående","Samfunnsvitenskap","Helsefag","Barnevern","Økonomi","Idrett","Juss",
-//            "Sosionom","Ernæring","Ergoterapi","Fysioterapi","Radiografi","Ingeniør","Teknologi","Døvetolk","Scene- og visuellkunst",
-//            "Musikk","Maritim","Landbruk","Psykologi","Miljø","Tannpleie","Odontologi","Medisin","Farmasi","Teologi","Fiskeri","Kunst",
-//            "Arkitektur","Audiograf","Veterinær og dyrepleie","Reseptar","Bibliotekar","Politi","Militær","Militær","Andre"
-//        )
-
         // Fyller nå isteden listene etter dataen som er tilgjengelig:
 
         val levelList = ArrayList<String>()
         val studyField = ArrayList<String>()
         val place = ArrayList<String>()
 
-        levelList.add("Nivå")
-        studyField.add("Fagområde")
-        place.add("Sted")
 
         for(education in Education.educationlist){
 
@@ -224,6 +213,10 @@ class EducationListFragment : Fragment() {
 
         studyField.sort()
         place.sort()
+
+        place.add(0, "Sted")
+        studyField.add(0, "Fagområde")
+        levelList.add(0, "Nivå")
 
         val levelAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelList)
         spinnerLevel.adapter = levelAdapter

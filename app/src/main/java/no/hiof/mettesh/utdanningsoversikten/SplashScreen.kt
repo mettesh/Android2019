@@ -26,7 +26,7 @@ class SplashScreen : AppCompatActivity() {
 
         animateHeader()
 
-        // TODO: addOnSuccessListene -> Laste ned data også her
+        // TODO: addOnSuccessListene. Laste data før man går videre til MainActivity
 
         if (firebaseCurrentUser != null) {
             loadDataFromFirebase(firebaseCurrentUser)
