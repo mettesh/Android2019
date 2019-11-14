@@ -25,11 +25,15 @@ import no.hiof.mettesh.utdanningsoversikten.model.School
 
 class EducationListFragment : Fragment() {
 
-    lateinit var adapter: EducationAdapter
+    private lateinit var adapter: EducationAdapter
 
     // Henter inn liste med utdanninger fra Education-klassen
     private var educationList : ArrayList<Education> = Education.educationlist
 
+    private var rememberedSearch = ""
+    private var rememberedLevelSelection = 0
+    private var rememberedStudyFieldSelection = 0
+    private var rememberedplaceSelection = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -50,7 +54,6 @@ class EducationListFragment : Fragment() {
         openFilterFloatingButton.setOnClickListener {
             viewBottomSheet(view)
         }
-
 
         setUpRecycleView(educationList)
 
@@ -92,14 +95,22 @@ class EducationListFragment : Fragment() {
         dialog.show()
 
         val searchInput : TextInputEditText = view.searchInput
-
         val spinnerLevel : Spinner = view.spinnerLevel
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
         val spinnerPlace : Spinner = view.spinnerPlace
         val searchButton : Button = view.filtrerButton
         val resetText : TextView = view.resetTextView
 
+        // For å huske hva som er skrevet inn fra tidligere
+        if(!rememberedSearch.equals("")){
+            searchInput.text = Editable.Factory.getInstance().newEditable(rememberedSearch)
+        }
+
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
+
+        spinnerLevel.setSelection(rememberedLevelSelection)
+        spinnerStudyField.setSelection(rememberedStudyFieldSelection)
+        spinnerPlace.setSelection(rememberedplaceSelection)
 
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -109,11 +120,13 @@ class EducationListFragment : Fragment() {
             override fun beforeTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
+                rememberedSearch = searchInput.toString()
             }
 
             override fun onTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
+                rememberedSearch = searchInput.toString()
             }
 
         })
@@ -125,26 +138,45 @@ class EducationListFragment : Fragment() {
             val chosenStudyField = if(spinnerStudyField.selectedItem.toString().equals("Fagområde")) "" else spinnerStudyField.selectedItem.toString()
             val chosenPlace = if(spinnerPlace.selectedItem.toString().equals("Sted")) "" else spinnerPlace.selectedItem.toString()
 
-            val filteredList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace)
+            educationList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace, searchInput.text.toString())
 
-            setUpRecycleView(filteredList)
+            setUpRecycleView(educationList)
+
+            rememberedSearch = searchInput.text.toString()
+            rememberedLevelSelection = spinnerLevel.selectedItemPosition
+            rememberedStudyFieldSelection = spinnerStudyField.selectedItemPosition
+            rememberedplaceSelection = spinnerPlace.selectedItemPosition
 
             dialog.hide()
         }
 
         resetText.setOnClickListener {
+
+            // Tilbakestiller alle felter
+            rememberedSearch = ""
+            rememberedLevelSelection = 0
+            rememberedStudyFieldSelection = 0
+            rememberedplaceSelection = 0
+
+            // TODO: Duplikatkode. Kan extractes ut!
+            searchInput.text = Editable.Factory.getInstance().newEditable("")
+            spinnerLevel.setSelection(rememberedLevelSelection)
+            spinnerStudyField.setSelection(rememberedStudyFieldSelection)
+            spinnerPlace.setSelection(rememberedplaceSelection)
+
+            educationList = Education.educationlist
             setUpRecycleView(educationList)
-            dialog.hide()
         }
     }
 
-    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String): List<Education>{
+    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): ArrayList<Education> {
 
         val filteredList = ArrayList<Education>()
 
         for(education : Education in educationList){
 
-            if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)){
+            if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)
+                && educationContainsString(education, searchInput)){
                 filteredList.add(education)
             }
         }
@@ -186,25 +218,14 @@ class EducationListFragment : Fragment() {
 
     private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {
 
-//        val levelList = arrayOf("Nivå", "Videregående", "Årsenhet", "Bachelorgrad", "Mastergrad", "Profesjonsstudium", "Forskerutdanning", "Andre")
-
-//        val studyField = arrayOf("Fagområde", "Lærer", "Journalistikk","Pedagogikk","Matematisk-naturvitenskapelig/informatikk",
-//            "Historisk-filosofi","Design","Videregående","Samfunnsvitenskap","Helsefag","Barnevern","Økonomi","Idrett","Juss",
-//            "Sosionom","Ernæring","Ergoterapi","Fysioterapi","Radiografi","Ingeniør","Teknologi","Døvetolk","Scene- og visuellkunst",
-//            "Musikk","Maritim","Landbruk","Psykologi","Miljø","Tannpleie","Odontologi","Medisin","Farmasi","Teologi","Fiskeri","Kunst",
-//            "Arkitektur","Audiograf","Veterinær og dyrepleie","Reseptar","Bibliotekar","Politi","Militær","Militær","Andre"
-//        )
-
         // Fyller nå isteden listene etter dataen som er tilgjengelig:
 
         val levelList = ArrayList<String>()
         val studyField = ArrayList<String>()
         val place = ArrayList<String>()
 
-        levelList.add("Nivå")
-        studyField.add("Fagområde")
-        place.add("Sted")
 
+        // Fyller nedtrekkslistene etter de objektene vi har
         for(education in Education.educationlist){
 
             if(!studyField.contains(education.studyField)){
@@ -214,16 +235,18 @@ class EducationListFragment : Fragment() {
             if(!levelList.contains(education.level)){
                 levelList.add(education.level)
             }
-        }
 
-        for(school in School.schoolList){
-            if(!place.contains(school.place)){
-                place.add(school.place)
+            if(!place.contains(education.school.place) && !education.school.place.equals("Ukjent")){
+                place.add(education.school.place)
             }
         }
 
         studyField.sort()
         place.sort()
+
+        place.add(0, "Sted")
+        studyField.add(0, "Fagområde")
+        levelList.add(0, "Nivå")
 
         val levelAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, levelList)
         spinnerLevel.adapter = levelAdapter
