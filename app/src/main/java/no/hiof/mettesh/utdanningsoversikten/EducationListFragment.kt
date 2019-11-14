@@ -25,11 +25,12 @@ import no.hiof.mettesh.utdanningsoversikten.model.School
 
 class EducationListFragment : Fragment() {
 
-    lateinit var adapter: EducationAdapter
+    private lateinit var adapter: EducationAdapter
 
     // Henter inn liste med utdanninger fra Education-klassen
     private var educationList : ArrayList<Education> = Education.educationlist
 
+    private var rememberedSearch = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -92,12 +93,16 @@ class EducationListFragment : Fragment() {
         dialog.show()
 
         val searchInput : TextInputEditText = view.searchInput
-
         val spinnerLevel : Spinner = view.spinnerLevel
         val spinnerStudyField : Spinner = view.spinnerFieldStudy
         val spinnerPlace : Spinner = view.spinnerPlace
         val searchButton : Button = view.filtrerButton
         val resetText : TextView = view.resetTextView
+
+        // For å huske hva som er skrevet inn fra tidligere
+        if(!rememberedSearch.equals("")){
+            searchInput.text = Editable.Factory.getInstance().newEditable(rememberedSearch)
+        }
 
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
 
@@ -109,11 +114,15 @@ class EducationListFragment : Fragment() {
             override fun beforeTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
+
+                //TODO: Riktig? Tar vare på tekst som er tastet inn
+                rememberedSearch = searchInput.toString()
             }
 
             override fun onTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
+                rememberedSearch = searchInput.toString()
             }
 
         })
@@ -128,6 +137,8 @@ class EducationListFragment : Fragment() {
             val filteredList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace, searchInput.text.toString())
 
             setUpRecycleView(filteredList)
+
+            rememberedSearch = searchInput.toString()
 
             dialog.hide()
         }
