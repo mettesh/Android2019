@@ -55,7 +55,6 @@ class EducationListFragment : Fragment() {
             viewBottomSheet(view)
         }
 
-
         setUpRecycleView(educationList)
 
         // Sjekk om ingen netttilgang:
@@ -109,7 +108,6 @@ class EducationListFragment : Fragment() {
 
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
 
-        // TODO: Setter valgte items for å huske eventuelle valg gjort tidligere OK?
         spinnerLevel.setSelection(rememberedLevelSelection)
         spinnerStudyField.setSelection(rememberedStudyFieldSelection)
         spinnerPlace.setSelection(rememberedplaceSelection)
@@ -122,8 +120,6 @@ class EducationListFragment : Fragment() {
             override fun beforeTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
-
-                //TODO: Riktig? Tar vare på tekst som er tastet inn
                 rememberedSearch = searchInput.toString()
             }
 
@@ -142,9 +138,9 @@ class EducationListFragment : Fragment() {
             val chosenStudyField = if(spinnerStudyField.selectedItem.toString().equals("Fagområde")) "" else spinnerStudyField.selectedItem.toString()
             val chosenPlace = if(spinnerPlace.selectedItem.toString().equals("Sted")) "" else spinnerPlace.selectedItem.toString()
 
-            val filteredList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace, searchInput.text.toString())
+            educationList = filterFromSpinners(chosenLevel, chosenStudyField, chosenPlace, searchInput.text.toString())
 
-            setUpRecycleView(filteredList)
+            setUpRecycleView(educationList)
 
             rememberedSearch = searchInput.text.toString()
             rememberedLevelSelection = spinnerLevel.selectedItemPosition
@@ -162,12 +158,18 @@ class EducationListFragment : Fragment() {
             rememberedStudyFieldSelection = 0
             rememberedplaceSelection = 0
 
+            // TODO: Duplikatkode. Kan extractes ut!
+            searchInput.text = Editable.Factory.getInstance().newEditable("")
+            spinnerLevel.setSelection(rememberedLevelSelection)
+            spinnerStudyField.setSelection(rememberedStudyFieldSelection)
+            spinnerPlace.setSelection(rememberedplaceSelection)
+
+            educationList = Education.educationlist
             setUpRecycleView(educationList)
-            dialog.hide()
         }
     }
 
-    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): List<Education>{
+    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): ArrayList<Education> {
 
         val filteredList = ArrayList<Education>()
 
