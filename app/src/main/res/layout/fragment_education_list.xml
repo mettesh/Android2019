@@ -51,7 +51,7 @@
         android:layout_marginBottom="72dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_filter_list"
+        android:src="@drawable/ic_filter_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
