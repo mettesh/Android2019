@@ -103,7 +103,7 @@ class FavouriteFragment : Fragment() {
     private fun setUpRecycleView() {
 
 
-        educationRecyclerView?.adapter = EducationAdapter(Education.favouriteEducationlist, View.OnClickListener { view ->
+        educationRecyclerView?.adapter = EducationAdapter(favouriteEducationList, View.OnClickListener { view ->
 
             val position = educationRecyclerView?.getChildAdapterPosition(view)
             val clickedEducation = favouriteEducationList[position!!]
