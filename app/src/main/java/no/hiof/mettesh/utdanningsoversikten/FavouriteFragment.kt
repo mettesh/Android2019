@@ -35,10 +35,12 @@ class FavouriteFragment : Fragment() {
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
     private lateinit var firestoreDb: FirebaseFirestore
     private var favouriteEducationList: ArrayList<Education> = Education.favouriteEducationlist
-    lateinit var recyclerView : RecyclerView
-    lateinit var loginOrEmptylistTextview : TextView
-    lateinit var loginButton : Button
-    lateinit var filterFloatingButton : FloatingActionButton
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var loginOrEmptylistTextview : TextView
+    private lateinit var loginButton : Button
+    private lateinit var filterFloatingButton : FloatingActionButton
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_education_list, container, false)
@@ -46,7 +48,7 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
 
-        recyclerView= view.educationRecyclerView
+        recyclerView = view.educationRecyclerView
         loginOrEmptylistTextview = view.textView_login_or_empty
         loginButton = view.login_button
         filterFloatingButton = view.openFilterFloatingButton
@@ -64,6 +66,7 @@ class FavouriteFragment : Fragment() {
         loginOrEmptylistTextview.visibility = View.GONE
         loginButton.visibility = View.GONE
         filterFloatingButton.visibility = View.GONE
+
 
         if(firebaseCurrentUser == null){
 

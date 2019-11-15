@@ -1,15 +1,18 @@
 package no.hiof.mettesh.utdanningsoversikten.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.education_list_item.view.*
+import no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment
+import no.hiof.mettesh.utdanningsoversikten.EducationListFragment
 import no.hiof.mettesh.utdanningsoversikten.R
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
@@ -37,6 +40,8 @@ class EducationAdapter(internal var educationList: List<Education>,
 
     class EducationViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
+        private lateinit var firebaseAuth : FirebaseAuth
+
         private val schoolIconImageView : ImageView = view.schoolIcon
         private val educationTitleTextView : TextView = view.educationTitle
         private val schoolNameTextView : TextView = view.schoolName
@@ -45,6 +50,9 @@ class EducationAdapter(internal var educationList: List<Education>,
         private val favouriteHeart : ImageView = view.favHeart
 
         fun bind(item: Education, clickListener: View.OnClickListener) {
+
+            firebaseAuth = FirebaseAuth.getInstance()
+            var currentUser = firebaseAuth.currentUser
 
             Glide.with(itemView)
                 .load(R.drawable.ic_school_teal)
@@ -69,11 +77,40 @@ class EducationAdapter(internal var educationList: List<Education>,
             educationShortDescriptionTextView.text = item.descriptionShort
 
 
-            if(!Education.favouriteEducationlist.contains(item)) {
+            // Hjertet skal ikke vises om man ikke er logget inn
+            if(currentUser == null) {
                 favouriteHeart.visibility = View.GONE
             }
 
+            if(Education.favouriteEducationlist.contains(item)){
+                favouriteHeart.setImageResource(R.drawable.ic_favorite_filled)
+            }
+
+            favouriteHeart.setOnClickListener {
+                addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
+            }
+            
+
+
             this.itemView.setOnClickListener(clickListener)
         }
+
+        private fun addEducationToFavouriteAndChangeHeart(
+            firebaseCurrentUser: FirebaseUser?,
+            education: Education,
+            favouriteHeart: ImageView
+        ) {
+
+            if (Education.favouriteEducationlist.contains(education)) {
+                favouriteHeart.setImageResource(R.drawable.ic_favorite_border)
+                EducationDetailFragment.removeFavFromFirestore(firebaseCurrentUser!!, education)
+
+            } else {
+                favouriteHeart.setImageResource(R.drawable.ic_favorite_filled)
+                EducationDetailFragment.addFavToFirestore(firebaseCurrentUser!!, education)
+            }
+        }
     }
+
+
 }
