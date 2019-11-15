@@ -85,11 +85,7 @@ class EducationDetailFragment : Fragment() {
         }
     }
 
-    private fun addEducationToFavouriteAndChangeHeart(
-        firebaseCurrentUser: FirebaseUser?,
-        education: Education,
-        favFloatingButton: FloatingActionButton
-    ) {
+    private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favFloatingButton: FloatingActionButton) {
         if (firebaseCurrentUser == null) {
             Toast.makeText(
                 context,
@@ -102,7 +98,7 @@ class EducationDetailFragment : Fragment() {
             if (Education.favouriteEducationlist.contains(education)) {
                 favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
 
-                EducationDetailFragment.removeFavFromFirestore(firebaseCurrentUser, education)
+                removeFavFromFirestore(firebaseCurrentUser, education)
 
                 Toast.makeText(
                     context,
@@ -114,7 +110,7 @@ class EducationDetailFragment : Fragment() {
 
                 favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
 
-                EducationDetailFragment.addFavToFirestore(firebaseCurrentUser, education)
+                addFavToFirestore(firebaseCurrentUser, education)
 
                 Toast.makeText(
                     context,
@@ -125,7 +121,6 @@ class EducationDetailFragment : Fragment() {
             }
         }
     }
-
 
     fun openWebBroser(url : String){
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

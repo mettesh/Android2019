@@ -1,25 +1,21 @@
 package no.hiof.mettesh.utdanningsoversikten.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.education_list_item.view.*
 import no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment
-import no.hiof.mettesh.utdanningsoversikten.EducationListFragment
 import no.hiof.mettesh.utdanningsoversikten.R
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
-class EducationAdapter(internal var educationList: List<Education>,
-                       var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>() {
+class EducationAdapter(internal var educationList: List<Education>, var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>() {
 
-    internal var filteredEducationListResult : List<Education> = educationList
+    //internal var educationList : List<Education> = educationList
 
     override fun getItemCount(): Int {
         return educationList.size
@@ -34,11 +30,13 @@ class EducationAdapter(internal var educationList: List<Education>,
     // onBindViewHolder kalles når data blir satt til en spesifik viewHolder
     override fun onBindViewHolder(holder: EducationViewHolder, position: Int) {
 
-        val currentEducation = filteredEducationListResult[position]
+        val currentEducation = educationList[position]
         holder.bind(currentEducation, clickListener)
+
     }
 
     class EducationViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+
 
         private lateinit var firebaseAuth : FirebaseAuth
 
@@ -52,10 +50,9 @@ class EducationAdapter(internal var educationList: List<Education>,
         fun bind(item: Education, clickListener: View.OnClickListener) {
 
             firebaseAuth = FirebaseAuth.getInstance()
-            var currentUser = firebaseAuth.currentUser
+            val currentUser = firebaseAuth.currentUser
 
-            Glide.with(itemView)
-                .load(R.drawable.ic_school_teal)
+            Glide.with(itemView).load(R.drawable.ic_school_teal)
                 .centerCrop()
                 .placeholder(R.drawable.ic_school_teal)
                 .error(R.drawable.ic_school_teal)
@@ -76,7 +73,6 @@ class EducationAdapter(internal var educationList: List<Education>,
 
             educationShortDescriptionTextView.text = item.descriptionShort
 
-
             // Hjertet skal ikke vises om man ikke er logget inn
             if(currentUser == null) {
                 favouriteHeart.visibility = View.GONE
@@ -89,28 +85,33 @@ class EducationAdapter(internal var educationList: List<Education>,
             favouriteHeart.setOnClickListener {
                 addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
             }
-            
-
 
             this.itemView.setOnClickListener(clickListener)
         }
 
-        private fun addEducationToFavouriteAndChangeHeart(
-            firebaseCurrentUser: FirebaseUser?,
-            education: Education,
-            favouriteHeart: ImageView
-        ) {
+        private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favouriteHeart: ImageView) {
 
             if (Education.favouriteEducationlist.contains(education)) {
                 favouriteHeart.setImageResource(R.drawable.ic_favorite_border)
                 EducationDetailFragment.removeFavFromFirestore(firebaseCurrentUser!!, education)
-
-            } else {
+                                //Må gi beskjed til adapteren at Recyclerviewt er endret!
+                showToast("Utdanning fjernet fra favoritter")
+            }
+            else {
                 favouriteHeart.setImageResource(R.drawable.ic_favorite_filled)
                 EducationDetailFragment.addFavToFirestore(firebaseCurrentUser!!, education)
+                showToast("Utdanning lagt til i favoritter")
             }
+
+
+        }
+
+        private fun showToast(text: String) {
+            Toast.makeText(
+                this.itemView.context,
+                text,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
-
-
 }

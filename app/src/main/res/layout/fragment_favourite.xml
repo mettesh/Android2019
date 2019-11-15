@@ -7,13 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".FavouriteFragment">
 
-    <TextView
-        android:id="@+id/textView2"
-        style="@android:style/Widget.Material.Light.TextView"
+    <ProgressBar
+        android:id="@+id/progressBarFavourite"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/her_kommer_favorittene_dine"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

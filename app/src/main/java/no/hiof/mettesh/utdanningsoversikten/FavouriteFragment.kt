@@ -6,8 +6,8 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 
 
 class FavouriteFragment : Fragment() {
@@ -68,7 +69,7 @@ class FavouriteFragment : Fragment() {
         filterFloatingButton.visibility = View.GONE
 
 
-        if(firebaseCurrentUser == null){
+        if (firebaseCurrentUser == null) {
 
             loginOrEmptylistTextview.visibility = View.VISIBLE
             loginButton.visibility = View.VISIBLE
@@ -80,31 +81,29 @@ class FavouriteFragment : Fragment() {
                 if (context!!.isConnectedToNetwork()){
                     createAuthenticationListener()
                 } else {
-                    Toast.makeText(context, "Du må være tilkoblet internett for å kunne logge inn", Toast.LENGTH_SHORT).show()
-
+                    showToast("Du må være tilkoblet internett for å kunne logge inn")
                 }
             }
 
-        } else {
+        }
+        else {
 
-            if (!context!!.isConnectedToNetwork()){
-                Toast.makeText(context, "OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon", Toast.LENGTH_SHORT).show()
+            if (!context!!.isConnectedToNetwork()) {
+                // Ved første oppstart skal dette gis beskjed om i alertBox
+                if(isFirstRun){
+                    showToast("OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon")
+                    isFirstRun = false
+                }
             }
 
             getDataFromFirestore(firebaseCurrentUser)
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-    }
 
-    override fun onPause() {
-        super.onPause()
+
     }
 
     private fun setUpRecycleView() {
-
 
         educationRecyclerView?.adapter = EducationAdapter(favouriteEducationList, View.OnClickListener { view ->
 
@@ -117,11 +116,10 @@ class FavouriteFragment : Fragment() {
         })
 
         educationRecyclerView?.layoutManager = GridLayoutManager(context, 1)
+
     }
 
-
     private fun createAuthenticationListener() {
-
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
@@ -137,16 +135,18 @@ class FavouriteFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-               val user = firebaseAuth.currentUser
-                Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
 
-                // !! = Non-null assertion. Gir beskjed om at denne ikke er null (Vet dette da denne metoden kun bli kalt etter at onCreat er kalt)
+            if (resultCode == RESULT_OK) {
+
+                val user = firebaseAuth.currentUser
+
+                showToast(user?.displayName + " er logget inn")
+
                 viewCorrectElementsInLayout(view!!)
 
             }
             else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(context, "Innlogging avbrutt", Toast.LENGTH_SHORT).show()
+                showToast("Innlogging avbrutt")
             }
         }
     }
@@ -160,7 +160,8 @@ class FavouriteFragment : Fragment() {
         val eduList = ArrayList<Education>()
 
         docRef.get().addOnSuccessListener { documentSnapshot ->
-            for (document in documentSnapshot) {
+
+            for (document: QueryDocumentSnapshot in documentSnapshot) {
 
                 val education : Education = document.toObject(Education::class.java)
 
@@ -168,7 +169,6 @@ class FavouriteFragment : Fragment() {
             }
 
             Education.favouriteEducationlist = eduList
-
 
             if (Education.favouriteEducationlist.isEmpty()){
 
@@ -188,7 +188,16 @@ class FavouriteFragment : Fragment() {
         return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
 
+    private fun showToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
     companion object {
-        const val RC_SIGN_IN = 1
+        private const val RC_SIGN_IN = 1
+        private var isFirstRun = true
     }
 }

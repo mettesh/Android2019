@@ -37,8 +37,7 @@ class AccountFragment : Fragment() {
 
     }
 
-
-    fun viewCorrectElementsInLayout(view : View){
+    private fun viewCorrectElementsInLayout(view : View){
 
         val firebaseCurrentUser = firebaseAuth.currentUser
 
@@ -102,10 +101,7 @@ class AccountFragment : Fragment() {
 
     }
 
-
     private fun createAuthenticationListener() {
-
-        //authStateListener = FirebaseAuth.AuthStateListener {
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
@@ -115,7 +111,6 @@ class AccountFragment : Fragment() {
                 .setIsSmartLockEnabled(false)
                 .build(), RC_SIGN_IN
         )
-        //}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,7 +120,6 @@ class AccountFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val user = firebaseAuth.currentUser
                 Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
-                //firebaseAuth.removeAuthStateListener(authStateListener)
 
                 viewCorrectElementsInLayout(view!!)
 
