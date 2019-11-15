@@ -20,7 +20,6 @@ import no.hiof.mettesh.utdanningsoversikten.model.Education
 import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.textfield.TextInputEditText
-import no.hiof.mettesh.utdanningsoversikten.model.School
 
 
 class EducationListFragment : Fragment() {
@@ -263,4 +262,5 @@ class EducationListFragment : Fragment() {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
+
 }
