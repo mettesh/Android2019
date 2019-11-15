@@ -25,7 +25,6 @@ class EducationDetailFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var firestoreDb: FirebaseFirestore
-    private lateinit var myAdapter : EducationAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
