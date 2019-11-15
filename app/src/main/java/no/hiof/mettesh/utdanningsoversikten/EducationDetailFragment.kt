@@ -74,9 +74,9 @@ class EducationDetailFragment : Fragment() {
 
         // Setter bilde på floatingButton etter om den finnes i favoritter
         if (Education.favouriteEducationlist.contains(education)) {
-            favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
+            favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
         } else {
-            favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
+            favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
         }
 
 
@@ -91,7 +91,7 @@ class EducationDetailFragment : Fragment() {
             } else {
 
                 if (Education.favouriteEducationlist.contains(education)) {
-                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_fill)
+                    favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
 
                     removeFavFromFirestore(firebaseCurrentUser, education)
 
@@ -103,7 +103,7 @@ class EducationDetailFragment : Fragment() {
 
                 } else {
 
-                    favFloatingButton.setImageResource(R.drawable.ic_floating_button_stroke)
+                    favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
 
                     addFavToFirestore(firebaseCurrentUser, education)
 
