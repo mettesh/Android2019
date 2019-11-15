@@ -1,7 +1,9 @@
 package no.hiof.mettesh.utdanningsoversikten
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -81,17 +83,20 @@ class EducationDetailFragment : Fragment() {
 
         favFloatingButton.setOnClickListener {
 
-            addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favFloatingButton)
+            if(context!!.isConnectedToNetwork()){
+                addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favFloatingButton)
+            }
+            else {
+                showToast("Du må ha internettilkobling for å kunne legge til utdanninger i favoritter")
+            }
+
         }
     }
 
     private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favFloatingButton: FloatingActionButton) {
         if (firebaseCurrentUser == null) {
-            Toast.makeText(
-                context,
-                "Du må være innlogget for å kunne legge til utdanninger i favoritter",
-                Toast.LENGTH_LONG
-            ).show()
+
+            showToast("Du må være innlogget for å kunne legge til utdanninger i favoritter")
 
         } else {
 
@@ -100,11 +105,7 @@ class EducationDetailFragment : Fragment() {
 
                 removeFavFromFirestore(firebaseCurrentUser, education)
 
-                Toast.makeText(
-                    context,
-                    education.educationTitle + " er fjernet fra favoritter",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(education.educationTitle + " er fjernet fra favoritter")
 
             } else {
 
@@ -112,11 +113,7 @@ class EducationDetailFragment : Fragment() {
 
                 addFavToFirestore(firebaseCurrentUser, education)
 
-                Toast.makeText(
-                    context,
-                    education.educationTitle + " er lagt til i favoritter",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(education.educationTitle + " er lagt til i favoritter")
 
             }
         }
@@ -127,7 +124,23 @@ class EducationDetailFragment : Fragment() {
         startActivity(intent)
     }
 
+    private fun showToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    // TODO: Duplikat! Bør legges til en felles!
+    private fun Context.isConnectedToNetwork(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+    }
+
     companion object{
+
+        // TODO: Brukes i både adapter og her!
 
         fun addFavToFirestore(firebaseCurrentUser : FirebaseUser?, education : Education) {
 

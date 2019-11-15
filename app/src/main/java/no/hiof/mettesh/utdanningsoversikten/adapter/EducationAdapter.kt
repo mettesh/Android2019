@@ -1,5 +1,7 @@
 package no.hiof.mettesh.utdanningsoversikten.adapter
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +85,15 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
             }
 
             favouriteHeart.setOnClickListener {
-                addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
+
+                // TODO: Annen måte å få tak i Context?
+                if(this.itemView.context.isConnectedToNetwork()){
+                    addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
+                }
+                else {
+                    showToast("Du må ha internettilkobling for å kunne legge til utdanninger i favoritter")
+                }
+
             }
 
             this.itemView.setOnClickListener(clickListener)
@@ -113,5 +123,11 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+        private fun Context.isConnectedToNetwork(): Boolean {
+            val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+            return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+        }
+
     }
 }
