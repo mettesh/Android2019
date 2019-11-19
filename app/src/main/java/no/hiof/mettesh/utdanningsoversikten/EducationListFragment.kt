@@ -66,7 +66,7 @@ class EducationListFragment : Fragment() {
     }
 
     private fun showAlertBox(title: String, message: String, buttonText: String) {
-        val alertBox = AlertDialog.Builder(this.context!!)
+        val alertBox = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
 
         alertBox.setTitle(title)
         alertBox.setMessage(message)
