@@ -308,6 +308,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             .title("Høgskolen i Østfold")
             .snippet("Avdeling Fredrikstad")
             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_school_brightpurple)))
+
+        gmap.addMarker(MarkerOptions()
+            .position(BI)
+            .title("Handelshøyskolen BI")
+            .snippet("")
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_school_black)))
+
+        gmap.addMarker(MarkerOptions()
+            .position(POLITI)
+            .title("Politihøgskolen")
+            .snippet("")
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_school_burgundy)))
     }
 
     //Setter opp UI etter at bruker har godkjent bruk av lokasjon
@@ -399,7 +411,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         private val HIOH = LatLng(59.128834, 11.353271)
         private val HIOF = LatLng(59.212841, 10.930491)
 
+        private val BI = LatLng(59.948339, 10.768568)
 
+        private val POLITI = LatLng(59.931877, 10.713974)
 
     }
 

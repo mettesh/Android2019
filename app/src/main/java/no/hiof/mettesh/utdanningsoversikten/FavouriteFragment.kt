@@ -70,7 +70,7 @@ class FavouriteFragment : Fragment() {
             loginOrEmptylistTextview.visibility = View.VISIBLE
             loginButton.visibility = View.VISIBLE
 
-            loginOrEmptylistTextview.text = "Du må logge inn for å se dine lagrede favoritter"
+            loginOrEmptylistTextview.text = "Logg inn for å se dine lagrede favoritter"
 
             loginButton.setOnClickListener {
 
