@@ -68,6 +68,8 @@ class SplashScreen : AppCompatActivity() {
         override fun onPostExecute(result: Boolean) {
             if (result) {
                 startActivity(Intent(this@SplashScreen, MainActivity::class.java))
+                // For å hindre at man går tilbake til splashscreen ved trykk på tilbakepil
+                finish()
             }
             else {
                 // Viser DialogBox om data ikke lastes korrekt.

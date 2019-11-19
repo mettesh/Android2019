@@ -91,9 +91,8 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
                     addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
                 }
                 else {
-                    showToast("Du må ha internettilkobling for å kunne legge til utdanninger i favoritter")
+                    showToast("Du må ha internettilkobling for å kunne legge til eller fjerne utdanninger i favoritter")
                 }
-
             }
 
             this.itemView.setOnClickListener(clickListener)
