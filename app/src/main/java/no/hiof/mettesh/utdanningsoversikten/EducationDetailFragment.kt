@@ -51,9 +51,10 @@ class EducationDetailFragment : Fragment() {
         val detailEducationTitleTextView: TextView = view.detailEducationTitle
         val detailSchoolNameTextView: TextView = view.detailSchoolName
         val sendToWebImgView: ImageView = view.sendToWebImgView
-        val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
+
+        // Settes direkte da vi ikke har dette tilgjengelig i datasett
+        // val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
         val poenggrenseTextView: TextView = view.detailPoenggrense
-        val kravkodeTextView: TextView = view.detailKravkode
         val favFloatingButton: FloatingActionButton = view.floatingButton_fav
         val schoolUrl: String = education.school.webPage
 
@@ -69,9 +70,10 @@ class EducationDetailFragment : Fragment() {
             openWebBroser(schoolUrl)
         }
 
-        kravkodeTextView.text = education.qualificationCode
         poenggrenseTextView.text = education.pointsRequired.toString()
-        detailEducationDescriptionTextView.text = education.descriptionLong
+
+
+        //detailEducationDescriptionTextView.text = education.descriptionLong
 
 
         // Setter bilde på floatingButton etter om den finnes i favoritter

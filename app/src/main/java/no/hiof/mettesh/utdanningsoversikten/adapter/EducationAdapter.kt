@@ -17,8 +17,6 @@ import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class EducationAdapter(internal var educationList: List<Education>, var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>() {
 
-    //internal var educationList : List<Education> = educationList
-
     override fun getItemCount(): Int {
         return educationList.size
     }
@@ -85,8 +83,6 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
             }
 
             favouriteHeart.setOnClickListener {
-
-                // TODO: Annen måte å få tak i Context?
                 if(this.itemView.context.isConnectedToNetwork()){
                     addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
                 }
@@ -103,7 +99,6 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
             if (Education.favouriteEducationlist.contains(education)) {
                 favouriteHeart.setImageResource(R.drawable.ic_favorite_border)
                 EducationDetailFragment.removeFavFromFirestore(firebaseCurrentUser!!, education)
-                                //Må gi beskjed til adapteren at Recyclerviewt er endret!
                 showToast("Utdanning fjernet fra favoritter")
             }
             else {

@@ -2,7 +2,6 @@ package no.hiof.mettesh.utdanningsoversikten.model
 
 data class Education(val id : Int = 0,
                      val educationCode : String = "",
-                     val qualificationCode : String = "",
                      var educationTitle : String = "",
                      var descriptionShort : String = "",
                      var descriptionLong : String = "",

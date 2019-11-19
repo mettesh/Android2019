@@ -2,6 +2,7 @@ package no.hiof.mettesh.utdanningsoversikten
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -11,6 +12,7 @@ import no.hiof.mettesh.utdanningsoversikten.model.School
 import org.json.JSONArray
 import com.opencsv.CSVReader
 import java.io.*
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,5 +31,6 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
         bottomNav?.setupWithNavController(navController)
+
     }
 }

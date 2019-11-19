@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
@@ -64,7 +65,8 @@ class AccountFragment : Fragment() {
                 if (context!!.isConnectedToNetwork()){
                     createAuthenticationListener()
                 } else {
-                    Toast.makeText(context, "Du må være tilkoblet internett for å kunne logge inn", Toast.LENGTH_SHORT).show()
+                    showToast("Du må være tilkoblet internett for å kunne logge inn")
+
 
                 }
             }
@@ -93,7 +95,7 @@ class AccountFragment : Fragment() {
 
             logoutButton.setOnClickListener {
                 firebaseAuth.signOut()
-                Toast.makeText(context, firebaseCurrentUser.displayName + " er logget ut", Toast.LENGTH_SHORT).show()
+                showToast(firebaseCurrentUser.displayName + " er logget ut")
                 viewCorrectElementsInLayout(view)
 
             }
@@ -119,15 +121,25 @@ class AccountFragment : Fragment() {
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == Activity.RESULT_OK) {
                 val user = firebaseAuth.currentUser
-                Toast.makeText(context, user?.displayName + " er logget inn", Toast.LENGTH_SHORT).show()
+
+                showToast(user?.displayName + " er logget inn")
 
                 viewCorrectElementsInLayout(view!!)
 
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(context, "Innlogging avbrutt", Toast.LENGTH_SHORT).show()
+
+                showToast("Innlogging avbrutt")
             }
         }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun Context.isConnectedToNetwork(): Boolean {
