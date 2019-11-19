@@ -89,7 +89,7 @@ class EducationDetailFragment : Fragment() {
                 addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favFloatingButton)
             }
             else {
-                showToast("Du må ha internettilkobling for å kunne legge til utdanninger i favoritter")
+                showToast("Du må ha internettilkobling for å kunne legge til/fjerne utdanninger")
             }
 
         }
@@ -98,7 +98,7 @@ class EducationDetailFragment : Fragment() {
     private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favFloatingButton: FloatingActionButton) {
         if (firebaseCurrentUser == null) {
 
-            showToast("Du må være innlogget for å kunne legge til utdanninger i favoritter")
+            showToast("Du må være innlogget for å kunne legge til/fjerne utdanninger")
 
         } else {
 
@@ -130,7 +130,7 @@ class EducationDetailFragment : Fragment() {
         Toast.makeText(
             context,
             text,
-            Toast.LENGTH_SHORT
+            Toast.LENGTH_LONG
         ).show()
     }
 

@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.education_list_item.view.*
 import no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment
+import no.hiof.mettesh.utdanningsoversikten.EducationListFragment
 import no.hiof.mettesh.utdanningsoversikten.R
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
@@ -52,11 +54,11 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
             firebaseAuth = FirebaseAuth.getInstance()
             val currentUser = firebaseAuth.currentUser
 
-            Glide.with(itemView).load(R.drawable.ic_school_teal)
+            Glide.with(itemView).load(R.drawable.ic_school_yellow)
                 .centerCrop()
-                .placeholder(R.drawable.ic_school_teal)
-                .error(R.drawable.ic_school_teal)
-                .fallback(R.drawable.ic_school_teal)
+                .placeholder(R.drawable.ic_school_yellow)
+                .error(R.drawable.ic_school_yellow)
+                .fallback(R.drawable.ic_school_yellow)
                 .into(schoolIconImageView)
 
             educationTitleTextView.text = item.educationTitle
@@ -66,9 +68,9 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
             Glide.with(itemView)
                 .load(item.image)
                 .centerCrop()
-                .placeholder(R.drawable.andre)
-                .error(R.drawable.andre)
-                .fallback(R.drawable.andre)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_foreground)
+                .fallback(R.drawable.ic_launcher_foreground)
                 .into(educationImageView)
 
             educationShortDescriptionTextView.text = item.descriptionShort
@@ -87,7 +89,7 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
                     addEducationToFavouriteAndChangeHeart(currentUser, item, favouriteHeart)
                 }
                 else {
-                    showToast("Du må ha internettilkobling for å kunne legge til eller fjerne utdanninger i favoritter")
+                    showAlertBox("Ingen nettilgang", "Du må være tilkoblet internett for å kunne legge til/fjerne utdanninger", "Ok")
                 }
             }
 
@@ -106,16 +108,27 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
                 EducationDetailFragment.addFavToFirestore(firebaseCurrentUser!!, education)
                 showToast("Utdanning lagt til i favoritter")
             }
-
-
         }
 
         private fun showToast(text: String) {
             Toast.makeText(
                 this.itemView.context,
                 text,
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_LONG
             ).show()
+        }
+
+        private fun showAlertBox(title: String, message: String, buttonText: String) {
+            val alertBox = AlertDialog.Builder(this.itemView.context, R.style.AlertDialogTheme)
+
+            alertBox.setTitle(title)
+            alertBox.setMessage(message)
+
+            alertBox.setPositiveButton(buttonText) { dialog, which ->
+
+            }
+            val alert = alertBox.create()
+            alert.show()
         }
 
         private fun Context.isConnectedToNetwork(): Boolean {

@@ -91,7 +91,7 @@ class FavouriteFragment : Fragment() {
             if (!context!!.isConnectedToNetwork()) {
                 // Ved første oppstart skal dette gis beskjed om i alertBox
                 if(isFirstRun){
-                    showToast("OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon")
+                    showToast("Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon")
                     isFirstRun = false
                 }
             }
