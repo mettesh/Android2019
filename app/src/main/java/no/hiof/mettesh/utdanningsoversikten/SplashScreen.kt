@@ -68,6 +68,8 @@ class SplashScreen : AppCompatActivity() {
         override fun onPostExecute(result: Boolean) {
             if (result) {
                 startActivity(Intent(this@SplashScreen, MainActivity::class.java))
+                // For å hindre at man går tilbake til splashscreen ved trykk på tilbakepil
+                finish()
             }
             else {
                 // Viser DialogBox om data ikke lastes korrekt.
@@ -181,7 +183,6 @@ class SplashScreen : AppCompatActivity() {
                 val jsonEducationObject = jsonArray.getJSONObject(i)
 
                 val educationCode = jsonEducationObject.get("Studieprogramkode").toString()
-                val QualificationCode = jsonEducationObject.get("Kvalifikasjonskode").toString()
                 val educationTitle = jsonEducationObject.get("Programnavn").toString()
                 val schoolCode = (jsonEducationObject.get("Institusjonskode") as String).toInt()
                 val school = School.schoolList.find { it.schoolCode ==  schoolCode}!!
@@ -193,7 +194,6 @@ class SplashScreen : AppCompatActivity() {
                 val newEducation = Education(
                     i, // Mangler fra JSON
                     educationCode,
-                    QualificationCode,
                     educationTitle,
                     "Fagområde: $studyField\nNivå: $level\nSted: " + school.place, // Mangler fra JSON
                     "Fagområde: $studyField\nNivå: $level", // Mangler fra JSON

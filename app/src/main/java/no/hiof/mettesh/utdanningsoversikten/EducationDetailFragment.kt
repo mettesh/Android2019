@@ -1,7 +1,9 @@
 package no.hiof.mettesh.utdanningsoversikten
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -49,9 +51,10 @@ class EducationDetailFragment : Fragment() {
         val detailEducationTitleTextView: TextView = view.detailEducationTitle
         val detailSchoolNameTextView: TextView = view.detailSchoolName
         val sendToWebImgView: ImageView = view.sendToWebImgView
-        val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
+
+        // Settes direkte da vi ikke har dette tilgjengelig i datasett
+        // val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
         val poenggrenseTextView: TextView = view.detailPoenggrense
-        val kravkodeTextView: TextView = view.detailKravkode
         val favFloatingButton: FloatingActionButton = view.floatingButton_fav
         val schoolUrl: String = education.school.webPage
 
@@ -67,9 +70,10 @@ class EducationDetailFragment : Fragment() {
             openWebBroser(schoolUrl)
         }
 
-        kravkodeTextView.text = education.qualificationCode
         poenggrenseTextView.text = education.pointsRequired.toString()
-        detailEducationDescriptionTextView.text = education.descriptionLong
+
+
+        //detailEducationDescriptionTextView.text = education.descriptionLong
 
 
         // Setter bilde på floatingButton etter om den finnes i favoritter
@@ -79,69 +83,91 @@ class EducationDetailFragment : Fragment() {
             favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
         }
 
-
         favFloatingButton.setOnClickListener {
-            if (firebaseCurrentUser == null) {
-                Toast.makeText(
-                    context,
-                    "Du må være innlogget for å kunne legge til utdanninger i favoritter",
-                    Toast.LENGTH_LONG
-                ).show()
 
-            } else {
-
-                if (Education.favouriteEducationlist.contains(education)) {
-                    favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
-
-                    removeFavFromFirestore(firebaseCurrentUser, education)
-
-                    Toast.makeText(
-                        context,
-                        education.educationTitle + " er fjernet fra favoritter",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                } else {
-
-                    favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
-
-                    addFavToFirestore(firebaseCurrentUser, education)
-
-                    Toast.makeText(
-                        context,
-                        education.educationTitle + " er lagt til i favoritter",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                }
+            if(context!!.isConnectedToNetwork()){
+                addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favFloatingButton)
             }
+            else {
+                showToast("Du må ha internettilkobling for å kunne legge til utdanninger i favoritter")
+            }
+
         }
     }
 
-    private fun addFavToFirestore(firebaseCurrentUser : FirebaseUser?, education : Education) {
+    private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favFloatingButton: FloatingActionButton) {
+        if (firebaseCurrentUser == null) {
 
-        firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList")
-            .document(education.id.toString())
-            .set(education)
-            .addOnSuccessListener { Log.d(TAG, "Education successfully written!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+            showToast("Du må være innlogget for å kunne legge til utdanninger i favoritter")
 
-        Education.favouriteEducationlist.add(education)
-    }
+        } else {
 
-    private fun removeFavFromFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
+            if (Education.favouriteEducationlist.contains(education)) {
+                favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
 
-        firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList").document(education.id.toString())
-            .delete()
-            .addOnSuccessListener { Log.d(TAG, "Education successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+                removeFavFromFirestore(firebaseCurrentUser, education)
 
-        Education.favouriteEducationlist.remove(education)
+                showToast(education.educationTitle + " er fjernet fra favoritter")
 
+            } else {
+
+                favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
+
+                addFavToFirestore(firebaseCurrentUser, education)
+
+                showToast(education.educationTitle + " er lagt til i favoritter")
+
+            }
+        }
     }
 
     fun openWebBroser(url : String){
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(
+            context,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    // TODO: Duplikat! Bør legges til en felles!
+    private fun Context.isConnectedToNetwork(): Boolean {
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+    }
+
+    companion object{
+
+        // TODO: Brukes i både adapter og her!
+
+        fun addFavToFirestore(firebaseCurrentUser : FirebaseUser?, education : Education) {
+
+            var firestoreDb = FirebaseFirestore.getInstance()
+
+            firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList")
+                .document(education.id.toString())
+                .set(education)
+                .addOnSuccessListener { Log.d(TAG, "Education successfully written!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+
+            Education.favouriteEducationlist.add(education)
+        }
+
+        fun removeFavFromFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
+
+            var firestoreDb = FirebaseFirestore.getInstance()
+
+            firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList").document(education.id.toString())
+                .delete()
+                .addOnSuccessListener { Log.d(TAG, "Education successfully deleted!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+            Education.favouriteEducationlist.remove(education)
+
+        }
     }
 }

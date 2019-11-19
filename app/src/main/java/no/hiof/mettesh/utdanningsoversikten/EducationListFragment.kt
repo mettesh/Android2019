@@ -1,6 +1,7 @@
 package no.hiof.mettesh.utdanningsoversikten
 
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,20 +20,19 @@ import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 
 
 class EducationListFragment : Fragment() {
 
     private lateinit var adapter: EducationAdapter
-
-    // Henter inn liste med utdanninger fra Education-klassen
     private var educationList : ArrayList<Education> = Education.educationlist
-
     private var rememberedSearch = ""
     private var rememberedLevelSelection = 0
     private var rememberedStudyFieldSelection = 0
     private var rememberedplaceSelection = 0
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -51,20 +51,35 @@ class EducationListFragment : Fragment() {
         loginButton.visibility = View.GONE
 
         openFilterFloatingButton.setOnClickListener {
-            viewBottomSheet(view)
+            viewFilterBottomSheet()
         }
 
         setUpRecycleView(educationList)
 
         // Sjekk om ingen netttilgang:
         if (!context!!.isConnectedToNetwork()){
-            Toast.makeText(context, "OBS! Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon", Toast.LENGTH_LONG).show()
+            // Ved første oppstart skal dette gis beskjed om i alertBox
+            if(isFirstRun){
+                showAlertBox("Ingen nettilgang", "Du er ikke koblet til internett og ser kanskje ikke oppdatert informasjon", "Ok")
+            }
         }
+    }
+
+    private fun showAlertBox(title: String, message: String, buttonText: String) {
+        val alertBox = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
+
+        alertBox.setTitle(title)
+        alertBox.setMessage(message)
+
+        alertBox.setPositiveButton(buttonText) { dialog, which ->
+            isFirstRun = false
+        }
+        val alert = alertBox.create()
+        alert.show()
     }
 
 
     override fun onResume() {
-        adapter.notifyDataSetChanged()
         super.onResume()
     }
 
@@ -84,11 +99,11 @@ class EducationListFragment : Fragment() {
 
     }
 
-    private fun viewBottomSheet(view : View) {
+    private fun viewFilterBottomSheet() {
 
         val dialog = BottomSheetDialog(context!!)
 
-        val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        val view: View = layoutInflater.inflate(R.layout.bottom_sheet, null)
 
         dialog.setContentView(view)
         dialog.show()
@@ -107,6 +122,7 @@ class EducationListFragment : Fragment() {
 
         fillSpinners(spinnerLevel, spinnerStudyField, spinnerPlace)
 
+        // For å huske valg gjort tidligere
         spinnerLevel.setSelection(rememberedLevelSelection)
         spinnerStudyField.setSelection(rememberedStudyFieldSelection)
         spinnerPlace.setSelection(rememberedplaceSelection)
@@ -261,6 +277,10 @@ class EducationListFragment : Fragment() {
     private fun Context.isConnectedToNetwork(): Boolean {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+    }
+
+    companion object{
+        private var isFirstRun = true
     }
 
 }
