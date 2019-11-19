@@ -53,21 +53,18 @@ class AccountFragment : Fragment() {
         loginButton.visibility = View.GONE
         logoutButton.visibility = View.GONE
 
-
         if(firebaseCurrentUser == null){
 
             loginButton.visibility = View.VISIBLE
 
-            loginTextview.text = "Logg inn eller registrer deg. \nMed konto kan du lagre utdanninger, søk og skoler"
+            loginTextview.text = "Logg inn eller registrer deg. \nMed konto kan du lagre utdanninger"
 
             loginButton.setOnClickListener {
 
                 if (context!!.isConnectedToNetwork()){
                     createAuthenticationListener()
                 } else {
-                    showToast("Du må være tilkoblet internett for å kunne logge inn")
-
-
+                    showToast("For å kunne logge inn må du være tilkoblet internett")
                 }
             }
 
