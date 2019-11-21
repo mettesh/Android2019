@@ -49,12 +49,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="306dp"
-        android:layout_height="212dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:contentDescription="@string/a_black_school_hat"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/school_hat"
-        android:contentDescription="@string/a_black_school_hat" />
+        tools:srcCompat="@drawable/school_hat" />
 </androidx.constraintlayout.widget.ConstraintLayout>

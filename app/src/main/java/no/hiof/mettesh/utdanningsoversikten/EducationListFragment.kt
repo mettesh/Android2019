@@ -188,7 +188,7 @@ class EducationListFragment : Fragment() {
 
         val filteredList = ArrayList<Education>()
 
-        for(education : Education in educationList){
+        for(education : Education in Education.educationlist){
 
             if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)
                 && educationContainsString(education, searchInput)){
