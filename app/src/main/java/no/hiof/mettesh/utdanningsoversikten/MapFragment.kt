@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.clustering.ClusterItem
 import org.json.JSONArray
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -56,8 +53,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val lat = jsonObject.getDouble("lat")
             val lng = jsonObject.getDouble("lng")
             val snippet = jsonObject.getString("snippet")
-            //val icon = jsonObject.getString("icon").toInt()
-            val marker = MarkerOptions().position(LatLng(lat, lng)).title(name).snippet(snippet)
+            val icon = jsonObject.getString("icon")
+
+            val resID = resources.getIdentifier(
+                icon,
+                "drawable", activity!!.packageName
+            )
+
+            val marker = MarkerOptions().position(LatLng(lat, lng)).title(name).snippet(snippet).icon(
+                BitmapDescriptorFactory.fromResource(resID))
+
             markerList.add(marker)
         }
         gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerList[0].position, 10.0f))
@@ -90,7 +95,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun addClusters() {
         for (marker in markerList) {
-            val clusterItem = MarkerClusterItem(marker.position, marker.title)
+            val clusterItem = MarkerClusterItem(marker.position, marker.title, marker.snippet, marker.icon)
             clusterManager.addItem(clusterItem)
         }
     }
@@ -113,11 +118,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             // Hvor kartet skal starte
-            val latLng = LatLng(60.18523283, 10.16784668)
-            val zoomLevel = 7.0f
-
+            val zoomLevel = 5.0f
             // Flytter kameraet til denne posisjonen
-            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerList[0].position, zoomLevel))
 
             // Kompass og zoom-knapper på kartet
             gmap.uiSettings.isCompassEnabled = true
