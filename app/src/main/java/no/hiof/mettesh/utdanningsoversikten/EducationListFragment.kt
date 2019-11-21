@@ -60,7 +60,7 @@ class EducationListFragment : Fragment() {
         if (!context!!.isConnectedToNetwork()){
             // Ved første oppstart skal dette gis beskjed om i alertBox
             if(isFirstRun){
-                showAlertBox("Ingen ineternettilgang", "Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon", "Ok")
+                showAlertBox("Ingen internettilgang", "Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon", "Ok")
             }
         }
     }
@@ -188,7 +188,7 @@ class EducationListFragment : Fragment() {
 
         val filteredList = ArrayList<Education>()
 
-        for(education : Education in educationList){
+        for(education : Education in Education.educationlist){
 
             if(educationInfoContainsChosenSpinnersInfo(education, chosenPlace, chosenLevel, chosenStudyField)
                 && educationContainsString(education, searchInput)){

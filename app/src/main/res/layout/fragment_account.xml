@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:text="@string/logg_ut"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -68,11 +68,24 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:text="@string/logg_inn"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimaryDark"
         android:textColorLink="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/notLoggedInText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notLoggedIn"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

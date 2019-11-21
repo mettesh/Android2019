@@ -1,6 +1,5 @@
 package no.hiof.mettesh.utdanningsoversikten
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.model.Place
 import no.hiof.mettesh.utdanningsoversikten.model.School
 import org.json.JSONArray
 import java.io.BufferedReader
@@ -51,8 +51,12 @@ class SplashScreen : AppCompatActivity() {
 
             publishProgress("Loading data")
 
+            // TODO: Endret
+            getPlaceCSVFileBasedOnZipCode()
+
             readSchoolJsonFile()
             readEducationJsonFile()
+
             if (firebaseCurrentUser != null) { loadDataFromFirebase(firebaseCurrentUser) }
 
             publishProgress("Data loading finished")
@@ -115,6 +119,7 @@ class SplashScreen : AppCompatActivity() {
 
     }
 
+    // TODO: Endret
     private fun readSchoolJsonFile() {
 
         var json : String? = null
@@ -136,7 +141,14 @@ class SplashScreen : AppCompatActivity() {
                 val schoolZipCode = jsonSchoolObject.get("Postnummer").toString()
                 var schoolPhoneNumber = jsonSchoolObject.get("Telefon")
                 val webPage = jsonSchoolObject.get("Nettside").toString()
-                var place = getPlaceCSVFileBasedOnZipCode(schoolZipCode)
+                var place = "Ukjent"
+
+                var placeFromZipCode = Place.zipCodeAndPlaceList.find { it.zipCode == schoolZipCode }?.place
+
+                if(placeFromZipCode != null){
+                    place = placeFromZipCode
+                }
+
 
                 if( schoolPhoneNumber.equals(null) || schoolPhoneNumber.equals("")){
                     schoolPhoneNumber = 0
@@ -278,27 +290,28 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    private fun getPlaceCSVFileBasedOnZipCode(schoolZipCode: String): String {
+    // TODO: Endret - Leser csv-fil og bygger sted-objekter fra denne. På den måten trengs fila kun å leses en gang!
+    private fun getPlaceCSVFileBasedOnZipCode() {
 
         try {
 
             val fileReader = InputStreamReader(getAssets().open("steder.csv"))
             val bufferedReader = BufferedReader(fileReader)
 
-            bufferedReader.readLine()
             var line : String
 
-            while ((bufferedReader.readLine() != null)) {
+            val iterator = bufferedReader.lineSequence().iterator()
 
-                line = bufferedReader.readLine()
+            while(iterator.hasNext()) {
+
+                line = iterator.next()
+
+                println(line)
+
                 val word = line.split("\t")
-                if(word[0].equals(schoolZipCode)){
-                    return word[1]
-                }
-                if(word[2].equals(schoolZipCode)){
-                    return word[3]
-                }
 
+                Place.zipCodeAndPlaceList.add(Place(word[0], word[1]))
+                Place.zipCodeAndPlaceList.add(Place(word[2], word[3]))
             }
 
 
@@ -307,8 +320,6 @@ class SplashScreen : AppCompatActivity() {
         catch (e : IOException) {
 
         }
-
-        return "Ukjent"
     }
 
     private fun animateHeader(){

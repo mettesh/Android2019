@@ -47,17 +47,20 @@ class AccountFragment : Fragment() {
         val numOfFavtextView : TextView = view.textView_numOfFav
         val loginButton : Button = view.button_accountlogIn
         val logoutButton : Button = view.button_accountlogOut
+        val notLogedInText : TextView = view.notLoggedInText
 
         usernameTextView.visibility = View.GONE
         numOfFavtextView.visibility = View.GONE
         loginButton.visibility = View.GONE
         logoutButton.visibility = View.GONE
+        loginTextview.visibility = View.GONE
+        notLogedInText.visibility = View.GONE
 
         if(firebaseCurrentUser == null){
 
             loginButton.visibility = View.VISIBLE
 
-            loginTextview.text = "Logg inn eller registrer deg. \nMed konto kan du lagre utdanninger"
+            notLogedInText.visibility = View.VISIBLE
 
             loginButton.setOnClickListener {
 
@@ -73,8 +76,7 @@ class AccountFragment : Fragment() {
             usernameTextView.visibility = View.VISIBLE
             numOfFavtextView.visibility = View.VISIBLE
             logoutButton.visibility = View.VISIBLE
-
-            loginTextview.text = "Logget inn som:"
+            loginTextview.visibility = View.VISIBLE
 
             usernameTextView.text = firebaseCurrentUser.displayName
 
@@ -104,6 +106,7 @@ class AccountFragment : Fragment() {
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
+                .setTheme(R.style.loginTheme)
                 .setAvailableProviders( arrayListOf(
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build()))
