@@ -60,7 +60,7 @@ class EducationListFragment : Fragment() {
         if (!context!!.isConnectedToNetwork()){
             // Ved første oppstart skal dette gis beskjed om i alertBox
             if(isFirstRun){
-                showAlertBox("Ingen ineternettilgang", "Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon", "Ok")
+                showAlertBox("Ingen internettilgang", "Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon", "Ok")
             }
         }
     }
