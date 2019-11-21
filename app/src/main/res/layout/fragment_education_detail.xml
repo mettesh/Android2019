@@ -41,7 +41,7 @@
             android:textColor="#3D57BB"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/studyImage" />
 
         <TextView
             android:id="@+id/textView6"
@@ -76,7 +76,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/detailSchoolName"
-            app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/studyImage" />
 
         <TextView
             android:id="@+id/titleDescription"
@@ -114,6 +114,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/educationDescription" />
+
+        <ImageView
+            android:id="@+id/studyImage"
+            android:layout_width="match_parent"
+            android:layout_height="169dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="24dp"
+            android:contentDescription="@string/a_picture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailEducationTitle"
+            app:srcCompat="@drawable/andre" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
