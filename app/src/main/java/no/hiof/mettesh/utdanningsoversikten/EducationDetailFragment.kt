@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -54,11 +55,18 @@ class EducationDetailFragment : Fragment() {
         val sendToWebImgView: ImageView = view.sendToWebImgView
 
         // Settes direkte da vi ikke har dette tilgjengelig i datasett
-        // val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
+        val studyImage : ImageView = view.studyImage
         val poenggrenseTextView: TextView = view.detailPoenggrense
         val favButton: Button = view.floatingButton_fav
         val schoolUrl: String = education.school.webPage
 
+        Glide.with(view)
+            .load(education.image)
+            .centerCrop()
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_launcher_foreground)
+            .fallback(R.drawable.ic_launcher_foreground)
+            .into(studyImage)
 
         detailEducationTitleTextView.text = education.educationTitle
         detailSchoolNameTextView.text = education.school!!.schoolTitle
