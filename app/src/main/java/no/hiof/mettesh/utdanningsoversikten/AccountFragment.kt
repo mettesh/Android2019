@@ -106,6 +106,7 @@ class AccountFragment : Fragment() {
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
+                .setTheme(R.style.loginTheme)
                 .setAvailableProviders( arrayListOf(
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build()))
