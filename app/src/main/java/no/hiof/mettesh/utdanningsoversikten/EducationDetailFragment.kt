@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -55,7 +56,7 @@ class EducationDetailFragment : Fragment() {
         // Settes direkte da vi ikke har dette tilgjengelig i datasett
         // val detailEducationDescriptionTextView: TextView = view.detailEducationDescription
         val poenggrenseTextView: TextView = view.detailPoenggrense
-        val favFloatingButton: FloatingActionButton = view.floatingButton_fav
+        val favButton: Button = view.floatingButton_fav
         val schoolUrl: String = education.school.webPage
 
 
@@ -78,15 +79,15 @@ class EducationDetailFragment : Fragment() {
 
         // Setter bilde på floatingButton etter om den finnes i favoritter
         if (Education.favouriteEducationlist.contains(education)) {
-            favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
+            favButton.text = "Fjern fra favoritter"
         } else {
-            favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
+            favButton.text = "Legg til i favoritter"
         }
 
-        favFloatingButton.setOnClickListener {
+        favButton.setOnClickListener {
 
             if(context!!.isConnectedToNetwork()){
-                addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favFloatingButton)
+                addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favButton)
             }
             else {
                 showToast("Du må ha internettilkobling for å kunne legge til/fjerne utdanninger")
@@ -95,7 +96,7 @@ class EducationDetailFragment : Fragment() {
         }
     }
 
-    private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favFloatingButton: FloatingActionButton) {
+    private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favButton: Button) {
         if (firebaseCurrentUser == null) {
 
             showToast("Du må være innlogget for å kunne legge til/fjerne utdanninger")
@@ -103,17 +104,18 @@ class EducationDetailFragment : Fragment() {
         } else {
 
             if (Education.favouriteEducationlist.contains(education)) {
-                favFloatingButton.setImageResource(R.drawable.ic_favorite_border)
 
                 removeFavFromFirestore(firebaseCurrentUser, education)
+
+                favButton.text = "Legg til i favoritter"
 
                 showToast(education.educationTitle + " er fjernet fra favoritter")
 
             } else {
 
-                favFloatingButton.setImageResource(R.drawable.ic_favorite_filled)
-
                 addFavToFirestore(firebaseCurrentUser, education)
+
+                favButton.text = "Fjern fra favoritter"
 
                 showToast(education.educationTitle + " er lagt til i favoritter")
 
