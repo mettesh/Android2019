@@ -319,15 +319,4 @@ class SplashScreen : AppCompatActivity() {
 
         }
     }
-
-    private fun animateHeader(){
-        val animationUtdanning = AnimationUtils.loadAnimation(this, R.anim.anim_utdanning)
-        start_layout_text1.startAnimation(animationUtdanning)
-
-        val animationOversikten = AnimationUtils.loadAnimation(this, R.anim.anim_oversikten)
-        start_layout_text2.startAnimation(animationOversikten)
-
-
-    }
-
 }
