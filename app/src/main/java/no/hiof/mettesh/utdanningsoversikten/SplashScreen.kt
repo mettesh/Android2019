@@ -37,8 +37,6 @@ class SplashScreen : AppCompatActivity() {
         // Skjuler progressbaren da denne ikke skal vises før data lastes
         progressBar.visibility = View.GONE
 
-        animateHeader()
-
         Handler().postDelayed({
             // Laster inn data i egen tråd. Gå videre til MainActivity når denne er ferdig
             AsyncTaskWorker().execute()
