@@ -65,7 +65,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             markerList.add(marker)
         }
-        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerList[0].position, 10.0f))
+        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerList[0].position, 6.0f))
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -118,9 +118,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             // Hvor kartet skal starte
-            val zoomLevel = 5.0f
+            val start = LatLng(68.437418, 17.428516)
+            val zoomLevel = 3.6f
             // Flytter kameraet til denne posisjonen
-            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerList[0].position, zoomLevel))
+            gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(start, zoomLevel))
 
             // Kompass og zoom-knapper på kartet
             gmap.uiSettings.isCompassEnabled = true

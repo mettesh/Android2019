@@ -2,28 +2,28 @@
   {
     "lat": "63.417844",
     "lng": "10.403797",
-    "name": "NTNU",
-    "snippet": "Mette er kul",
+    "name": "Norges teknisk-naturvitenskapelige universitet (NTNU)",
+    "snippet": "",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "60.789962",
     "lng": "10.682665",
-    "name": "NTNU Gjøvik",
-    "snippet": "",
+    "name": "Norges teknisk-vitenskapelige universitet (NTNU)",
+    "snippet": "Campus Gjøvik",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "62.472123",
     "lng": "6.235385",
-    "name": "NTNU Ålesund",
-    "snippet": "",
+    "name": "Norges teknisk-vitenskapelige universitet (NTNU)",
+    "snippet": "Campus Ålesund",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.666416",
     "lng": "10.767846",
-    "name": "NMBU",
+    "name": "Norges miljø- og biovitenskapelige universitet (NMBU)",
     "snippet": "",
     "icon": "ic_school_yellow"
   },
@@ -51,22 +51,22 @@
   {
     "lat": "69.679777",
     "lng": "18.971241",
-    "name": "Universitetet i Tromsø",
-    "snippet": "",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Tromsø",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "58.163611",
     "lng": "8.002846",
-    "name": "Universitetet i Agder - avd. Kristiansand",
-    "snippet": "",
+    "name": "Universitetet i Agder",
+    "snippet": "Campus Kristiansand",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "58.334340",
     "lng": "8.576818",
-    "name": "Universitetet i Agder - avd. Grimstad",
-    "snippet": "",
+    "name": "Universitetet i Agder",
+    "snippet": "Campus Grimstad",
     "icon": "ic_school_yellow"
   },
   {
@@ -79,71 +79,71 @@
   {
     "lat": "59.976376",
     "lng": "11.044570",
-    "name": "Oslomet - avd. Kjeller",
-    "snippet": "",
+    "name": "Oslomet - storbyuniversitetet",
+    "snippet": "Campus Kjeller",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.921130",
     "lng": "10.733170",
-    "name": "Oslomet - avd. Pilestredet",
-    "snippet": "",
+    "name": "Oslomet - storbyuniversitetet",
+    "snippet": "Campus Pilestredet (Oslo)",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.408895",
     "lng": "9.059572",
-    "name": "Universitetet i Sørøst-Norge - avd. Bø",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Bø",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.743784",
     "lng": "10.193702",
-    "name": "Universitetet i Sørøst-Norge - avd. Drammen",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Drammen",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.664448",
     "lng": "9.644371",
-    "name": "Universitetet i Sørøst-Norge - avd. Kongsberg",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Kongsberg",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.568442",
     "lng": "9.279572",
-    "name": "Universitetet i Sørøst-Norge - avd. Notodden",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Notodden",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.138689",
     "lng": "9.672193",
-    "name": "Universitetet i Sørøst-Norge - avd. Porsgrunn",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Porsgrunn",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.696377",
     "lng": "8.042888",
-    "name": "Universitetet i Sørøst-Norge - avd. Rauland",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Rauland",
     "icon": "ic_school_yellow"
   },
   {
-  "lat": "60.152887",
-  "lng": "10.262749",
-  "name": "Universitetet i Sørøst-Norge - avd. Ringerike",
-    "snippet": "",
+    "lat": "60.152887",
+    "lng": "10.262749",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Ringerike",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.368648",
     "lng": "10.441417",
-    "name": "Universitetet i Sørøst-Norge - avd. Vestfold",
-    "snippet": "",
+    "name": "Universitetet i Sørøst-Norge",
+    "snippet": "Campus Vestfold",
     "icon": "ic_school_yellow"
   },
   {
@@ -184,8 +184,8 @@
   {
     "lat": "62.736480",
     "lng": "7.110027",
-    "name": "Høgskolen i Molde - Vitenskapelig høgskole i logistikk",
-    "snippet": "",
+    "name": "Høgskolen i Molde",
+    "snippet": "Vitenskapelig høgskole i logistikk",
     "icon": "ic_school_yellow"
   },
   {
@@ -198,78 +198,78 @@
   {
     "lat": "60.369099",
     "lng": "5.349931",
-    "name": "Høgskulen på Vestlandet - Avd. Bergen",
-    "snippet": "",
+    "name": "Høgskulen på Vestlandet",
+    "snippet": "Campus Bergen",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "61.458922",
     "lng": "5.888601",
-    "name": "Høgskulen i Vestlandet - Avd. Førde",
-    "snippet": "",
+    "name": "Høgskulen i Vestlandet",
+    "snippet": "Campus Førde",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.409055",
     "lng": "5.276031",
-    "name": "Høgskulen på Vestlandet - Avd. Haugesund",
-    "snippet": "",
+    "name": "Høgskulen på Vestlandet",
+    "snippet": "Campus Haugesund",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "61.230305",
     "lng": "7.088607",
-    "name": "Høgskulen på Vestlandet - Avd. Sogndal",
-    "snippet": "",
+    "name": "Høgskulen på Vestlandet",
+    "snippet": "Campus Sogndal",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.816295",
     "lng": "5.526238",
-    "name": "Høgskulen på Vestlandet - Avd. Stord",
-    "snippet": "",
+    "name": "Høgskulen på Vestlandet",
+    "snippet": "Campus Stord",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "60.819569",
     "lng": "11.180326",
-    "name": "Høgskolen i Innlandet - Avd. Blæstad",
-    "snippet": "",
+    "name": "Høgskolen i Innlandet",
+    "snippet": "Campus Blæstad",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "60.881167",
     "lng": "11.536417",
-    "name": "Høgskolen i Innlandet - Avd. Elverum",
-    "snippet": "",
+    "name": "Høgskolen i Innlandet",
+    "snippet": "Campus Elverum",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "61.425459",
     "lng": "11.078007",
-    "name": "Høgskolen i Innlandet - Avd. Evenstad",
-    "snippet": "",
+    "name": "Høgskolen i Innlandet",
+    "snippet": "Campus Evenstad",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "60.796368",
     "lng": "11.074072",
-    "name": "Høgskolen i Innlandet - Avd. Hamar",
-    "snippet": "",
+    "name": "Høgskolen i Innlandet",
+    "snippet": "Campus Hamar",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "61.150066",
     "lng": "10.422659",
-    "name": "Høgskolen i Innlandet - Avd. Lillehammer",
-    "snippet": "",
+    "name": "Høgskolen i Innlandet",
+    "snippet": "Campus Lillehammer",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "61.136061",
     "lng": "11.373893",
-    "name": "Høgskolen i Innlandet - Avd. Rena",
-    "snippet": "",
+    "name": "Høgskolen i Innlandet",
+    "snippet": "Campus Rena",
     "icon": "ic_school_yellow"
   },
   {
@@ -283,14 +283,14 @@
     "lat": "59.128834",
     "lng": "11.353271",
     "name": "Høgskolen i Østfold",
-    "snippet": "Avdeling Halden",
+    "snippet": "Campus Halden",
     "icon": "ic_school_yellow"
   },
   {
     "lat": "59.212841",
     "lng": "10.930491",
     "name": "Høgskolen i Østfold",
-    "snippet": "Avdeling Fredrikstad",
+    "snippet": "Campus Fredrikstad",
     "icon": "ic_school_yellow"
   },
   {
@@ -304,7 +304,91 @@
     "lat": "59.931877",
     "lng": "10.713974",
     "name": "Politihøgskolen",
-    "snippet": "",
+    "snippet": "Campus Oslo",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "58.992957",
+    "lng": "10.036887",
+    "name": "Politihøgskolen",
+    "snippet": "Campus Stavern",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "67.287486",
+    "lng": "14.559378",
+    "name": "Politihøgskolen",
+    "snippet": "Campus Bodø",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "60.218795",
+    "lng": "12.013761",
+    "name": "Politihøgskolen",
+    "snippet": "Campus Kongsvinger",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "69.968832",
+    "lng": "23.287436",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Alta",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "69.727963",
+    "lng": "30.041498",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Kirkenes",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "70.673773",
+    "lng": "23.674491",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Hammerfest",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "68.804131",
+    "lng": "16.548596",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Harstad",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "68.435967",
+    "lng": "17.435332",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Narvik",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "69.058567",
+    "lng": "18.544324",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Bardufoss",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "67.290089",
+    "lng": "14.559643",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Bodø",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "66.311325",
+    "lng": "14.140154",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Mo i Rana",
+    "icon": "ic_school_yellow"
+  },
+  {
+    "lat": "78.222674",
+    "lng": "15.652443",
+    "name": "Universitetet i Tromsø - Norges arktiske universitet",
+    "snippet": "Campus Svalbard",
     "icon": "ic_school_yellow"
   }
 ]
