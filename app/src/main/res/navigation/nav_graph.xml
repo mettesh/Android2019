@@ -32,7 +32,7 @@
         android:id="@+id/favourite_dest"
         android:name="no.hiof.mettesh.utdanningsoversikten.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite">
+        tools:layout="@layout/fragment_education_list">
         <action
             android:id="@+id/action_favourite_dest_to_educationDetailFragment"
             app:destination="@id/educationDetailFragment" />

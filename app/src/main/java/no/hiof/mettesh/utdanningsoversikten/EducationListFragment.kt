@@ -27,6 +27,10 @@ import com.google.android.material.textfield.TextInputEditText
 class EducationListFragment : Fragment() {
 
     private lateinit var adapter: EducationAdapter
+    private lateinit var loginOrEmptylistTextview : TextView
+    private lateinit var loginButton : Button
+    private lateinit var openFilterFloatingButton : FloatingActionButton
+
     private var educationList : ArrayList<Education> = Education.educationlist
     private var rememberedSearch = ""
     private var rememberedLevelSelection = 0
@@ -41,9 +45,9 @@ class EducationListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
 
-        val loginOrEmptylistTextview : TextView = view.textView_login_or_empty
-        val loginButton : Button = view.login_button
-        val openFilterFloatingButton : FloatingActionButton = view.openFilterFloatingButton
+        loginOrEmptylistTextview = view.textView_login_or_empty
+        loginButton = view.login_button
+        openFilterFloatingButton = view.openFilterFloatingButton
 
 
         // Skjuler disse da de kun brukes for favouriteFragment (Og samme layout benyttes)
@@ -84,6 +88,7 @@ class EducationListFragment : Fragment() {
     }
 
     private fun setUpRecycleView(educationList: List<Education>) {
+
 
         educationRecyclerView.adapter = EducationAdapter(educationList, View.OnClickListener { view ->
 

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -50,7 +49,7 @@ class SplashScreen : AppCompatActivity() {
             publishProgress("Loading data")
 
             // TODO: Endret
-            getPlaceCSVFileBasedOnZipCode()
+            readPlaceCSVFile()
 
             readSchoolJsonFile()
             readEducationJsonFile()
@@ -248,7 +247,7 @@ class SplashScreen : AppCompatActivity() {
             "REALFAG"-> return "Matematisk-naturvitenskapelig-informatikk"
             "HUMAN", "EXPHIL" -> return "Historisk-filosofi"
             "DESIGN", "ID" -> return "Design"
-            "VIDEREG" -> return "Videregående"
+            "VIDEREG" -> return "Videregående"
             "SAMVIT" -> return "Samfunnsvitenskap"
             "HELSEFAG", "SYK" -> return "Helsefag"
             "BAR" -> return "Barnevern"
@@ -289,7 +288,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     // TODO: Endret - Leser csv-fil og bygger sted-objekter fra denne. På den måten trengs fila kun å leses en gang!
-    private fun getPlaceCSVFileBasedOnZipCode() {
+    private fun readPlaceCSVFile() {
 
         try {
 
