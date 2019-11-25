@@ -33,7 +33,6 @@ import no.hiof.mettesh.utdanningsoversikten.R
 class FavouriteFragment : Fragment() {
 
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
-    private lateinit var firestoreDb: FirebaseFirestore
 
     private var favouriteEducationList: ArrayList<Education> = Education.favouriteEducationlist
 
