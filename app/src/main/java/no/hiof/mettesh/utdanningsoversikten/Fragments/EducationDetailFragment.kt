@@ -86,7 +86,7 @@ class EducationDetailFragment : Fragment() {
         sendToWebImgView.setOnClickListener { openWebBroser(schoolUrl) }
         favButton.setOnClickListener {
             if(context!!.isConnectedToNetwork()){
-                addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favButton)
+                addEducationToFavouriteAndChangeButtonText(firebaseCurrentUser, education, favButton)
             }
             else {
                 showToast("Du må ha internettilkobling for å kunne legge til/fjerne utdanninger")
@@ -94,7 +94,7 @@ class EducationDetailFragment : Fragment() {
         }
     }
 
-    private fun addEducationToFavouriteAndChangeHeart(firebaseCurrentUser: FirebaseUser?, education: Education, favButton: Button) {
+    private fun addEducationToFavouriteAndChangeButtonText(firebaseCurrentUser: FirebaseUser?, education: Education, favButton: Button) {
         if (firebaseCurrentUser == null) {
 
             showToast("Du må være innlogget for å kunne legge til/fjerne utdanninger")
