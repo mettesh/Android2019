@@ -8,7 +8,6 @@ import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
@@ -49,8 +48,7 @@ class SplashScreen : AppCompatActivity() {
             readSchoolJsonFileAndMakeSchoolObjects()
             readEducationJsonFileAndMakeEducationObjects()
 
-            // Om bruker er logget inn henter jeg inn data allerede her for å få denne oppdatert
-            if (firebaseCurrentUser != null) { loadDataFromFirebase(firebaseCurrentUser) }
+            if (firebaseCurrentUser != null) { FirebaseFunctions.getDataFromFirestore(firebaseCurrentUser) }
 
             publishProgress("Data loading finished")
 
@@ -86,7 +84,7 @@ class SplashScreen : AppCompatActivity() {
         alert.show()
     }
 
-    private fun loadDataFromFirebase(firebaseCurrentUser : FirebaseUser) {
+    /*private fun loadDataFromFirebase(firebaseCurrentUser : FirebaseUser) {
 
         firestoreDb = FirebaseFirestore.getInstance()
 
@@ -105,7 +103,7 @@ class SplashScreen : AppCompatActivity() {
             Education.favouriteEducationlist = eduList
         }
 
-    }
+    }*/
 
     private fun readPlaceCSVFileAndMakePlaceObjects() {
 

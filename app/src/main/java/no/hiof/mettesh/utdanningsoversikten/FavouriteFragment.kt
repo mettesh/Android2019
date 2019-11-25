@@ -27,7 +27,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 
 
 class FavouriteFragment : Fragment() {
@@ -103,7 +102,18 @@ class FavouriteFragment : Fragment() {
             }
         }
 
-        getDataFromFirestore(firebaseCurrentUser)
+        FirebaseFunctions.getDataFromFirestore(firebaseCurrentUser)
+
+        if (Education.favouriteEducationlist.isEmpty()){
+
+            loginOrEmptylistTextview.visibility = View.VISIBLE
+            loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
+
+        } else {
+
+            setUpRecycleView()
+            recyclerView.visibility = View.VISIBLE
+        }
     }
 
 
@@ -156,6 +166,7 @@ class FavouriteFragment : Fragment() {
         }
     }
 
+    /*
     private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
 
         firestoreDb = FirebaseFirestore.getInstance()
@@ -174,19 +185,10 @@ class FavouriteFragment : Fragment() {
             }
 
             Education.favouriteEducationlist = eduList
-
-            if (Education.favouriteEducationlist.isEmpty()){
-
-                loginOrEmptylistTextview.visibility = View.VISIBLE
-                loginOrEmptylistTextview.text = "Du har ingen lagrede favoritter"
-
-            } else {
-
-                setUpRecycleView()
-                recyclerView.visibility = View.VISIBLE
-            }
         }
     }
+    */
+
 
     private fun Context.isConnectedToNetwork(): Boolean {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?

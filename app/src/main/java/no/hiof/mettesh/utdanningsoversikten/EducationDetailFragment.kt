@@ -1,12 +1,10 @@
 package no.hiof.mettesh.utdanningsoversikten
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +14,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
-import kotlinx.android.synthetic.main.fragment_education_list.*
-import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.addFavToFirestore
-import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.removeFavFromFirestore
-import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
 class EducationDetailFragment : Fragment() {
@@ -106,8 +99,7 @@ class EducationDetailFragment : Fragment() {
 
             if (Education.favouriteEducationlist.contains(education)) {
 
-                // Metode ligger i FirebaseFunctions da den benyttes flere steder
-                removeFavFromFirestore(firebaseCurrentUser, education)
+                FirebaseFunctions.removeFavFromFirestore(firebaseCurrentUser, education)
 
                 favButton.text = "Legg til i favoritter"
 
@@ -115,8 +107,7 @@ class EducationDetailFragment : Fragment() {
 
             } else {
 
-                // Metode ligger i FirebaseFunctions da den benyttes flere steder
-                addFavToFirestore(firebaseCurrentUser, education)
+                FirebaseFunctions.addFavToFirestore(firebaseCurrentUser, education)
 
                 favButton.text = "Fjern fra favoritter"
 

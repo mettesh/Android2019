@@ -60,6 +60,8 @@ class AccountFragment : Fragment() {
             viewContentForUserNotLoggedIn()
 
         } else {
+            FirebaseFunctions.getDataFromFirestore(firebaseCurrentUser)
+            // TODO: Må vente til data er lastet inn!
             viewContentForUserLoggedIn(firebaseCurrentUser, view)
         }
 
@@ -133,7 +135,6 @@ class AccountFragment : Fragment() {
 
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
-
                 showToast("Innlogging avbrutt")
             }
         }
