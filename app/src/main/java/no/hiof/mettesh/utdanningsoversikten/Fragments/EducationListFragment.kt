@@ -188,7 +188,11 @@ class EducationListFragment : Fragment() {
         rememberedplaceSelection = spinnerPlace.selectedItemPosition
     }
 
-    private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): ArrayList<Education> {
+    fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): ArrayList<Education> {
+
+        if(chosenLevel.isEmpty() && chosenStudyField.isEmpty() && chosenPlace.isEmpty() && searchInput.isEmpty()){
+            return Education.educationlist
+        }
 
         val filteredList = ArrayList<Education>()
 
@@ -203,7 +207,7 @@ class EducationListFragment : Fragment() {
         return filteredList
     }
 
-    private fun filterFromSearch(educationList: List<Education>, searchInput: String): List<Education> {
+    fun filterFromSearch(educationList: List<Education>, searchInput: String): List<Education> {
 
         val filteredList = ArrayList<Education>()
         if(searchInput.isEmpty()){
@@ -220,14 +224,14 @@ class EducationListFragment : Fragment() {
         return filteredList
     }
 
-    private fun educationContainsString(edu : Education, charSearch : String): Boolean {
+    fun educationContainsString(edu : Education, charSearch : String): Boolean {
         return edu.educationTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
                 edu.school.schoolTitle.toLowerCase().contains(charSearch.toLowerCase()) ||
                 edu.descriptionLong.toLowerCase().contains(charSearch.toLowerCase()) ||
                 edu.descriptionShort.toLowerCase().contains(charSearch.toLowerCase())
     }
 
-    private fun educationInfoContainsChosenSpinnersInfo(education: Education, chosenPlace: String, chosenLevel: String, chosenStudyField: String): Boolean {
+    fun educationInfoContainsChosenSpinnersInfo(education: Education, chosenPlace: String, chosenLevel: String, chosenStudyField: String): Boolean {
         return education.school.place.contains(chosenPlace)
                 && education.level.contains(chosenLevel)
                 && education.studyField.contains(chosenStudyField)
