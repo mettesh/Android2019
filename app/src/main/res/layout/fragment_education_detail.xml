@@ -10,7 +10,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".EducationDetailFragment">
+        tools:context=".Fragments.EducationDetailFragment">
 
         <TextView
             android:id="@+id/detailEducationTitle"
@@ -55,7 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/detailSchoolName" />
 
         <TextView
-            android:id="@+id/detailPoenggrense"
+            android:id="@+id/pointsRequiredTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home_dest"
-        android:name="no.hiof.mettesh.utdanningsoversikten.EducationListFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.Fragments.EducationListFragment"
         android:label="fragment_education_list"
         tools:layout="@layout/fragment_education_list">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/educationDetailFragment"
-        android:name="no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.Fragments.EducationDetailFragment"
         android:label="fragment_education_detail"
         tools:layout="@layout/fragment_education_detail" >
         <argument
@@ -25,14 +25,14 @@
     </fragment>
     <fragment
         android:id="@+id/account_dest"
-        android:name="no.hiof.mettesh.utdanningsoversikten.AccountFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.Fragments.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/favourite_dest"
-        android:name="no.hiof.mettesh.utdanningsoversikten.FavouriteFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.Fragments.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite">
+        tools:layout="@layout/fragment_education_list">
         <action
             android:id="@+id/action_favourite_dest_to_educationDetailFragment"
             app:destination="@id/educationDetailFragment" />
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/map_dest"
-        android:name="no.hiof.mettesh.utdanningsoversikten.MapFragment"
+        android:name="no.hiof.mettesh.utdanningsoversikten.Fragments.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
 </navigation>
