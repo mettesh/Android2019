@@ -31,6 +31,13 @@ class EducationListFragment : Fragment() {
     private lateinit var loginButton : Button
     private lateinit var openFilterFloatingButton : FloatingActionButton
 
+    private lateinit var searchInput : TextInputEditText
+    private lateinit var spinnerLevel : Spinner
+    private lateinit var spinnerStudyField : Spinner
+    private lateinit var spinnerPlace : Spinner
+    private lateinit var searchButton : Button
+    private lateinit var resetText : TextView
+
     private var educationList : ArrayList<Education> = Education.educationlist
     private var rememberedSearch = ""
     private var rememberedLevelSelection = 0
@@ -50,23 +57,19 @@ class EducationListFragment : Fragment() {
         openFilterFloatingButton = view.openFilterFloatingButton
 
 
-        // Skjuler disse da de kun brukes for favouriteFragment (Og samme layout benyttes)
         loginOrEmptylistTextview.visibility = View.GONE
         loginButton.visibility = View.GONE
 
-        openFilterFloatingButton.setOnClickListener {
-            viewFilterBottomSheet()
-        }
+        openFilterFloatingButton.setOnClickListener { viewFilterBottomSheet() }
 
-        setUpRecycleView(educationList)
-
-        // Sjekk om ingen netttilgang:
         if (!context!!.isConnectedToNetwork()){
             // Ved første oppstart skal dette gis beskjed om i alertBox
             if(isFirstRun){
                 showAlertBox("Ingen internettilgang", "Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon", "Ok")
             }
         }
+
+        setUpRecycleView(educationList)
     }
 
     private fun showAlertBox(title: String, message: String, buttonText: String) {
@@ -82,14 +85,7 @@ class EducationListFragment : Fragment() {
         alert.show()
     }
 
-
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun setUpRecycleView(educationList: List<Education>) {
-
-
         educationRecyclerView.adapter = EducationAdapter(educationList, View.OnClickListener { view ->
 
             val position = educationRecyclerView.getChildAdapterPosition(view)
@@ -113,12 +109,12 @@ class EducationListFragment : Fragment() {
         dialog.setContentView(view)
         dialog.show()
 
-        val searchInput : TextInputEditText = view.searchInput
-        val spinnerLevel : Spinner = view.spinnerLevel
-        val spinnerStudyField : Spinner = view.spinnerFieldStudy
-        val spinnerPlace : Spinner = view.spinnerPlace
-        val searchButton : Button = view.filtrerButton
-        val resetText : TextView = view.resetTextView
+        searchInput  = view.searchInput
+        spinnerLevel  = view.spinnerLevel
+        spinnerStudyField = view.spinnerFieldStudy
+        spinnerPlace = view.spinnerPlace
+        searchButton = view.filtrerButton
+        resetText = view.resetTextView
 
         // For å huske hva som er skrevet inn fra tidligere
         if(!rememberedSearch.equals("")){
@@ -153,7 +149,7 @@ class EducationListFragment : Fragment() {
 
         searchButton.setOnClickListener {
 
-            // Om det er noe valgt i nedtrekkslisten blir dette hetet ut, ellers hentes "" ut
+            // Om det er noe valgt i nedtrekkslisten blir dette hentet ut, ellers hentes "" ut
             val chosenLevel = if(spinnerLevel.selectedItem.toString().equals("Nivå")) "" else spinnerLevel.selectedItem.toString()
             val chosenStudyField = if(spinnerStudyField.selectedItem.toString().equals("Fagområde")) "" else spinnerStudyField.selectedItem.toString()
             val chosenPlace = if(spinnerPlace.selectedItem.toString().equals("Sted")) "" else spinnerPlace.selectedItem.toString()
@@ -162,10 +158,8 @@ class EducationListFragment : Fragment() {
 
             setUpRecycleView(educationList)
 
-            rememberedSearch = searchInput.text.toString()
-            rememberedLevelSelection = spinnerLevel.selectedItemPosition
-            rememberedStudyFieldSelection = spinnerStudyField.selectedItemPosition
-            rememberedplaceSelection = spinnerPlace.selectedItemPosition
+            // Tar vare på input og valg fra nedtrekkslister
+            rememberUserInput()
 
             dialog.hide()
         }
@@ -178,15 +172,18 @@ class EducationListFragment : Fragment() {
             rememberedStudyFieldSelection = 0
             rememberedplaceSelection = 0
 
-            // TODO: Duplikatkode. Kan extractes ut!
-            searchInput.text = Editable.Factory.getInstance().newEditable("")
-            spinnerLevel.setSelection(rememberedLevelSelection)
-            spinnerStudyField.setSelection(rememberedStudyFieldSelection)
-            spinnerPlace.setSelection(rememberedplaceSelection)
+            rememberUserInput()
 
             educationList = Education.educationlist
             setUpRecycleView(educationList)
         }
+    }
+
+    private fun rememberUserInput() {
+        rememberedSearch = searchInput.text.toString()
+        rememberedLevelSelection = spinnerLevel.selectedItemPosition
+        rememberedStudyFieldSelection = spinnerStudyField.selectedItemPosition
+        rememberedplaceSelection = spinnerPlace.selectedItemPosition
     }
 
     private fun filterFromSpinners(chosenLevel : String, chosenStudyField : String, chosenPlace : String, searchInput: String): ArrayList<Education> {
@@ -229,7 +226,6 @@ class EducationListFragment : Fragment() {
     }
 
     private fun educationInfoContainsChosenSpinnersInfo(education: Education, chosenPlace: String, chosenLevel: String, chosenStudyField: String): Boolean {
-
         return education.school.place.contains(chosenPlace)
                 && education.level.contains(chosenLevel)
                 && education.studyField.contains(chosenStudyField)
@@ -238,14 +234,12 @@ class EducationListFragment : Fragment() {
 
     private fun fillSpinners(spinnerLevel : Spinner, spinnerStudyField : Spinner, spinnerPlace : Spinner) {
 
-        // Fyller nå isteden listene etter dataen som er tilgjengelig:
-
         val levelList = ArrayList<String>()
         val studyField = ArrayList<String>()
         val place = ArrayList<String>()
 
 
-        // Fyller nedtrekkslistene etter de objektene vi har
+        // Fyller nedtrekkslistene etter de objektene vi har, slik at denne blir mer dynamisk. 
         for(education in Education.educationlist){
 
             if(!studyField.contains(education.studyField)){
