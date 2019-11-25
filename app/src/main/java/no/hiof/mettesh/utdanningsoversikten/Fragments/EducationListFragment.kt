@@ -277,7 +277,7 @@ class EducationListFragment : Fragment() {
 
     private fun Context.isConnectedToNetwork(): Boolean {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false
     }
 
     companion object{

@@ -173,33 +173,9 @@ class FavouriteFragment : Fragment() {
         }
     }
 
-    /*
-    private fun getDataFromFirestore(firebaseCurrentUser: FirebaseUser) {
-
-        firestoreDb = FirebaseFirestore.getInstance()
-
-        val docRef = firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList")
-
-        val eduList = ArrayList<Education>()
-
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-
-            for (document: QueryDocumentSnapshot in documentSnapshot) {
-
-                val education : Education = document.toObject(Education::class.java)
-
-                eduList.add(education)
-            }
-
-            Education.favouriteEducationlist = eduList
-        }
-    }
-    */
-
-
     private fun Context.isConnectedToNetwork(): Boolean {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false
     }
 
     private fun showToast(text: String) {

@@ -73,7 +73,7 @@ class EducationDetailFragment : Fragment() {
             .into(studyImage)
 
         detailEducationTitleTextView.text = education.educationTitle
-        detailSchoolNameTextView.text = education.school!!.schoolTitle
+        detailSchoolNameTextView.text = education.school.schoolTitle
         pointsRequiredTextView.text = education.pointsRequired.toString()
 
         if (Education.favouriteEducationlist.contains(education)) {
@@ -140,41 +140,8 @@ class EducationDetailFragment : Fragment() {
         ).show()
     }
 
-    // TODO: Duplikat! Bør legges til en felles!
     private fun Context.isConnectedToNetwork(): Boolean {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false
     }
-
-    /*
-    companion object{
-
-        // TODO: Brukes i både adapter og her!
-
-        fun addFavToFirestore(firebaseCurrentUser : FirebaseUser?, education : Education) {
-
-            var firestoreDb = FirebaseFirestore.getInstance()
-
-            firestoreDb.collection("favourites").document(firebaseCurrentUser!!.email.toString()).collection("favList")
-                .document(education.id.toString())
-                .set(education)
-                .addOnSuccessListener { Log.d(TAG, "Education successfully written!") }
-                .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-
-            Education.favouriteEducationlist.add(education)
-        }
-
-        fun removeFavFromFirestore(firebaseCurrentUser: FirebaseUser, education: Education) {
-
-            var firestoreDb = FirebaseFirestore.getInstance()
-
-            firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList").document(education.id.toString())
-                .delete()
-                .addOnSuccessListener { Log.d(TAG, "Education successfully deleted!") }
-                .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
-
-            Education.favouriteEducationlist.remove(education)
-
-        }
-    }*/
 }

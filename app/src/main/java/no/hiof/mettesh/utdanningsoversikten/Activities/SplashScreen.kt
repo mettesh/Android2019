@@ -8,7 +8,6 @@ import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions
 import no.hiof.mettesh.utdanningsoversikten.R
@@ -24,8 +23,6 @@ import java.io.InputStreamReader
 class SplashScreen : AppCompatActivity() {
 
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
-    private lateinit var authStateListener : FirebaseAuth.AuthStateListener
-    private lateinit var firestoreDb: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,31 +87,10 @@ class SplashScreen : AppCompatActivity() {
         alert.show()
     }
 
-    /*private fun loadDataFromFirebase(firebaseCurrentUser : FirebaseUser) {
-
-        firestoreDb = FirebaseFirestore.getInstance()
-
-        val docRef = firestoreDb.collection("favourites").document(firebaseCurrentUser.email.toString()).collection("favList")
-
-        val eduList = ArrayList<Education>()
-
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            for (document in documentSnapshot) {
-
-                val education: Education = document.toObject(Education::class.java)
-
-                eduList.add(education)
-            }
-
-            Education.favouriteEducationlist = eduList
-        }
-
-    }*/
-
     private fun readPlaceCSVFileAndMakePlaceObjects() {
 
         try {
-            val fileReader = InputStreamReader(getAssets().open("steder.csv"))
+            val fileReader = InputStreamReader(assets.open("steder.csv"))
             val bufferedReader = BufferedReader(fileReader)
 
             var line : String
@@ -186,7 +162,6 @@ class SplashScreen : AppCompatActivity() {
                     School.schoolList.add(newSchool)
                 }
             }
-
         }
         catch (e : IOException) {
             println("IOException when reading institusjon.json :$e")
