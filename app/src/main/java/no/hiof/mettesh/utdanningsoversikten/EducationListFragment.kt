@@ -56,7 +56,6 @@ class EducationListFragment : Fragment() {
         loginButton = view.login_button
         openFilterFloatingButton = view.openFilterFloatingButton
 
-
         loginOrEmptylistTextview.visibility = View.GONE
         loginButton.visibility = View.GONE
 
@@ -68,7 +67,6 @@ class EducationListFragment : Fragment() {
                 showAlertBox("Ingen internettilgang", "Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon", "Ok")
             }
         }
-
         setUpRecycleView(educationList)
     }
 
@@ -97,7 +95,6 @@ class EducationListFragment : Fragment() {
         adapter = educationRecyclerView.adapter as EducationAdapter
 
         educationRecyclerView.layoutManager = GridLayoutManager(context, 1)
-
     }
 
     private fun viewFilterBottomSheet() {
@@ -136,13 +133,13 @@ class EducationListFragment : Fragment() {
             override fun beforeTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
-                rememberedSearch = searchInput.toString()
+                rememberUserInput()
             }
 
             override fun onTextChanged(searchInput: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val filteredModelList = filterFromSearch(educationList, searchInput.toString())
                 setUpRecycleView(filteredModelList)
-                rememberedSearch = searchInput.toString()
+                rememberUserInput()
             }
 
         })
@@ -199,7 +196,6 @@ class EducationListFragment : Fragment() {
         }
 
         return filteredList
-
     }
 
     private fun filterFromSearch(educationList: List<Education>, searchInput: String): List<Education> {
@@ -215,6 +211,7 @@ class EducationListFragment : Fragment() {
                 }
             }
         }
+
         return filteredList
     }
 

@@ -33,9 +33,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 class FavouriteFragment : Fragment() {
 
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
-    private lateinit var authStateListener : FirebaseAuth.AuthStateListener
     private lateinit var firestoreDb: FirebaseFirestore
+
     private var favouriteEducationList: ArrayList<Education> = Education.favouriteEducationlist
+
     private lateinit var recyclerView : RecyclerView
     private lateinit var loginOrEmptylistTextview : TextView
     private lateinit var loginButton : Button
@@ -54,12 +55,12 @@ class FavouriteFragment : Fragment() {
         loginButton = view.login_button
         filterFloatingButton = view.openFilterFloatingButton
 
-        viewCorrectElementsInLayout(view)
+        setViewContentAndLogic(view)
 
     }
 
     @SuppressLint("RestrictedApi")
-    fun viewCorrectElementsInLayout(view : View){
+    fun setViewContentAndLogic(view : View){
 
         val firebaseCurrentUser = firebaseAuth.currentUser
 
@@ -70,38 +71,41 @@ class FavouriteFragment : Fragment() {
 
 
         if (firebaseCurrentUser == null) {
+            viewContentForUserNotLoggedIn()
 
-            loginOrEmptylistTextview.visibility = View.VISIBLE
-            loginButton.visibility = View.VISIBLE
-
-            loginOrEmptylistTextview.text = "Logg inn for å se dine lagrede favoritter"
-
-            loginButton.setOnClickListener {
-
-                if (context!!.isConnectedToNetwork()){
-                    createAuthenticationListener()
-                } else {
-                    showToast("Du må være tilkoblet internett for å kunne logge inn")
-                }
-            }
-
+        } else {
+            viewContentForUserLoggedIn(firebaseCurrentUser)
         }
-        else {
-
-            if (!context!!.isConnectedToNetwork()) {
-                // Ved første oppstart skal dette gis beskjed om i alertBox
-                if(isFirstRun){
-                    showToast("Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon")
-                    isFirstRun = false
-                }
-            }
-
-            getDataFromFirestore(firebaseCurrentUser)
-        }
-
-
-
     }
+
+    private fun viewContentForUserNotLoggedIn() {
+        loginOrEmptylistTextview.visibility = View.VISIBLE
+        loginButton.visibility = View.VISIBLE
+
+        loginOrEmptylistTextview.text = "Logg inn for å se dine lagrede favoritter"
+
+        loginButton.setOnClickListener {
+
+            if (context!!.isConnectedToNetwork()) {
+                createAuthenticationListener()
+            } else {
+                showToast("Du må være tilkoblet internett for å kunne logge inn")
+            }
+        }
+    }
+
+    private fun viewContentForUserLoggedIn(firebaseCurrentUser: FirebaseUser) {
+        if (!context!!.isConnectedToNetwork()) {
+            // Ved første oppstart skal dette gis beskjed om i alertBox
+            if (isFirstRun) {
+                showToast("Du er ikke tilkoblet internett og ser kanskje ikke oppdatert informasjon")
+                isFirstRun = false
+            }
+        }
+
+        getDataFromFirestore(firebaseCurrentUser)
+    }
+
 
     private fun setUpRecycleView() {
 
@@ -143,7 +147,7 @@ class FavouriteFragment : Fragment() {
 
                 showToast(user?.displayName + " er logget inn")
 
-                viewCorrectElementsInLayout(view!!)
+                setViewContentAndLogic(view!!)
 
             }
             else if (resultCode == RESULT_CANCELED) {

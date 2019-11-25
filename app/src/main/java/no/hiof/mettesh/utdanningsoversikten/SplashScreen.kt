@@ -20,8 +20,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 
-
-
 class SplashScreen : AppCompatActivity() {
 
     private var firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance()
@@ -33,7 +31,6 @@ class SplashScreen : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash_screen)
 
-        // Skjuler progressbaren da denne ikke skal vises før data lastes
         progressBar.visibility = View.GONE
 
         Handler().postDelayed({
@@ -48,12 +45,11 @@ class SplashScreen : AppCompatActivity() {
 
             publishProgress("Loading data")
 
-            // TODO: Endret
-            readPlaceCSVFile()
+            readPlaceCSVFileAndMakePlaceObjects()
+            readSchoolJsonFileAndMakeSchoolObjects()
+            readEducationJsonFileAndMakeEducationObjects()
 
-            readSchoolJsonFile()
-            readEducationJsonFile()
-
+            // Om bruker er logget inn henter jeg inn data allerede her for å få denne oppdatert
             if (firebaseCurrentUser != null) { loadDataFromFirebase(firebaseCurrentUser) }
 
             publishProgress("Data loading finished")
@@ -69,20 +65,15 @@ class SplashScreen : AppCompatActivity() {
         override fun onPostExecute(result: Boolean) {
             if (result) {
                 startActivity(Intent(this@SplashScreen, MainActivity::class.java))
-                // For å hindre at man går tilbake til splashscreen ved trykk på tilbakepil
+                // For å hindre at man går tilbake til splashscreen ved trykk på tilbakepil kalles finish()
                 finish()
-            }
-            else {
-                // Viser DialogBox om data ikke lastes korrekt.
-                runOnUiThread {
-                    showDialogAndStartMainActivity()
-                }
-
+            } else {
+                runOnUiThread { showErrorDialogAndStartMainActivity() }
             }
         }
     }
 
-    private fun showDialogAndStartMainActivity() {
+    private fun showErrorDialogAndStartMainActivity() {
         val alertBox = AlertDialog.Builder(this@SplashScreen)
 
         alertBox.setTitle("Feil ved lasting av data")
@@ -116,8 +107,34 @@ class SplashScreen : AppCompatActivity() {
 
     }
 
-    // TODO: Endret
-    private fun readSchoolJsonFile() {
+    private fun readPlaceCSVFileAndMakePlaceObjects() {
+
+        try {
+            val fileReader = InputStreamReader(getAssets().open("steder.csv"))
+            val bufferedReader = BufferedReader(fileReader)
+
+            var line : String
+
+            val iterator = bufferedReader.lineSequence().iterator()
+
+            while(iterator.hasNext()) {
+
+                line = iterator.next()
+
+                val word = line.split("\t")
+
+                // CSV_filen inneholder 2 postkode/nummer per linje. Dette gjør at færre linjer trengs å leses.
+                Place.zipCodeAndPlaceList.add(Place(word[0], word[1]))
+                Place.zipCodeAndPlaceList.add(Place(word[2], word[3]))
+            }
+            bufferedReader.close()
+        }
+        catch (e : IOException) {
+            println("IOException when reading steder.csv :$e")
+        }
+    }
+
+    private fun readSchoolJsonFileAndMakeSchoolObjects() {
 
         var json : String? = null
 
@@ -138,22 +155,16 @@ class SplashScreen : AppCompatActivity() {
                 val schoolZipCode = jsonSchoolObject.get("Postnummer").toString()
                 var schoolPhoneNumber = jsonSchoolObject.get("Telefon")
                 val webPage = jsonSchoolObject.get("Nettside").toString()
+
                 var place = "Ukjent"
-
-                var placeFromZipCode = Place.zipCodeAndPlaceList.find { it.zipCode == schoolZipCode }?.place
-
-                if(placeFromZipCode != null){
-                    place = placeFromZipCode
-                }
-
+                val placeFromZipCode = Place.zipCodeAndPlaceList.find { it.zipCode == schoolZipCode }?.place
+                if(placeFromZipCode != null){ place = placeFromZipCode }
 
                 if( schoolPhoneNumber.equals(null) || schoolPhoneNumber.equals("")){
                     schoolPhoneNumber = 0
-                }
-                else {
+                } else {
                     schoolPhoneNumber = (jsonSchoolObject.get("Telefon") as String).toInt()
                 }
-
 
                 val newSchool = School(
                     schoolCode,
@@ -162,7 +173,7 @@ class SplashScreen : AppCompatActivity() {
                     schoolAdress,
                     schoolZipCode,
                     schoolPhoneNumber,
-                    "59.1288539,11.3532008,15", // Mangler i JSON
+                    "59.1288539,11.3532008,15",
                     webPage,
                     place
                 )
@@ -174,11 +185,11 @@ class SplashScreen : AppCompatActivity() {
 
         }
         catch (e : IOException) {
-
+            println("IOException when reading institusjon.json :$e")
         }
     }
 
-    private fun readEducationJsonFile() {
+    private fun readEducationJsonFileAndMakeEducationObjects() {
         var json : String? = null
 
         try {
@@ -220,13 +231,12 @@ class SplashScreen : AppCompatActivity() {
 
         }
         catch (e : IOException) {
-
+            println("IOException when reading studieprogram.json :$e")
         }
 
     }
 
     private fun convertLevelCodeToString(pointsAcquired: String): String {
-
         when (pointsAcquired) {
             "VS" -> return "Videregående"
             "AR" -> return "Årsenhet"
@@ -239,7 +249,6 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun convertStudyFieldToString(studyField: String): String {
-
         when (studyField) {
             "BLU", "GLU1-7", "GLU5-10", "IMALU1-7", "IMALU5-10", "FAG", "FLU", "ALU", "INTMASTER" -> return "Lærer"
             "JOU" -> return "Journalistikk"
@@ -287,35 +296,5 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    // TODO: Endret - Leser csv-fil og bygger sted-objekter fra denne. På den måten trengs fila kun å leses en gang!
-    private fun readPlaceCSVFile() {
 
-        try {
-
-            val fileReader = InputStreamReader(getAssets().open("steder.csv"))
-            val bufferedReader = BufferedReader(fileReader)
-
-            var line : String
-
-            val iterator = bufferedReader.lineSequence().iterator()
-
-            while(iterator.hasNext()) {
-
-                line = iterator.next()
-
-                println(line)
-
-                val word = line.split("\t")
-
-                Place.zipCodeAndPlaceList.add(Place(word[0], word[1]))
-                Place.zipCodeAndPlaceList.add(Place(word[2], word[3]))
-            }
-
-
-            bufferedReader.close()
-        }
-        catch (e : IOException) {
-
-        }
-    }
 }
