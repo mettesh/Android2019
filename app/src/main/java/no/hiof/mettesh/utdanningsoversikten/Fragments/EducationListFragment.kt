@@ -1,7 +1,6 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Fragments
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,12 +15,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.bottom_sheet.view.*
 import kotlinx.android.synthetic.main.fragment_education_list.*
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
-import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
-import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
+import no.hiof.mettesh.utdanningsoversikten.Adapters.EducationAdapter
+import no.hiof.mettesh.utdanningsoversikten.R
 
 
 class EducationListFragment : Fragment() {
@@ -71,7 +71,9 @@ class EducationListFragment : Fragment() {
     }
 
     private fun showAlertBox(title: String, message: String, buttonText: String) {
-        val alertBox = AlertDialog.Builder(this.context!!, R.style.AlertDialogTheme)
+        val alertBox = AlertDialog.Builder(this.context!!,
+            R.style.AlertDialogTheme
+        )
 
         alertBox.setTitle(title)
         alertBox.setMessage(message)
@@ -88,7 +90,10 @@ class EducationListFragment : Fragment() {
 
             val position = educationRecyclerView.getChildAdapterPosition(view)
             val clickedEducation = educationList[position]
-            val action = EducationListFragmentDirections.actionEducationListFragmentToEducationDetailFragment(clickedEducation.id)
+            val action =
+                EducationListFragmentDirections.actionEducationListFragmentToEducationDetailFragment(
+                    clickedEducation.id
+                )
             findNavController().navigate(action)
         })
 

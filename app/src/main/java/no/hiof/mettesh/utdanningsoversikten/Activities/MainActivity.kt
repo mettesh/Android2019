@@ -1,18 +1,12 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import no.hiof.mettesh.utdanningsoversikten.model.Education
-import no.hiof.mettesh.utdanningsoversikten.model.School
-import org.json.JSONArray
-import com.opencsv.CSVReader
-import java.io.*
-import kotlin.system.exitProcess
+import no.hiof.mettesh.utdanningsoversikten.R
 
 class MainActivity : AppCompatActivity() {
 

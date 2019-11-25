@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
@@ -6,7 +6,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,13 +19,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_education_list.*
-import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
-import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.Adapters.EducationAdapter
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_education_list.view.*
 import com.google.firebase.firestore.FirebaseFirestore
+import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions
+import no.hiof.mettesh.utdanningsoversikten.R
 
 
 class FavouriteFragment : Fragment() {
@@ -102,7 +103,9 @@ class FavouriteFragment : Fragment() {
             }
         }
 
-        FirebaseFunctions.getDataFromFirestore(firebaseCurrentUser)
+        FirebaseFunctions.getDataFromFirestore(
+            firebaseCurrentUser
+        )
 
         if (Education.favouriteEducationlist.isEmpty()){
 
@@ -123,7 +126,10 @@ class FavouriteFragment : Fragment() {
 
             val position = educationRecyclerView?.getChildAdapterPosition(view)
             val clickedEducation = favouriteEducationList[position!!]
-            var action = FavouriteFragmentDirections.actionFavouriteDestToEducationDetailFragment(clickedEducation.id)
+            var action =
+                FavouriteFragmentDirections.actionFavouriteDestToEducationDetailFragment(
+                    clickedEducation.id
+                )
 
             findNavController().navigate(action)
 
@@ -142,7 +148,8 @@ class FavouriteFragment : Fragment() {
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build()))
                 .setIsSmartLockEnabled(false)
-                .build(), RC_SIGN_IN
+                .build(),
+            RC_SIGN_IN
         )
     }
 

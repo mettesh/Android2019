@@ -1,11 +1,11 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Utils
 
 import android.content.ContentValues
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
-import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
 
 class FirebaseFunctions {
 

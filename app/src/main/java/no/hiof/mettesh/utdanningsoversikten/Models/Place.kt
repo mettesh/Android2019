@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten.model
+package no.hiof.mettesh.utdanningsoversikten.Models
 
 data class Place(var zipCode : String = "",
                   var place : String = "")

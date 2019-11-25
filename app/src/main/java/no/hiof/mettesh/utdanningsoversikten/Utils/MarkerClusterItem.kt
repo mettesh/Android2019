@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Utils
 
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng

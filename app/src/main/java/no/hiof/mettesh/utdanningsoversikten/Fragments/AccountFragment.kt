@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Fragments
 
 import android.app.Activity
 import android.content.Context
@@ -16,8 +16,11 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_account.view.*
-import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
+import no.hiof.mettesh.utdanningsoversikten.R
 
+@Suppress("DEPRECATION")
 class AccountFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
@@ -60,7 +63,9 @@ class AccountFragment : Fragment() {
             viewContentForUserNotLoggedIn()
 
         } else {
-            FirebaseFunctions.getDataFromFirestore(firebaseCurrentUser)
+            FirebaseFunctions.getDataFromFirestore(
+                firebaseCurrentUser
+            )
             // TODO: Må vente til data er lastet inn!
             viewContentForUserLoggedIn(firebaseCurrentUser, view)
         }
@@ -118,7 +123,8 @@ class AccountFragment : Fragment() {
                     AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build()))
                 .setIsSmartLockEnabled(false)
-                .build(), RC_SIGN_IN
+                .build(),
+            RC_SIGN_IN
         )
     }
 
@@ -148,9 +154,9 @@ class AccountFragment : Fragment() {
         ).show()
     }
 
-    fun Context.isConnectedToNetwork(): Boolean {
+    private fun Context.isConnectedToNetwork(): Boolean {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+        return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false
     }
 
     companion object {

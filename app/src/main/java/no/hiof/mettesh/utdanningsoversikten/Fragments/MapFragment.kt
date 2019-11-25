@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,8 @@ import org.json.JSONArray
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import com.google.maps.android.clustering.ClusterManager
+import no.hiof.mettesh.utdanningsoversikten.Utils.MarkerClusterItem
+import no.hiof.mettesh.utdanningsoversikten.R
 
 /**
  * A simple [Fragment] subclass.
@@ -80,7 +82,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         setUpClusterManager()
 
         // Setter stil på kartet
-        gmap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!, R.raw.style_json))
+        gmap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!,
+            R.raw.style_json
+        ))
     }
 
     private fun setUpClusterManager() { // Position the map.
@@ -95,7 +99,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun addClusters() {
         for (marker in markerList) {
-            val clusterItem = MarkerClusterItem(marker.position, marker.title, marker.snippet, marker.icon)
+            val clusterItem = MarkerClusterItem(
+                marker.position,
+                marker.title,
+                marker.snippet,
+                marker.icon
+            )
             clusterManager.addItem(clusterItem)
         }
     }

@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Activities
 
 import android.content.Intent
 import android.os.AsyncTask
@@ -10,9 +10,11 @@ import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_splash_screen.*
-import no.hiof.mettesh.utdanningsoversikten.model.Education
-import no.hiof.mettesh.utdanningsoversikten.model.Place
-import no.hiof.mettesh.utdanningsoversikten.model.School
+import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions
+import no.hiof.mettesh.utdanningsoversikten.R
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
+import no.hiof.mettesh.utdanningsoversikten.Models.Place
+import no.hiof.mettesh.utdanningsoversikten.Models.School
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.IOException
@@ -48,7 +50,11 @@ class SplashScreen : AppCompatActivity() {
             readSchoolJsonFileAndMakeSchoolObjects()
             readEducationJsonFileAndMakeEducationObjects()
 
-            if (firebaseCurrentUser != null) { FirebaseFunctions.getDataFromFirestore(firebaseCurrentUser) }
+            if (firebaseCurrentUser != null) {
+                FirebaseFunctions.getDataFromFirestore(
+                    firebaseCurrentUser
+                )
+            }
 
             publishProgress("Data loading finished")
 
@@ -77,7 +83,7 @@ class SplashScreen : AppCompatActivity() {
         alertBox.setTitle("Feil ved lasting av data")
         alertBox.setMessage("Det oppstod dessverre en feil ved lasting av data.\nApplikasjonen kan derfor mangle funksjonalitet.")
 
-        alertBox.setPositiveButton("OK") { dialog, which ->
+        alertBox.setPositiveButton("OK") { _, _ ->
             startActivity(Intent(this@SplashScreen, MainActivity::class.java))
         }
         val alert = alertBox.create()
@@ -134,7 +140,7 @@ class SplashScreen : AppCompatActivity() {
 
     private fun readSchoolJsonFileAndMakeSchoolObjects() {
 
-        var json : String? = null
+        var json: String?
 
         try {
             val inputStream : InputStream = assets.open("institusjon.json")
@@ -188,7 +194,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun readEducationJsonFileAndMakeEducationObjects() {
-        var json : String? = null
+        var json: String?
 
         try {
             val inputStream : InputStream = assets.open("studieprogram.json")

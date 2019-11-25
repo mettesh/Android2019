@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten.model
+package no.hiof.mettesh.utdanningsoversikten.Models
 
 data class Education(val id : Int = 0,
                      val educationCode : String = "",

@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten
+package no.hiof.mettesh.utdanningsoversikten.Fragments
 
 import android.content.Context
 import android.content.Intent
@@ -18,7 +18,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
-import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
+import no.hiof.mettesh.utdanningsoversikten.R
 
 class EducationDetailFragment : Fragment() {
 
@@ -43,7 +45,9 @@ class EducationDetailFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         firestoreDb = FirebaseFirestore.getInstance()
 
-        val arguments = arguments?.let { EducationDetailFragmentArgs.fromBundle(it) }
+        val arguments = arguments?.let {
+            EducationDetailFragmentArgs.fromBundle(it)
+        }
         val education = Education.educationlist.find { it.id == arguments!!.id }
         val firebaseCurrentUser = firebaseAuth.currentUser
 
@@ -99,7 +103,10 @@ class EducationDetailFragment : Fragment() {
 
             if (Education.favouriteEducationlist.contains(education)) {
 
-                FirebaseFunctions.removeFavFromFirestore(firebaseCurrentUser, education)
+                FirebaseFunctions.removeFavFromFirestore(
+                    firebaseCurrentUser,
+                    education
+                )
 
                 favButton.text = "Legg til i favoritter"
 
@@ -107,7 +114,10 @@ class EducationDetailFragment : Fragment() {
 
             } else {
 
-                FirebaseFunctions.addFavToFirestore(firebaseCurrentUser, education)
+                FirebaseFunctions.addFavToFirestore(
+                    firebaseCurrentUser,
+                    education
+                )
 
                 favButton.text = "Fjern fra favoritter"
 

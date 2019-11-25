@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten.adapter
+package no.hiof.mettesh.utdanningsoversikten.Adapters
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -12,11 +12,12 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.education_list_item.view.*
-import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.addFavToFirestore
-import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.removeFavFromFirestore
+import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions.Companion.addFavToFirestore
+import no.hiof.mettesh.utdanningsoversikten.Utils.FirebaseFunctions.Companion.removeFavFromFirestore
 import no.hiof.mettesh.utdanningsoversikten.R
-import no.hiof.mettesh.utdanningsoversikten.model.Education
+import no.hiof.mettesh.utdanningsoversikten.Models.Education
 
+@Suppress("DEPRECATION")
 class EducationAdapter(internal var educationList: List<Education>, var clickListener: View.OnClickListener) : RecyclerView.Adapter<EducationAdapter.EducationViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -130,7 +131,7 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
             alertBox.setTitle(title)
             alertBox.setMessage(message)
 
-            alertBox.setPositiveButton(buttonText) { dialog, which ->
+            alertBox.setPositiveButton(buttonText) { _, _ ->
 
             }
             val alert = alertBox.create()
@@ -139,7 +140,7 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
 
         private fun Context.isConnectedToNetwork(): Boolean {
             val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-            return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
+            return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false
         }
 
     }

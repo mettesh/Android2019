@@ -1,4 +1,4 @@
-package no.hiof.mettesh.utdanningsoversikten.model
+package no.hiof.mettesh.utdanningsoversikten.Models
 
 data class School(val schoolCode : Int = 0,
                   var schoolTitle : String = "",
