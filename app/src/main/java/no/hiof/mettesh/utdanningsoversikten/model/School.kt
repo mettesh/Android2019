@@ -8,13 +8,12 @@ data class School(val schoolCode : Int = 0,
                   var schoolPhoneNumber : Int = 0,
                   var longLat : String = "",
                   var webPage : String = "",
-                  var place : String = "") {
-
+                  var place : String = "")
+{
 
     companion object {
 
         val schoolList = ArrayList<School>()
 
     }
-
 }

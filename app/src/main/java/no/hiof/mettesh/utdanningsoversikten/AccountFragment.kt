@@ -1,6 +1,5 @@
 package no.hiof.mettesh.utdanningsoversikten
 
-
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -14,8 +13,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
@@ -23,31 +22,32 @@ class AccountFragment : Fragment() {
 
     private lateinit var firebaseAuth : FirebaseAuth
 
+    private lateinit var loginTextview : TextView
+    private lateinit var usernameTextView : TextView
+    private lateinit var numOfFavtextView : TextView
+    private lateinit var loginButton : Button
+    private lateinit var logoutButton : Button
+    private lateinit var notLogedInText : TextView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        firebaseAuth = FirebaseAuth.getInstance()
-
         return inflater.inflate(R.layout.fragment_account, container, false)
-
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { super.onViewCreated(view, savedInstanceState)
-
-        viewCorrectElementsInLayout(view)
-
+        setViewContentAndLogic(view)
     }
 
-    private fun viewCorrectElementsInLayout(view : View){
+    private fun setViewContentAndLogic(view : View){
 
+        firebaseAuth = FirebaseAuth.getInstance()
         val firebaseCurrentUser = firebaseAuth.currentUser
 
-        val loginTextview : TextView = view.accountlogInText
-        val usernameTextView : TextView = view.textView_userName
-        val numOfFavtextView : TextView = view.textView_numOfFav
-        val loginButton : Button = view.button_accountlogIn
-        val logoutButton : Button = view.button_accountlogOut
-        val notLogedInText : TextView = view.notLoggedInText
+        loginTextview = view.accountlogInText
+        usernameTextView = view.textView_userName
+        numOfFavtextView = view.textView_numOfFav
+        loginButton = view.button_accountlogIn
+        logoutButton = view.button_accountlogOut
+        notLogedInText = view.notLoggedInText
 
         usernameTextView.visibility = View.GONE
         numOfFavtextView.visibility = View.GONE
@@ -57,49 +57,54 @@ class AccountFragment : Fragment() {
         notLogedInText.visibility = View.GONE
 
         if(firebaseCurrentUser == null){
-
-            loginButton.visibility = View.VISIBLE
-
-            notLogedInText.visibility = View.VISIBLE
-
-            loginButton.setOnClickListener {
-
-                if (context!!.isConnectedToNetwork()){
-                    createAuthenticationListener()
-                } else {
-                    showToast("For å kunne logge inn må du være tilkoblet internett")
-                }
-            }
+            viewContentForUserNotLoggedIn()
 
         } else {
-
-            usernameTextView.visibility = View.VISIBLE
-            numOfFavtextView.visibility = View.VISIBLE
-            logoutButton.visibility = View.VISIBLE
-            loginTextview.visibility = View.VISIBLE
-
-            usernameTextView.text = firebaseCurrentUser.displayName
-
-            val numOfFav = Education.favouriteEducationlist.size
-
-            if (numOfFav == 0) {
-                numOfFavtextView.text = "Du har ingen lagrede favoritter"
-            } else if (numOfFav > 1) {
-                numOfFavtextView.text =
-                    numOfFav.toString() + " favoritter lagret"
-            } else {
-                numOfFavtextView.text =
-                    numOfFav.toString() + " favoritt lagret"
-            }
-
-            logoutButton.setOnClickListener {
-                firebaseAuth.signOut()
-                showToast(firebaseCurrentUser.displayName + " er logget ut")
-                viewCorrectElementsInLayout(view)
-
-            }
+            viewContentForUserLoggedIn(firebaseCurrentUser, view)
         }
 
+    }
+
+    private fun viewContentForUserNotLoggedIn() {
+        loginButton.visibility = View.VISIBLE
+        notLogedInText.visibility = View.VISIBLE
+
+        loginButton.setOnClickListener {
+
+            if (context!!.isConnectedToNetwork()) {
+                createAuthenticationListener()
+            } else {
+                showToast("For å kunne logge inn må du være tilkoblet internett")
+            }
+        }
+    }
+
+    private fun viewContentForUserLoggedIn(firebaseCurrentUser: FirebaseUser, view: View) {
+        usernameTextView.visibility = View.VISIBLE
+        numOfFavtextView.visibility = View.VISIBLE
+        logoutButton.visibility = View.VISIBLE
+        loginTextview.visibility = View.VISIBLE
+
+        usernameTextView.text = firebaseCurrentUser.displayName
+
+        val numOfFav = Education.getNumbersOfEducationInFavouriteList()
+
+        if (numOfFav == 0) {
+            numOfFavtextView.text = "Du har ingen lagrede favoritter"
+        } else if (numOfFav > 1) {
+            numOfFavtextView.text =
+                numOfFav.toString() + " favoritter lagret"
+        } else {
+            numOfFavtextView.text =
+                numOfFav.toString() + " favoritt lagret"
+        }
+
+        logoutButton.setOnClickListener {
+            firebaseAuth.signOut()
+            showToast(firebaseCurrentUser.displayName + " er logget ut")
+            setViewContentAndLogic(view)
+
+        }
     }
 
     private fun createAuthenticationListener() {
@@ -124,7 +129,7 @@ class AccountFragment : Fragment() {
 
                 showToast(user?.displayName + " er logget inn")
 
-                viewCorrectElementsInLayout(view!!)
+                setViewContentAndLogic(view!!)
 
             }
             else if (resultCode == Activity.RESULT_CANCELED) {

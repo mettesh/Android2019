@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_education_detail.view.*
 import kotlinx.android.synthetic.main.fragment_education_list.*
+import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.addFavToFirestore
+import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.removeFavFromFirestore
 import no.hiof.mettesh.utdanningsoversikten.adapter.EducationAdapter
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
@@ -30,8 +32,15 @@ class EducationDetailFragment : Fragment() {
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var firestoreDb: FirebaseFirestore
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var detailEducationTitleTextView: TextView
+    private lateinit var detailSchoolNameTextView: TextView
+    private lateinit var sendToWebImgView: ImageView
+    private lateinit var studyImage : ImageView
+    private lateinit var pointsRequiredTextView: TextView
+    private lateinit var favButton: Button
+    private lateinit var schoolUrl: String
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_education_detail, container, false)
     }
 
@@ -50,15 +59,13 @@ class EducationDetailFragment : Fragment() {
 
     private fun setViewContentAndLogic(view: View, education: Education, firebaseCurrentUser: FirebaseUser?) {
 
-        val detailEducationTitleTextView: TextView = view.detailEducationTitle
-        val detailSchoolNameTextView: TextView = view.detailSchoolName
-        val sendToWebImgView: ImageView = view.sendToWebImgView
-
-        // Settes direkte da vi ikke har dette tilgjengelig i datasett
-        val studyImage : ImageView = view.studyImage
-        val poenggrenseTextView: TextView = view.detailPoenggrense
-        val favButton: Button = view.floatingButton_fav
-        val schoolUrl: String = education.school.webPage
+        detailEducationTitleTextView = view.detailEducationTitle
+        detailSchoolNameTextView = view.detailSchoolName
+        sendToWebImgView = view.sendToWebImgView
+        studyImage = view.studyImage
+        pointsRequiredTextView = view.pointsRequiredTextView
+        favButton = view.floatingButton_fav
+        schoolUrl = education.school.webPage
 
         Glide.with(view)
             .load(education.image)
@@ -70,37 +77,23 @@ class EducationDetailFragment : Fragment() {
 
         detailEducationTitleTextView.text = education.educationTitle
         detailSchoolNameTextView.text = education.school!!.schoolTitle
+        pointsRequiredTextView.text = education.pointsRequired.toString()
 
-        detailSchoolNameTextView.setOnClickListener {
-            openWebBroser(schoolUrl)
-        }
-
-        sendToWebImgView.setOnClickListener {
-            openWebBroser(schoolUrl)
-        }
-
-        poenggrenseTextView.text = education.pointsRequired.toString()
-
-
-        //detailEducationDescriptionTextView.text = education.descriptionLong
-
-
-        // Setter bilde på floatingButton etter om den finnes i favoritter
         if (Education.favouriteEducationlist.contains(education)) {
             favButton.text = "Fjern fra favoritter"
         } else {
             favButton.text = "Legg til i favoritter"
         }
 
+        detailSchoolNameTextView.setOnClickListener { openWebBroser(schoolUrl) }
+        sendToWebImgView.setOnClickListener { openWebBroser(schoolUrl) }
         favButton.setOnClickListener {
-
             if(context!!.isConnectedToNetwork()){
                 addEducationToFavouriteAndChangeHeart(firebaseCurrentUser, education, favButton)
             }
             else {
                 showToast("Du må ha internettilkobling for å kunne legge til/fjerne utdanninger")
             }
-
         }
     }
 
@@ -113,6 +106,7 @@ class EducationDetailFragment : Fragment() {
 
             if (Education.favouriteEducationlist.contains(education)) {
 
+                // Metode ligger i FirebaseFunctions da den benyttes flere steder
                 removeFavFromFirestore(firebaseCurrentUser, education)
 
                 favButton.text = "Legg til i favoritter"
@@ -121,6 +115,7 @@ class EducationDetailFragment : Fragment() {
 
             } else {
 
+                // Metode ligger i FirebaseFunctions da den benyttes flere steder
                 addFavToFirestore(firebaseCurrentUser, education)
 
                 favButton.text = "Fjern fra favoritter"
@@ -150,6 +145,7 @@ class EducationDetailFragment : Fragment() {
         return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting() ?: false
     }
 
+    /*
     companion object{
 
         // TODO: Brukes i både adapter og her!
@@ -179,5 +175,5 @@ class EducationDetailFragment : Fragment() {
             Education.favouriteEducationlist.remove(education)
 
         }
-    }
+    }*/
 }

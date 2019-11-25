@@ -60,7 +60,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
-    // OpenCSV
+    //  OpenCSV
     implementation 'com.opencsv:opencsv:4.0'
 
 }

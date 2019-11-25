@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.education_list_item.view.*
-import no.hiof.mettesh.utdanningsoversikten.EducationDetailFragment
-import no.hiof.mettesh.utdanningsoversikten.EducationListFragment
+import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.addFavToFirestore
+import no.hiof.mettesh.utdanningsoversikten.FirebaseFunctions.Companion.removeFavFromFirestore
 import no.hiof.mettesh.utdanningsoversikten.R
 import no.hiof.mettesh.utdanningsoversikten.model.Education
 
@@ -100,12 +100,18 @@ class EducationAdapter(internal var educationList: List<Education>, var clickLis
 
             if (Education.favouriteEducationlist.contains(education)) {
                 favouriteHeart.setImageResource(R.drawable.ic_favorite_border)
-                EducationDetailFragment.removeFavFromFirestore(firebaseCurrentUser!!, education)
+
+                // Metode ligger i FirebaseFunctions da den benyttes flere steder
+                removeFavFromFirestore(firebaseCurrentUser!!, education)
+
                 showToast("Utdanning fjernet fra favoritter")
             }
             else {
                 favouriteHeart.setImageResource(R.drawable.ic_favorite_filled)
-                EducationDetailFragment.addFavToFirestore(firebaseCurrentUser!!, education)
+
+                // Metode ligger i FirebaseFunctions da den benyttes flere steder
+                addFavToFirestore(firebaseCurrentUser!!, education)
+
                 showToast("Utdanning lagt til i favoritter")
             }
         }
