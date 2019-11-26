@@ -29,13 +29,12 @@ class SplashScreen : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash_screen)
 
-        progressBar.visibility = View.GONE
-
         Handler().postDelayed({
             // Laster inn data i egen tråd. Gå videre til MainActivity når denne er ferdig
             AsyncTaskWorker().execute()
         }, 1000)
     }
+
 
     inner class AsyncTaskWorker : AsyncTask<Void, String, Boolean>() {
         override fun doInBackground(vararg voids: Void): Boolean? {
@@ -59,7 +58,6 @@ class SplashScreen : AppCompatActivity() {
         }
 
         override fun onProgressUpdate(vararg messages: String) {
-            progressBar.visibility = View.VISIBLE
             println(messages[0])
         }
 
@@ -191,13 +189,13 @@ class SplashScreen : AppCompatActivity() {
                 val studyImage = "https://firebasestorage.googleapis.com/v0/b/utdanningsoversikten-b0b8a.appspot.com/o/" + studyField +".jpg?alt=media"
 
                 val newEducation = Education(
-                    i, // Mangler fra JSON
+                    i,
                     educationCode,
                     educationTitle,
                     "Fagområde: $studyField\nNivå: $level\nSted: " + school.place, // Mangler fra JSON
                     "Fagområde: $studyField\nNivå: $level", // Mangler fra JSON
                     school,
-                    studyImage, // Mangler fra JSON
+                    studyImage,
                     44.0,  // Mangler fra JSON
                     pointsAcquired,
                     level,
