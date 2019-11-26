@@ -1,10 +1,14 @@
 package no.hiof.mettesh.utdanningsoversikten.Fragments
 
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.clustering.ClusterItem
@@ -25,17 +29,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var jsonArray: JSONArray
     private val markerList = mutableListOf<MarkerOptions>()
 
+    private lateinit var fusedLocationClient : FusedLocationProviderClient
+    private var hasLocation = false
+    private var isFirstRun = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_map, container, false)
 
         jsonArray = readAssets()
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
         return view
     }
@@ -78,8 +87,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         addMarkers()
 
         setupUISettings()
-        //placeMarkersOnMap()
         setUpClusterManager()
+
+        checkPosition()
 
         // Setter stil på kartet
         gmap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context!!,
@@ -87,13 +97,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         ))
     }
 
-    private fun setUpClusterManager() { // Position the map.
+    private fun checkPosition() {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            if (location != null) {
+
+                hasLocation = true
+
+            } else {
+                showAlertBox("Finner ikke lokasjon", "Posisjon kan ikke hentes", "Ok")
+            }
+        }
+    }
+
+    private fun setUpClusterManager() {
         addClusters()
-        // Point the map's listeners at the listeners implemented by the cluster
-// manager.
         gmap.setOnCameraIdleListener(clusterManager)
         gmap.setOnMarkerClickListener(clusterManager)
-        // Add cluster items (markers) to the cluster manager.
+
         clusterManager.cluster()
     }
 
@@ -119,6 +139,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             ) {
                 gmap.isMyLocationEnabled = true
                 gmap.uiSettings.isMyLocationButtonEnabled = true
+
             } else {
                 EasyPermissions.requestPermissions(
                     this, "Vi trenger godkjenning for å vise din lokasjon på kartet",
@@ -136,6 +157,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             gmap.uiSettings.isCompassEnabled = true
             gmap.uiSettings.isZoomControlsEnabled = true
         }
+
+    private fun showAlertBox(title: String, message: String, buttonText: String) {
+        val alertBox = AlertDialog.Builder(this.context!!,
+            R.style.AlertDialogTheme
+        )
+
+        alertBox.setTitle(title)
+        alertBox.setMessage(message)
+
+        alertBox.setPositiveButton(buttonText) { dialog, which ->
+            isFirstRun = false
+        }
+        val alert = alertBox.create()
+        alert.show()
+    }
 
         companion object {
             private const val LOCATION_PERMISSION_ID = 1

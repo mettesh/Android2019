@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/jodyhongfilms_si1mbxjffpu_unsplash_happy">
+    android:background="@drawable/jodyhongfilms_si1mbxjffpu_unsplash_hat">
 
     <ProgressBar
         android:id="@+id/progressBar"
