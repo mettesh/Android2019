@@ -28,10 +28,10 @@
 
         <TextView
             android:id="@+id/detailSchoolName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:autoLink="web"
             android:clickable="true"
             android:focusable="true"
@@ -40,7 +40,8 @@
             android:text="@string/h_yskolen_i_stfold"
             android:textColor="#3D57BB"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sendToWebImgView"
             app:layout_constraintTop_toBottomOf="@+id/studyImage" />
 
         <TextView
@@ -68,14 +69,13 @@
         <ImageView
             android:id="@+id/sendToWebImgView"
             android:layout_width="17dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/send_webbrowser"
             android:src="@android:drawable/ic_menu_set_as"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/detailSchoolName"
+            app:layout_constraintEnd_toStartOf="@+id/detailSchoolName"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/studyImage" />
 
         <TextView
