@@ -174,7 +174,10 @@ class EducationListFragment : Fragment() {
             rememberedStudyFieldSelection = 0
             rememberedplaceSelection = 0
 
-            rememberUserInput()
+            searchInput.text = Editable.Factory.getInstance().newEditable("")
+            spinnerLevel.setSelection(0)
+            spinnerStudyField.setSelection(0)
+            spinnerPlace.setSelection(0)
 
             educationList = Education.educationlist
             setUpRecycleView(educationList)
